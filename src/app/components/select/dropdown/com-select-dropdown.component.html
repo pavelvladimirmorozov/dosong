@@ -1,0 +1,5 @@
+  @for (option of options(); track option.id) {
+  <div class="com-select-option" [class.com-select-option-selected]="isSelected(option)" (click)="selectOption(option.id)">
+    {{ option.name }}
+  </div>
+  }

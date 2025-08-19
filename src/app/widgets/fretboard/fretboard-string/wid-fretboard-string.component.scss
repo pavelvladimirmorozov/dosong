@@ -1,0 +1,28 @@
+:host {
+  display: contents;
+}
+
+.wid-fretboard-note {
+  border: 1px solid #888;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.wid-fretboard-sticky {
+  display: flex;
+  position: sticky;
+  left: 0;
+  background-color: var(--app-theme-background-color);
+  align-self: flex-start;
+}
+
+.wid-fretboard-action {
+  flex-shrink: 0;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  height: 32px;
+  padding: 8px;
+  border: 1px solid #888;
+  width: 55px;
+}

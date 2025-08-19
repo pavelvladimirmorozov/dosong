@@ -1,0 +1,24 @@
+.indent {
+  width: 200px;
+
+  .indent-container {
+    background: linear-gradient(90deg,
+        rgba(230, 87, 44, 1) 0%,
+        rgba(215, 245, 95, 1) 36%,
+        rgba(71, 250, 0, 1) 50%,
+        rgba(215, 245, 95, 1) 65%,
+        rgba(230, 87, 44, 1) 100%);
+  }
+
+  .indent-line {
+    height: 20px;
+    border-right: 1px solid black;
+
+    transition: width 0.1s;
+  }
+
+  .indent-note {
+    display: flex;
+    justify-content: center;
+  }
+}

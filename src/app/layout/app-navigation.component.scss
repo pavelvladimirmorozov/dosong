@@ -1,0 +1,79 @@
+
+/* Основные стили меню */
+.app-navigation {
+  display: flex;
+  background-color: #2c3e50;
+  padding: 10px 0;
+  transition: all 0.3s ease;
+}
+
+.app-navigation a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  padding: 8px 5px;
+  transition: all 0.3s ease;
+}
+
+.app-navigation svg {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 5px;
+  fill: white;
+}
+
+.app-navigation a:hover {
+  background-color: #34495e;
+}
+
+.app-navigation .nav-text {
+  font-size: 14px;
+}
+
+/* Десктопная версия */
+@media (min-width: 769px) {
+  .app-navigation {
+    position: static;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px 0;
+  }
+
+  .app-navigation a {
+    flex-direction: row;
+    flex-grow: 0;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+
+  .app-navigation svg {
+    margin-bottom: 0;
+    margin-right: 8px;
+  }
+
+  .app-navigation .nav-text {
+    font-size: 16px;
+  }
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+  .app-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+
+  .app-navigation .nav-text {
+    font-size: 12px;
+  }
+
+  .main-container {
+    margin-bottom: 77px;
+  }
+}

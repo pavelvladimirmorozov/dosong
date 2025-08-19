@@ -1,0 +1,51 @@
+/* fretboard.component.scss */
+:host {
+  display: block;
+  width: 100%;
+}
+
+.wid-fretboard {
+  width: 100%;
+  overflow-x: auto;
+}
+.wid-fretboard-line, 
+.wid-fretboard-frets {
+  display: flex;
+  width: 100%;
+}
+
+.wid-fretboard-fret {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  flex-grow: 1;
+  min-width: 30px;
+  border: 1px solid #888;
+}
+
+.wid-fretboard-note {
+  border: 1px solid #888;
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.wid-fretboard-sticky {
+  display: flex;
+  position: sticky;
+  left: 0;
+  background-color: var(--app-theme-background-color);
+  align-self: flex-start;
+}
+
+.wid-fretboard-action {
+  flex-shrink: 0;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  height: 32px;
+  padding: 8px;
+  border: 1px solid #888;
+  background-color: #0000;
+  width: 55px;
+}

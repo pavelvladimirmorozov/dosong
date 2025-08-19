@@ -1,0 +1,76 @@
+:host {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.wid-gamma-container {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.wid-gamma-formula {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  gap: 5px;
+}
+
+.wid-gamma-note {
+  border: 1px solid #888;
+  height: 32px;
+}
+
+.wid-gamma-select {
+  border: 1px solid #888;
+  height: 32px;
+  padding: 8px;
+}
+
+.wid-gamma-formula-label {
+  font-weight: bold;
+}
+
+.wid-gamma-formula-steps span:not(:last-child)::after {
+  content: "-";
+}
+
+.button-toggle-group {
+  display: inline-flex;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.button-toggle-label {
+  position: relative;
+  flex: 1;
+}
+
+.button-toggle-input {
+  position: absolute;
+  opacity: 0;
+}
+
+.button-toggle-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  background-color: #686f8b;
+  color: #333;
+  border: 1px solid #888;
+  transition: all 0.3s;
+  min-width: 32px;
+  text-align: center;
+}
+
+.button-toggle-input:checked + .button-toggle-button {
+  background-color: #2c3e50;
+  color: white;
+  border-color: #2c3e50;
+}
+
+.button-toggle-input:not(:checked) + .button-toggle-button:hover {
+  background-color: #888;
+}

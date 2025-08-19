@@ -1,0 +1,17 @@
+<div class="note">Нота:</div>
+<span class="note">{{processor.currentNote()}}</span>
+<div class="note">Отклоение:</div>
+<span class="note">{{processor.currentIndent() | number: '1.0-0'}}</span>
+<div class="note">Центы:</div>
+<span class="note">{{processor.currentCents() | number: '1.0-0'}}</span>
+<div class="note">Частота:</div>
+<span class="note">{{processor.currentHz() | number: '1.0-0'}}Hz</span>
+<div class="indent">
+  <div class="indent-note">{{processor.currentNote()}}</div>
+  <div class="indent-container">
+    <div class="indent-line" [ngStyle]="{ width: (50 + processor.currentCents()) + '%'}"></div>
+  </div>
+</div>
+<div>
+  <button (click)="processor.startStop()">{{processor.interval ? 'stop' : 'start'}}</button>
+</div>

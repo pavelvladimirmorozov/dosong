@@ -1,0 +1,14 @@
+<div class="com-select-icon-slot">
+  <ng-content select="svg"></ng-content>
+</div>
+<span class="com-select-value" [class.placeholder]="selectedValue() == null">
+  @if (emptyContent()) {
+  {{ displayValue() }}
+  }
+  @else {
+    <ng-container *ngTemplateOutlet="contentSlot()!.template; context: { $implicit: selectedOption() }"></ng-container>
+  }
+</span>
+<span class="com-select-arrow">
+  <svg width="12" height="12" com-chevron-down-icon [class.rotate-180]="isOpen()"></svg>
+</span>

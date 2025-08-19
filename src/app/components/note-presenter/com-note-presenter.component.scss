@@ -1,0 +1,31 @@
+:host {
+    display: flex;
+
+    min-width: 30px;
+    justify-content: center;
+}
+
+.note-presenter-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.note-presenter-indexes {
+    display: flex;
+    flex-direction: column;
+
+    .note-presenter-scale-step {
+        display: flex;
+        align-items: end;
+        height: 100%;
+        font-size: 0.7em;
+    }
+
+    .note-presenter-octave {
+        display: flex;
+        align-items: start;
+        height: 100%;
+        font-size: 0.8em;
+    }
+}

@@ -1,0 +1,1 @@
+export * from './com-note-presenter.component';

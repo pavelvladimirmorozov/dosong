@@ -1,0 +1,48 @@
+.com-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: relative;
+  min-width: 55px;
+  gap: 8px;
+
+  background: transparent;
+  cursor: pointer;
+  
+  &.com-select-disabled {
+    background: #f5f5f522;
+    cursor: not-allowed;
+    color: #999;
+    opacity: 0.7;
+  }
+  .com-select-icon-slot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:empty {
+      display: none;
+    }
+  }
+  
+  .com-select-value {
+    &.placeholder {
+      color: #999;
+    }
+    &:empty {
+      display: none;
+    }
+  }
+  
+  .com-select-arrow {
+    svg {
+      transition: transform 0.3s ease;
+      
+      &.rotate-180 {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+

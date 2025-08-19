@@ -1,0 +1,28 @@
+<div class="wid-metronome-control-group">
+  <label for="bpm">Темп (BPM):</label>
+  <input type="number" id="bpm" [(ngModel)]="bpm" min="40" max="300">
+</div>
+
+<div class="wid-metronome-control-group">
+  <label for="beats">Долей в такте:</label>
+  <com-select [options]="beatsPerMeasureOptions" [(selectedValue)]="beatsPerMeasure"></com-select>
+</div>
+
+<div class="wid-metronome-visualizer">
+  @for (beat of beatElements(); track $index) {
+  <wid-metronome-beat-select [isActive]="beat.isActive" [(selectedBeat)]="beat.sound"
+    [index]="$index"></wid-metronome-beat-select>
+  }
+</div>
+
+<div>
+  <!-- TODO: Вынести в общий компонент -->
+  <button class="com-button" (click)="startMetronome()" [disabled]="isRunning()">Старт</button>
+  <button class="com-button" (click)="stopMetronome()" [disabled]="!isRunning()">Стоп</button>
+</div>
+
+<div class="wid-metronome-control-group">
+  <label for="volume">Громкость:</label>
+  <input class="wid-metronome-volume-control" type="range" id="volume" [(ngModel)]="volume" min="0" max="100">
+  <span>{{volume()}}%</span>
+</div>

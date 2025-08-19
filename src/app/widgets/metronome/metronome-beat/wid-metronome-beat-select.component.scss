@@ -1,0 +1,23 @@
+:host {
+    width: 40px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 3px;
+}
+
+.wid-metronome-beat-section {
+    border: 1px solid grey;
+    border-radius: 3px;
+    height: 10px;
+
+    &.selected {
+        background-color: #00000010;
+    }
+
+    &:first-child {
+        height: 3px;
+    }
+}
+.wid-metronome-beat-number {
+    font-weight: bold;
+}

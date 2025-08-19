@@ -1,0 +1,5 @@
+@for (beat of beats; track $index) {
+<div class="wid-metronome-beat-section" [style.backgroundColor]="getColor($index)"></div>
+}
+
+<div class="wid-metronome-beat-number" [style.color]="color()">{{index() + 1}}</div>
