@@ -43,6 +43,8 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "baseHref": "https://pavelvladimirmorozov.github.io/dosong/",
+            "deployUrl": "https://pavelvladimirmorozov.github.io/dosong/",
             "outputPath": "dist/dosong",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -121,6 +123,9 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
