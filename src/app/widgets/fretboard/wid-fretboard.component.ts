@@ -23,6 +23,7 @@ import { WidFretboardString } from './fretboard-string/wid-fretboard-string.comp
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidFretboard implements AfterViewInit {
+  private readonly MIN_WIDTH = 600;
   protected readonly noteNamesManager = inject(NoteNamesManager);
   protected readonly countOptions = [{ id: 12, name: '12' }, { id: 24, name: '24' }];
   private readonly actionColumnWidth = 55;
@@ -99,7 +100,7 @@ export class WidFretboard implements AfterViewInit {
     const ref = this.boardElementRef;
     if (ref != null) {
       const width = ref.nativeElement.clientWidth - this.offsetWidth;
-      this.sustain.set(width < 600 ? 600 : width);
+      this.sustain.set(width < this.MIN_WIDTH ? this.MIN_WIDTH : width);
     }
   }
 }

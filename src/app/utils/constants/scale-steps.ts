@@ -1,7 +1,7 @@
 import { Gamma } from "@utils/models";
 
 export enum Scale { Chromatic, Major, Minor, HarmonicMinor, MelodicMinor, MajorPentatonic, MinorPentatonic, Blues, Egyptian, Japanese }
-export enum ChordScale { MajorChord, MinorChord, Minor7Chord, MajorMaj7Chord, MinorMaj7Chord, MajorDim75Chord, MajorDim7Chord }
+export enum ChordScale { MajorChord, MinorChord, Minor7Chord, Major7Chord, MajorMaj7Chord, MinorMaj7Chord, MajorDim75Chord, MajorDim7Chord }
 export enum ScaleMode { Gamma, Chord }
 export enum ScaleStepType { Minor, Major, Any }
 export enum ScaleType { Minor, Major, None }
@@ -115,7 +115,7 @@ export const CHORDS_SCALE_STEPS: Gamma[]  = [
     type: ScaleType.Minor,
   },
   {
-    id: ChordScale.Minor7Chord,
+    id: ChordScale.Major7Chord,
     name: "Мажорный септаккорд (7)",
     steps: [0, 4, 7, 10],
     isMinorStep: null,

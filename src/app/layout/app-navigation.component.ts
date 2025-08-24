@@ -7,6 +7,8 @@ import { ComTunerIcon } from '@components/icons/com-tuner-icon.component';
   selector: 'app-navigation',
   imports: [ComBriefcaseIcon, ComTunerIcon, ComGuitarIcon, ComMetronomeIcon, RouterLink],
   template: `
+  <!-- TODO: Вынести кнопки в компоненты -->
+  <!-- TODO: Добавить подсветку активной ссылки -->
     <nav class="app-navigation">
       <a routerLink="/">
         <svg width="24" height="24" com-guitar-icon></svg>
