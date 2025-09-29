@@ -1,8 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { NoteHelper } from '@utils/helpers';
-import { Note } from '@utils/models';
 import { ROMAN_NUMERALS } from '@utils/constants';
-import { NoteNamesManager } from '@services/note-names-manager';
+import { NoteNamesManager } from '@services/note-names/note-names.service';
 
 // TODO: Добавить визуальную подсветку октавы
 @Component({
@@ -18,7 +16,7 @@ import { NoteNamesManager } from '@services/note-names-manager';
 export class ComNotePresenter {
   private readonly noteNamesManager = inject(NoteNamesManager);
 
-  public note = input<Note>();
+  public noteName = input<string>();
   public width = input<string>();
   public octave = input<string>();
   public scaleStep = input<number>();
@@ -28,7 +26,4 @@ export class ComNotePresenter {
     return scaleStep != null ? ROMAN_NUMERALS[scaleStep] : '';
   });
 
-  protected noteName = computed(() => {
-    return NoteHelper.getNoteName(this.note());
-  });
 }

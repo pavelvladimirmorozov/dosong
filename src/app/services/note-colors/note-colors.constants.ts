@@ -1,7 +1,8 @@
 export const STATIC_NOTE_COLOR = '#1784ff';
 export const TRANSPARENT_NOTE_COLOR = '#ffffff00';
 
-export const ROMAN_NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
+export const SYSTEM_COLOR = '#686f8b';
+// export const SYSTEM_COLOR = '#ffffffff';
 
 export const COLOR_MODES = [
   { id: 0, name: 'No' },

@@ -25,8 +25,8 @@
     </label>
   </div>
 
-  <com-select class="wid-gamma-select" [options]="scaleSteepsManager.modeOptions"
-    [(selectedValue)]="scaleSteepsManager.selectedMode" />
+  <!-- <com-select class="wid-gamma-select" [options]="scaleSteepsManager.modeOptions"
+    [(selectedValue)]="scaleSteepsManager.selectedMode" /> -->
 
   <com-select class="wid-gamma-select" [options]="scaleSteepsManager.scaleStepsOptions()"
     [(selectedValue)]="scaleSteepsManager.selectedScale" />
@@ -35,12 +35,12 @@
 <div class="wid-gamma-container">
   <com-select class="wid-gamma-select" [style]="getNoteColor(0)"
     [options]="scaleSteepsManager.tonicOptions" [(selectedValue)]="scaleSteepsManager.selectedTonic">
-    <com-note-presenter *comSelectContentSlot="let option" [note]="option.id" [scaleStep]="getScaleStep()" />
+    <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [scaleStep]="getScaleStep()" />
   </com-select>
 
   @for(offset of selectedFormula(); track $index) {
-  <com-note-presenter class="wid-gamma-note" [style]="getNoteColor(offset)" [note]="getNote(offset)"
-    [scaleStep]="getScaleStep(offset)" width="60px" />
+  <com-note-presenter class="wid-gamma-note" [style]="getNoteColor(offset.interval)" [noteName]="getNoteName(offset.interval)"
+    [scaleStep]="getScaleStep(offset.interval)" width="60px" />
   }
 </div>
 

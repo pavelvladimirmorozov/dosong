@@ -6,7 +6,6 @@
     "baseUrl": "./",  // Базовая директория для разрешения путей
     "paths": {
       "@components/*": ["src/app/components/*"],
-      "@models/*": ["src/app/models/*"],
       "@pages/*": ["src/app/pages/*"],
       "@services/*": ["src/app/services/*"],
       "@utils/*": ["src/app/utils/*"],

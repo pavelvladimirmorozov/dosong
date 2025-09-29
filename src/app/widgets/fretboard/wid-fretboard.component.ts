@@ -1,17 +1,17 @@
 import { Component, ElementRef, AfterViewInit, HostListener, computed, model, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { DEFAULT_TUNING } from '@utils/constants/notes';
 import { iterableRange, NoteHelper } from '@utils/helpers';
-import { Note } from '@utils/models/note-info';
 
-import { NoteNamesManager } from '@services/note-names-manager';
+import { NoteNamesManager } from '@services/note-names/note-names.service';
 
 import { ComSelect } from '@components/select/com-select.component';
 import { ComPlusIcon } from '@components/icons/com-plus-icon.component';
 import { ComTrashIcon } from '@components/icons/com-trash-icon.component';
 
 import { WidFretboardString } from './fretboard-string/wid-fretboard-string.component';
+import { DEFAULT_TUNING } from './wid-fretboard.constants';
+import { Note } from '@services/scale-steps/scale-steps.types';
 
 // TODO: Добавить подсветку одинаковых нот по ховеру
 @Component({

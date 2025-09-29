@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
-import { Note } from '@utils/models';
-import { ColorHelper, iterableRange, NoteHelper } from '@utils/helpers';
-import { SHARP_NOTES, OCTAVES } from '@utils/constants';
+import { iterableRange, NoteHelper } from '@utils/helpers';
+import { OCTAVES } from '@utils/constants';
 
-import { NoteColorsManager } from '@services/note-colors-manager';
-import { ScaleSteepsManager } from '@services/scale-steps-manager';
+import { NoteColorsService } from '@services/note-colors/note-colors.service';
 
 import { ComSelect, ComSelectContentSlot } from '@components/select';
 import { ComNotePresenter } from '@components/note-presenter';
+import { NoteNamesManager } from '@services/note-names/note-names.service';
+import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
+import { Note } from '@services/scale-steps/scale-steps.types';
 
-// TODOLow: Возможно стоит вернуть во внешний компонент
 @Component({
   selector: 'wid-fretboard-string',
   imports: [ComSelect, ComNotePresenter, ComSelectContentSlot],
@@ -18,12 +18,12 @@ import { ComNotePresenter } from '@components/note-presenter';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidFretboardString {
-  private readonly colorsManager = inject(NoteColorsManager);
-  private readonly scaleSteepsManager = inject(ScaleSteepsManager);
+  private readonly colorsManager = inject(NoteColorsService);
+  private readonly scaleSteepsManager = inject(ScaleSteepsService);
+  private readonly noteNamesManager = inject(NoteNamesManager);
 
   protected readonly octaveOptions = OCTAVES;
-  protected readonly notesOptions = SHARP_NOTES;
-  protected readonly countOptions = [{ id: 12, name: '12' }, { id: 24, name: '24' }];
+  protected readonly notesOptions = this.noteNamesManager.noteNames;
 
   public startNote = model<Note>(Note.C);
   public startOctave = model<number>(0);
@@ -40,27 +40,28 @@ export class WidFretboardString {
     return NoteHelper.getNoteIndex(startNote, toniOffset);
   }
 
+  protected getNoteName(toniOffset: number = 0) {
+    return this.noteNamesManager.getNoteName(this.getNote(toniOffset));
+  }
+
   protected getScaleStep(toniOffset: number = 0) {
     const note = this.getNote(toniOffset);
-    return this.scaleSteepsManager.getScaleStep(note);
+    return this.scaleSteepsManager.getScaleStep(note)?.stepNumber;
   }
 
-  protected getNoteColor(toniOffset: number = 0): { backgroundColor: string, color: string } {
+  protected getNoteColor(toniOffset: number = 0) {
     const note = this.getNote(toniOffset)!;
-    const scaleStep = this.scaleSteepsManager.getScaleStep(note);
-    const background = this.colorsManager.getNoteColor(note, scaleStep);
-    // TODO: Передать бекграунд темы приложения вместо #686f8b
-    const text = ColorHelper.colorIsDark(background, '#686f8b') ? 'white' : 'black';
-    return { backgroundColor: background, color: text };
-  }
-
-  protected getFretWidth(fretNumber: number) {
-    const width = this.noteWidth();
-    return (typeof (width) === 'function') ? width(fretNumber) : width;
+    const scaleStep = this.scaleSteepsManager.getScaleStep(note)?.stepNumber;
+    return this.colorsManager.getNoteColor(note, scaleStep);
   }
 
   protected getOctave(fret: number) {
     const octave = Math.floor((this.startNote() + fret + 12 * this.startOctave()) / 12);
     return `${octave}`;
+  }
+
+  protected getFretWidth(fretNumber: number) {
+    const width = this.noteWidth();
+    return (typeof (width) === 'function') ? width(fretNumber) : width;
   }
 }

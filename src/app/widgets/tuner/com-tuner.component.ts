@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { DecimalPipe, NgStyle } from '@angular/common';
 
-import { DeepSeekAudioProcessor } from '@services/deepseek-audio-processor';
+import { DeepSeekAudioProcessor } from '@services/audio-processor/deepseek-audio-processor';
 
 @Component({
   selector: 'com-tuner',

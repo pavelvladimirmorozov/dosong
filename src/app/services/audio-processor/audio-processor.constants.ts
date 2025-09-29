@@ -1,9 +1,4 @@
-
-export interface Beat {
-  frequency: number;
-  duration: number;
-  type: OscillatorType,
-}
+import { Beat } from "./audio-processor.types";
 
 // const majorOctaveFrequencies = [
 //   { note: 'C', frequency: 65.41 },   // До
@@ -19,6 +14,7 @@ export interface Beat {
 //   { note: 'A#', frequency: 116.54 }, // Ля-диез
 //   { note: 'B', frequency: 123.47 }   // Си
 // ];
+
 
 export const BEATS: Beat[] = [
     {

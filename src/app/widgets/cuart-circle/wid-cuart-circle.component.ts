@@ -9,9 +9,11 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { MAJOR_CHORDS, MINOR_CHORDS, ROMAN_NUMERALS } from '@utils/constants';
-import { NoteColorsManager } from '@services/note-colors-manager';
-import { ScaleSteepsManager } from '@services/scale-steps-manager';
+import { NoteColorsService } from '@services/note-colors/note-colors.service';
+import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
+import { ScaleStepQuality } from '@services/scale-steps/scale-steps.types';
+import { MAJOR_CHORDS, MINOR_CHORDS } from './wid-cuart-circle.constants';
+import { ROMAN_NUMERALS } from '@utils/constants';
 
 @Component({
   selector: 'wid-cuart-circle',
@@ -24,8 +26,8 @@ export class WidCuartCircle implements AfterViewInit {
   angleOffset = input(-105);
 
   private readonly elementRef = inject(ElementRef<HTMLElement>);
-  private readonly colorsManager = inject(NoteColorsManager);
-  private readonly scaleSteepsManager = inject(ScaleSteepsManager);
+  private readonly colorsManager = inject(NoteColorsService);
+  private readonly scaleSteepsManager = inject(ScaleSteepsService);
   canvasElenemt = viewChild.required<ElementRef<HTMLCanvasElement>>('circleCanvas');
   canvasSize = signal(400);
 
@@ -107,28 +109,19 @@ export class WidCuartCircle implements AfterViewInit {
     this.ctx().stroke();
 
     // TODO: Рефакторинг услоий, вынести метод отрисовки
-    // Информация о ступени
-    const selectedScaleIsMinor = this.scaleSteepsManager.selectedScaleIsMinor();
-    if (selectedScaleIsMinor != null) {
-      const scaleStep = this.scaleSteepsManager.getScaleStep(chordTonic);
+    const tonicScaleStep = this.scaleSteepsManager.getScaleStep(chordTonic);
 
-      const color = this.colorsManager.getNoteColor(chordTonic, scaleStep);
-      this.ctx().fillStyle = color;
-      const isSingleChord = typeof selectedScaleIsMinor === 'boolean';
-      const isSingleChordSuitable = scaleStep === 0 && selectedScaleIsMinor === isMinor
-      if (isSingleChord && isSingleChordSuitable) {
+    const color = this.colorsManager.getNoteColor(chordTonic, tonicScaleStep?.stepNumber);
+    this.ctx().fillStyle = color.backgroundColor;
+
+    if (tonicScaleStep?.stepNumber != null) {
+      this.ctx().fillStyle = tonicScaleStep.type === ScaleStepQuality.Any || tonicScaleStep.type === ScaleStepQuality.None 
+        ? '#aaa' 
+        : color.backgroundColor;
+      const tonicIsMinor = tonicScaleStep.type === ScaleStepQuality.Minor;
+      if (tonicIsMinor === isMinor || tonicIsMinor == null) {
         this.ctx().fill();
-        this.drawText(labelRadius, labelAngle, ROMAN_NUMERALS[scaleStep], '#fff');
-      }
-      if (!isSingleChord) {
-        const tonicIsMinor = this.scaleSteepsManager.getScaleStepIsMinor(scaleStep);
-        if (scaleStep != null && scaleStep >= 0) {
-          this.ctx().fillStyle = tonicIsMinor == null ? '#aaa' : color;
-          if (tonicIsMinor === isMinor || tonicIsMinor == null) {
-            this.ctx().fill();
-            this.drawText(labelRadius, labelAngle, ROMAN_NUMERALS[scaleStep], '#fff');
-          }
-        }
+        this.drawText(labelRadius, labelAngle, ROMAN_NUMERALS[tonicScaleStep.stepNumber], '#fff');
       }
     }
 

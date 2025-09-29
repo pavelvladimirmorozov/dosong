@@ -10,3 +10,5 @@ export const OCTAVES = [
   { id: 7, name: '7 - Четвертая октава' },
   { id: 8, name: '8 - Пятая октава' },
 ];
+
+export const ROMAN_NUMERALS = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']

@@ -43,8 +43,6 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "baseHref": "https://pavelvladimirmorozov.github.io/dosong/",
-            "deployUrl": "https://pavelvladimirmorozov.github.io/dosong/",
             "outputPath": "dist/dosong",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -66,6 +64,8 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "https://pavelvladimirmorozov.github.io/dosong/",
+              "deployUrl": "https://pavelvladimirmorozov.github.io/dosong/",
               "budgets": [
                 {
                   "type": "initial",

@@ -5,15 +5,15 @@
     </ng-container>
   </com-select>
 
-  <com-select class="wid-fretboard-action" [style]="getNoteColor(0)" [options]="notesOptions"
+  <com-select class="wid-fretboard-action" [style]="getNoteColor(0)" [options]="notesOptions()"
     [(selectedValue)]="startNote">
-    <com-note-presenter *comSelectContentSlot="let option" [note]="option.id" [octave]="getOctave(0)"
+    <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [octave]="getOctave(0)"
       [scaleStep]="getScaleStep(0)" />
   </com-select>
 </div>
 
 @for (fret of frets(); track fret) {
-<com-note-presenter class="wid-fretboard-note" [note]="getNote(fret)" [scaleStep]="getScaleStep(fret)"
+<com-note-presenter class="wid-fretboard-note" [noteName]="getNoteName(fret)" [scaleStep]="getScaleStep(fret)"
   [style]="getNoteColor(fret)" [width]="getFretWidth(fret) + 'px'"
   [octave]="getOctave(fret)"></com-note-presenter>
 }

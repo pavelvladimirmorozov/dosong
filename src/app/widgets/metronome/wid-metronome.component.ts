@@ -3,15 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { iterableFilledArray, iterableRange } from '@utils/helpers';
 
 import { ComSelect } from "@components/select";
-import { Beat, BEATS } from '@utils/constants';
 
 import { WidMetronomeBeatSelectComponent } from "./metronome-beat/wid-metronome-beat-select.component";
-
-interface BeatElement {
-  number: number;
-  isActive: boolean;
-  sound: Beat;
-}
+import { BEATS } from '@services/audio-processor/audio-processor.constants';
+import { Beat, BeatElement } from '@services/audio-processor/audio-processor.types';
 
 @Component({
   selector: 'wid-metronome',

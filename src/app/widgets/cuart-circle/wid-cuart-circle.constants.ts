@@ -1,4 +1,4 @@
-import { Note } from "../models/note-info";
+import { Note } from "@services/scale-steps/scale-steps.types";
 
 export const MAJOR_CHORDS = [
     { id: Note.C, name: "C" },

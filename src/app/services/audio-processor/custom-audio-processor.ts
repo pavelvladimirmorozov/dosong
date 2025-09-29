@@ -12,7 +12,7 @@ export class CustomAudioProcessor {
 
   audioCtx!: AudioContext;
   analyserNode!: AnalyserNode;
-  buffer!: Float32Array<ArrayBufferLike>;
+  buffer!: Float32Array<ArrayBuffer>;
 
   interval?: any;
 

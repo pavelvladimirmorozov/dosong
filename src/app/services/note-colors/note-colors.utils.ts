@@ -1,5 +1,22 @@
+import { SYSTEM_COLOR } from "./note-colors.constants";
+
 export class ColorHelper {
-  public static colorIsDark(bgColor: string, backgroundColor = '#ffffffff'): boolean {
+  public static calculateDynamicOpacity(scaleStep: number) {
+    if (scaleStep === 0) return 255;
+    return (scaleStep > 0)
+      ? Math.round(255 * (3 / (scaleStep + 4)))
+      : 0;
+  }
+
+  public static calculateStaticOpacity(scaleStep?: number) {
+    return scaleStep == null ? 0 : 255;
+  }
+
+  public static mergeColorWithOpacity(color: string, opacity: number) {
+    return color.slice(0, 7) + opacity.toString(16).padStart(2, '0');
+  }
+
+  public static colorIsDark(bgColor: string, backgroundColor = SYSTEM_COLOR): boolean {
     const curr = ColorHelper.parseColor(bgColor);
     if (!curr) return ColorHelper.colorIsDark(backgroundColor);
     if (curr.a === 0) return ColorHelper.colorIsDark(backgroundColor);

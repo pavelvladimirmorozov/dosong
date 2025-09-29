@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, HostListener, inject, input, model } from '@angular/core';
-import { NoteColorsManager } from '@services/note-colors-manager';
-import { Beat, BEATS } from '@utils/constants';
+import { BEATS } from '@services/audio-processor/audio-processor.constants';
+import { Beat } from '@services/audio-processor/audio-processor.types';
+import { NoteColorsService } from '@services/note-colors/note-colors.service';
 
 @Component({
   selector: 'wid-metronome-beat-select',
@@ -12,7 +13,7 @@ import { Beat, BEATS } from '@utils/constants';
 export class WidMetronomeBeatSelectComponent {
   protected readonly beats: Beat[] = BEATS;
 
-  private readonly colorsState = inject(NoteColorsManager);
+  private readonly colorsState = inject(NoteColorsService);
   public activeColor = computed(() => this.colorsState.getStaticNoteColor());
 
   selectedBeat = model<Beat>(this.beats[0]);

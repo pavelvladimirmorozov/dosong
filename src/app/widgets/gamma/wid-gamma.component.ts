@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ColorHelper, NoteHelper } from '@utils/helpers';
-import { TRANSPARENT_NOTE_COLOR } from '@utils/constants';
+import { NoteHelper } from '@utils/helpers';
 
-import { NoteColorsManager } from '@services/note-colors-manager';
-import { ScaleSteepsManager } from '@services/scale-steps-manager';
+import { NoteColorsService } from '@services/note-colors/note-colors.service';
+import { NoteNamesManager } from '@services/note-names/note-names.service';
+import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
 
+import { ComSelect, ComSelectContentSlot } from '@components/select';
+import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
 import { 
   ComStaticMulticolorIcon, 
   ComStaticSinglecolorIcon, 
   ComDynamicMulticolorIcon, 
   ComDynamicSinglecolorIcon 
 } from '@components/icons';
-import { ComSelect, ComSelectContentSlot } from '@components/select';
-import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
 
 @Component({
   selector: 'wid-gamma',
@@ -31,40 +31,38 @@ import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidGamma {
-  protected readonly colorsManager = inject(NoteColorsManager);
-  protected readonly scaleSteepsManager = inject(ScaleSteepsManager);
+  protected readonly colorsManager = inject(NoteColorsService);
+  protected readonly scaleSteepsManager = inject(ScaleSteepsService);
+  protected readonly noteNamesManager = inject(NoteNamesManager);
 
   protected selectedFormula = computed(() =>
-    this.scaleSteepsManager.selectedScaleSteps().slice(1)
+    this.scaleSteepsManager.selectedScaleState().slice(1)
   );
 
   protected selectedFormulaFormatted = computed(() =>
     NoteHelper.formatSteps(this.selectedFormula())
   );
 
-  protected getNote(toniOffset: number | null) {
-    if (toniOffset == null) return undefined;
+  protected getNoteName(toniOffset: number | null) {
+    if(toniOffset == null) return '?';
+    return this.noteNamesManager.getNoteName(this.getNote(toniOffset));
+  }
+
+  protected getNote(toniOffset: number) {
     return NoteHelper.getNoteIndex(this.scaleSteepsManager.selectedTonic(), toniOffset);
   }
 
-  protected getNoteColor(toniOffset: number | null): { backgroundColor: string, color: string } {
-    if (toniOffset == null) {
-      const background = NoteHelper.mergeColorWithOpacity(TRANSPARENT_NOTE_COLOR, 0);
-      // TODO: Передать бекграунд темы приложения вместо #686f8b
-      const text = ColorHelper.colorIsDark(background, '#686f8b') ? 'white' : 'black';
-      return { backgroundColor: background, color: text };
-    }
+  protected getNoteColor(toniOffset: number | null) {
+    if (toniOffset == null) return this.colorsManager.getTransparentNoteColor();
+    
     const note = this.getNote(toniOffset)!;
     const scaleStep = this.scaleSteepsManager.getScaleStep(note);
-    const background = this.colorsManager.getNoteColor(note, scaleStep);
-    // TODO: Передать бекграунд темы приложения вместо #686f8b
-    const text = ColorHelper.colorIsDark(background, '#686f8b') ? 'white' : 'black';
-    return { backgroundColor: background, color: text };
+    return this.colorsManager.getNoteColor(note, scaleStep?.stepNumber);
   }
 
   protected getScaleStep(toniOffset: number | null = 0) {
     if (toniOffset == null) return -1;
     const note = NoteHelper.getNoteIndex(this.scaleSteepsManager.selectedTonic(), toniOffset);
-    return this.scaleSteepsManager.getScaleStep(note);
+    return this.scaleSteepsManager.getScaleStep(note)?.stepNumber;
   }
 }
