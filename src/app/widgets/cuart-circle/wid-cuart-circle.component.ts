@@ -115,11 +115,11 @@ export class WidCuartCircle implements AfterViewInit {
     this.ctx().fillStyle = color.backgroundColor;
 
     if (tonicScaleStep?.stepNumber != null) {
-      this.ctx().fillStyle = tonicScaleStep.type === ScaleStepQuality.Any || tonicScaleStep.type === ScaleStepQuality.None 
-        ? '#aaa' 
+      this.ctx().fillStyle = tonicScaleStep.type === ScaleStepQuality.Any || tonicScaleStep.type === ScaleStepQuality.None
+        ? '#aaa'
         : color.backgroundColor;
       const tonicIsMinor = tonicScaleStep.type === ScaleStepQuality.Minor;
-      if (tonicIsMinor === isMinor || tonicIsMinor == null) {
+      if (tonicIsMinor === isMinor || tonicScaleStep.type === ScaleStepQuality.Any || tonicScaleStep.type === ScaleStepQuality.None) {
         this.ctx().fill();
         this.drawText(labelRadius, labelAngle, ROMAN_NUMERALS[tonicScaleStep.stepNumber], '#fff');
       }
