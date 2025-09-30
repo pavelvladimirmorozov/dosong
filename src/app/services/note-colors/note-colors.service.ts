@@ -43,7 +43,7 @@ export class NoteColorsService {
   }
 
   private _getOpacity(scaleStep?: number, isStaticMode: boolean = false) {
-    return isStaticMode || scaleStep == null || scaleStep < 0
+    return isStaticMode || scaleStep == null
       ? ColorHelper.calculateStaticOpacity(scaleStep)
       : ColorHelper.calculateDynamicOpacity(scaleStep);
   }

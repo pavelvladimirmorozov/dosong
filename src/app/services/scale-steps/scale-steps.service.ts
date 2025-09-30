@@ -50,6 +50,6 @@ export class ScaleSteepsService {
   /** Возвращает номер ступени для ноты в выбранной тональности или null */
   public getScaleStep(currentNote: Note) {
     const state = this.selectedScaleState().find(x => x.midiNote === currentNote);
-    return state;
+    return state ?? null;
   }
 }

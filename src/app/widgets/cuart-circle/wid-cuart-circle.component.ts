@@ -14,6 +14,7 @@ import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
 import { ScaleStepQuality } from '@services/scale-steps/scale-steps.types';
 import { MAJOR_CHORDS, MINOR_CHORDS } from './wid-cuart-circle.constants';
 import { ROMAN_NUMERALS } from '@utils/constants';
+import { SectorParams, TextParams } from './wid-cuart-circle.types';
 
 @Component({
   selector: 'wid-cuart-circle',
@@ -25,15 +26,14 @@ export class WidCuartCircle implements AfterViewInit {
   // Смещение на 105° против часовой стрелке
   angleOffset = input(-105);
 
+  majorKeys = MAJOR_CHORDS;
+  minorKeys = MINOR_CHORDS;
+
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly colorsManager = inject(NoteColorsService);
   private readonly scaleSteepsManager = inject(ScaleSteepsService);
   canvasElenemt = viewChild.required<ElementRef<HTMLCanvasElement>>('circleCanvas');
   canvasSize = signal(400);
-
-  // Тональности
-  majorKeys = MAJOR_CHORDS;
-  minorKeys = MINOR_CHORDS;
 
   canvas = computed(() => this.canvasElenemt().nativeElement);
   ctx = computed(() => this.canvasElenemt().nativeElement.getContext('2d')!);
@@ -47,7 +47,9 @@ export class WidCuartCircle implements AfterViewInit {
   center = computed(() => this.canvasSize() / 2);
   outerRadius = computed(() => Math.floor(this.canvasSize() / 2 - 5));
   middleRadius = computed(() => Math.floor(this.canvasSize() / 3));
-  innerRadius = computed(() => Math.floor(this.canvasSize() / 6));;
+  innerRadius = computed(() => Math.floor(this.canvasSize() / 6));
+  innerTextRadius = computed(() => Math.floor(this.canvasSize() / 4));
+  outerTextRadius = computed(() => Math.floor(this.canvasSize() / 2.5));
   angleStep = (2 * Math.PI) / 12;
 
   ngAfterViewInit(): void {
@@ -59,9 +61,17 @@ export class WidCuartCircle implements AfterViewInit {
     this.updateSize();
   }
 
+  private updateSize() {
+    const ref = this.elementRef;
+    if (ref != null) {
+      const width = ref.nativeElement.clientWidth
+      this.canvasSize.set(width);
+    }
+  }
+
   drawCircleEffect = effect(() => this.draw());
 
-  private draw() {
+  protected draw() {
     this.canvas().width = this.canvasSize();
     this.canvas().height = this.canvasSize();
 
@@ -72,62 +82,36 @@ export class WidCuartCircle implements AfterViewInit {
     }
   }
 
-  drawSector(sector: number, isMinor: boolean) {
-    const startAngle = sector * this.angleStep + this.angleOffset() * (Math.PI / 180);
-    const endAngle = (sector + 1) * this.angleStep + this.angleOffset() * (Math.PI / 180);
+  protected drawSector(sector: number, isMinor: boolean) {
+    const sectorParams = this.calculateSectorParams(sector, isMinor);
+    this.drawSectorBorder(sectorParams);
 
-    const startRadius = isMinor ? this.innerRadius() : this.middleRadius();
-    const endRadius = isMinor ? this.middleRadius() : this.outerRadius();
+    const chord = isMinor ? this.minorKeys[sector] : this.majorKeys[sector];
+    const tonicScaleStep = this.scaleSteepsManager.getScaleStep(chord.id);
 
-    const labelAangleOffset = isMinor ? 0.15 : 0.1;
-    const labelAngle = startAngle + this.angleStep * labelAangleOffset;
-    const labelRadius = startRadius + (endRadius - startRadius) * 0.80;
+    const { radius, angle } = this.calculateTextParams(sector, isMinor);
 
-    const textAngle = startAngle + this.angleStep / 2;
-    const textRadius = isMinor
-      ? (this.innerRadius() + this.middleRadius()) / 2
-      : (this.middleRadius() + this.outerRadius()) / 2;
+    if (tonicScaleStep == null || tonicScaleStep.stepNumber == null) {
+      this.drawText(radius, angle, chord.name);
+    } else if (tonicScaleStep.type === ScaleStepQuality.Any || tonicScaleStep.type === ScaleStepQuality.None) {
+      this.fillSector(sectorParams, '#aaa');
 
-    const chord = isMinor
-      ? this.minorKeys[sector]
-      : this.majorKeys[sector];
+      this.drawText(radius, angle, chord.name);
+    } else if ((tonicScaleStep.type === ScaleStepQuality.Minor) === isMinor) {
+      const color = this.colorsManager.getNoteColor(chord.id, tonicScaleStep.stepNumber);
+      this.fillSector(sectorParams, color.backgroundColor);
 
-    const chordName = chord.name;
-    const chordTonic = chord.id;
+      const labelParams = this.calculateLabelParams(sector, isMinor);
+      this.drawText(labelParams.radius, labelParams.angle, ROMAN_NUMERALS[tonicScaleStep.stepNumber], '#fff');
 
-    this.ctx().beginPath();
-    this.ctx().moveTo(
-      this.center() + startRadius * Math.cos(startAngle),
-      this.center() + startRadius * Math.sin(startAngle)
-    );
-    this.ctx().arc(this.center(), this.center(), endRadius, startAngle, endAngle);
-    this.ctx().lineTo(
-      this.center() + startRadius * Math.cos(endAngle),
-      this.center() + startRadius * Math.sin(endAngle)
-    );
-    this.ctx().arc(this.center(), this.center(), startRadius, endAngle, startAngle, true);
-    this.ctx().stroke();
-
-    // TODO: Рефакторинг услоий, вынести метод отрисовки
-    const tonicScaleStep = this.scaleSteepsManager.getScaleStep(chordTonic);
-
-    const color = this.colorsManager.getNoteColor(chordTonic, tonicScaleStep?.stepNumber);
-    this.ctx().fillStyle = color.backgroundColor;
-
-    if (tonicScaleStep?.stepNumber != null) {
-      this.ctx().fillStyle = tonicScaleStep.type === ScaleStepQuality.Any || tonicScaleStep.type === ScaleStepQuality.None
-        ? '#aaa'
-        : color.backgroundColor;
-      const tonicIsMinor = tonicScaleStep.type === ScaleStepQuality.Minor;
-      if (tonicIsMinor === isMinor || tonicScaleStep.type === ScaleStepQuality.Any || tonicScaleStep.type === ScaleStepQuality.None) {
-        this.ctx().fill();
-        this.drawText(labelRadius, labelAngle, ROMAN_NUMERALS[tonicScaleStep.stepNumber], '#fff');
-      }
+      this.drawText(radius, angle, chord.name, color.color);
+    } else {
+      const { radius, angle } = this.calculateTextParams(sector, isMinor);
+      this.drawText(radius, angle, chord.name);
     }
-
-    this.drawText(textRadius, textAngle, chordName);
   }
 
+  //#region Draw
   private drawText(radius: number, angle: number, text: string, color: string = "#000") {
     this.ctx().font = this.chordFontStyle();
     this.ctx().textAlign = 'center';
@@ -139,11 +123,73 @@ export class WidCuartCircle implements AfterViewInit {
     );
   }
 
-  private updateSize() {
-    const ref = this.elementRef;
-    if (ref != null) {
-      const width = ref.nativeElement.clientWidth
-      this.canvasSize.set(width);
+  drawSectorBorder(sectorParams: SectorParams) {
+    this.selectSectorBorder(sectorParams);
+    this.ctx().stroke();
+  }
+
+  fillSector(sectorParams: SectorParams, fillStyle: string) {
+    this.selectSectorBorder(sectorParams);
+    this.ctx().fillStyle = fillStyle;
+    this.ctx().fill();
+  }
+
+  selectSectorBorder(sectorParams: SectorParams) {
+    this.ctx().beginPath();
+    this.ctx().moveTo(
+      this.center() + sectorParams.startRadius * Math.cos(sectorParams.startAngle),
+      this.center() + sectorParams.startRadius * Math.sin(sectorParams.startAngle)
+    );
+    this.ctx().arc(
+      this.center(),
+      this.center(),
+      sectorParams.endRadius,
+      sectorParams.startAngle,
+      sectorParams.endAngle
+    );
+    this.ctx().lineTo(
+      this.center() + sectorParams.startRadius * Math.cos(sectorParams.endAngle),
+      this.center() + sectorParams.startRadius * Math.sin(sectorParams.endAngle)
+    );
+    this.ctx().arc(
+      this.center(),
+      this.center(),
+      sectorParams.startRadius,
+      sectorParams.endAngle,
+      sectorParams.startAngle,
+      true);
+    this.ctx().stroke();
+  }
+  //#endregion Draw
+
+  //#region Calculate params
+  private calculateSectorParams(sector: number, isMinor: boolean): SectorParams {
+    return {
+      startAngle: this.calculateAngeleForSector(sector),
+      endAngle: this.calculateAngeleForSector(sector + 1),
+      startRadius: isMinor ? this.innerRadius() : this.middleRadius(),
+      endRadius: isMinor ? this.middleRadius() : this.outerRadius(),
     }
   }
+
+  private calculateTextParams(sector: number, isMinor: boolean): TextParams {
+    return {
+      angle: this.calculateAngeleForSector(sector + 0.5),
+      radius: isMinor ? this.innerTextRadius() : this.outerTextRadius(),
+    }
+  }
+
+  private calculateLabelParams(sector: number, isMinor: boolean): TextParams {
+    const radiusScale = sector > 3 && sector < 9 ? 1.17 : 1.13;
+    const angleScale = sector > 3 && sector < 9 ? 0.8 : 0.85;
+    return {
+      angle: this.calculateAngeleForSector(sector + angleScale),
+      radius: isMinor ? this.innerTextRadius() * radiusScale : this.outerTextRadius() * radiusScale,
+    }
+  }
+
+  private calculateAngeleForSector(sector: number) {
+    return sector * this.angleStep + this.angleOffset() * (Math.PI / 180)
+  }
+  //#endregion Calculate params
 }
