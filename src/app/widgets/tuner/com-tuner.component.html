@@ -1,17 +1,80 @@
-<div class="note">Нота:</div>
-<span class="note">{{processor.currentNote()}}</span>
-<div class="note">Отклоение:</div>
-<span class="note">{{processor.currentIndent() | number: '1.0-0'}}</span>
-<div class="note">Центы:</div>
-<span class="note">{{processor.currentCents() | number: '1.0-0'}}</span>
-<div class="note">Частота:</div>
-<span class="note">{{processor.currentHz() | number: '1.0-0'}}Hz</span>
-<div class="indent">
-  <div class="indent-note">{{processor.currentNote()}}</div>
-  <div class="indent-container">
-    <div class="indent-line" [ngStyle]="{ width: (50 + processor.currentCents()) + '%'}"></div>
+<div class="tuner">
+
+  <!-- Текущая нота (большая) с октавой -->
+  <div class="tuner-note">
+    <span class="tuner-note-name">{{ processor.currentNote() || '—' }}</span>
+    @if (processor.isActive() && processor.currentNote()) {
+      <span class="tuner-note-octave">{{ currentOctave() }}</span>
+    }
   </div>
-</div>
-<div>
-  <button (click)="processor.startStop()">{{processor.interval ? 'stop' : 'start'}}</button>
+
+  <!-- Отклонение в центах -->
+  <div class="tuner-cents">
+    {{ processor.isActive() && processor.currentNote() ? centsDisplay() : '' }}
+  </div>
+
+  <!-- Расширенный индикатор: соседние ноты + полоса + иголка -->
+  <div class="tuner-indicator">
+
+    <!-- Подписи нот над полосой (prev @ 25%, current @ 50%, next @ 75%) -->
+    <div class="indicator-notes">
+      <div class="indicator-note indicator-note-prev">
+        <com-note-presenter
+          [noteName]="processor.isActive() ? prevNoteName() : '—'"
+          [octave]="processor.isActive() && processor.currentNote() ? prevOctave() : ''"
+          size="sm"
+        />
+      </div>
+      <div class="indicator-note indicator-note-current">
+        <com-note-presenter
+          [noteName]="processor.currentNote() || '—'"
+          [octave]="processor.isActive() && processor.currentNote() ? currentOctave().toString() : ''"
+          size="lg"
+        />
+      </div>
+      <div class="indicator-note indicator-note-next">
+        <com-note-presenter
+          [noteName]="processor.isActive() ? nextNoteName() : '—'"
+          [octave]="processor.isActive() && processor.currentNote() ? nextOctave() : ''"
+          size="sm"
+        />
+      </div>
+    </div>
+
+    <!-- Полоса: 0–25% = зона prev, 25–75% = зона текущей ноты, 75–100% = зона next -->
+    <div class="indicator-bar">
+      <div class="indicator-tick indicator-tick-left"></div>
+      <div class="indicator-center"></div>
+      <div class="indicator-tick indicator-tick-right"></div>
+      <div
+        class="indicator-needle"
+        [style.left.%]="processor.currentIndent()"
+      ></div>
+    </div>
+
+    <!-- Подписи центов под полосой -->
+    <div class="indicator-labels">
+      <span class="label-at-25">−50¢</span>
+      <span class="label-at-50">0</span>
+      <span class="label-at-75">+50¢</span>
+    </div>
+
+  </div>
+
+  <!-- Частота -->
+  <div class="tuner-hz">
+    {{ processor.isActive() && processor.currentNote() ? ((processor.currentHz() | number:'1.1-1') + ' Hz') : '—' }}
+  </div>
+
+  <!-- Уровень громкости -->
+  <div class="tuner-volume-wrap">
+    <div class="tuner-volume">
+      <div class="volume-bar" [style.width.%]="volumePercent()"></div>
+    </div>
+  </div>
+
+  <button class="tuner-btn" (click)="processor.startStop()">
+    {{ processor.isActive() ? 'Стоп' : 'Старт' }}
+  </button>
+
 </div>

@@ -262,7 +262,7 @@ export const UNIVERSAL_NOTES: NoteInfo[] = [
   { id: Note.B, name: 'B' },
 ];
 
-// TODO: Доавить для диезов
+// TODO: Добавить для бемолей
 // Тут оставил только от диезных нот т.к. в выборе сейчас тольк они
 export const FLAT_KEYS_MAJOR = [Note.F];
 export const FLAT_KEYS_MINOR = [Note.D, Note.G, Note.C, Note.F];
@@ -297,3 +297,127 @@ export const INTERVALS = [
   "Большая септима",
   "Чистая октава",
 ];
+
+// TODO: Строить аккорды из гамм
+// {
+//   chords = {
+//     major_scale_based: [
+//       {
+//         name: "major",
+//         symbol: "",
+//         formula: "1-3-5",
+//         scale_type: "major",
+//         steps: {
+//           take: [1, 3, 5],
+//           alterations: []
+//         },
+//       },
+//       {
+//         name: "augmented", 
+//         symbol: "aug",
+//         formula: "1-3-♯5",
+//         scale_type: "major",
+//         steps: {
+//           take: [1, 3],
+//           alterations: ["♯5"]
+//         },
+//       },
+//       {
+//         name: "major_seventh",
+//         symbol: "maj7", 
+//         formula: "1-3-5-7",
+//         scale_type: "major",
+//         steps: {
+//           take: [1, 3, 5, 7],
+//           alterations: []
+//         },
+//       },
+//       {
+//         name: "dominant_seventh",
+//         symbol: "7",
+//         formula: "1-3-5-♭7", 
+//         scale_type: "major",
+//         steps: {
+//           take: [1, 3, 5],
+//           alterations: ["♭7"]
+//         },
+//       }
+//     ],
+    
+//     minor_scale_based: [
+//       {
+//         name: "minor",
+//         symbol: "m", 
+//         formula: "1-3-5",
+//         scale_type: "minor",
+//         steps: {
+//           take: [1, 3, 5],
+//           alterations: []
+//         },
+//       },
+//       {
+//         name: "minor_seventh",
+//         symbol: "m7",
+//         formula: "1-3-5-7", 
+//         scale_type: "minor",
+//         steps: {
+//           take: [1, 3, 5, 7],
+//           alterations: []
+//         },
+//       },
+//       {
+//         name: "minor_major_seventh",
+//         symbol: "m(maj7)",
+//         formula: "1-3-5-♯7",
+//         scale_type: "minor", 
+//         steps: {
+//           take: [1, 3, 5],
+//           alterations: ["♯7"]
+//         },
+//       },
+//       {
+//         name: "diminished",
+//         symbol: "dim",
+//         formula: "1-3-♭5",
+//         scale_type: "minor",
+//         steps: {
+//           take: [1, 3],
+//           alterations: ["♭5"]
+//         },
+//       },
+//       {
+//         name: "half_diminished", 
+//         symbol: "m7♭5",
+//         formula: "1-3-♭5-7",
+//         scale_type: "minor",
+//         steps: {
+//           take: [1, 3, 7],
+//           alterations: ["♭5"]
+//         },
+//       }
+//     ],
+    
+//     cross_scale: [
+//       {
+//         name: "minor_sixth",
+//         symbol: "m6",
+//         formula: "1-3-5-6", 
+//         scale_type: "melodic_minor",
+//         steps: {
+//           take: [1, 3, 5, 6],
+//           alterations: []
+//         },
+//       },
+//       {
+//         name: "diminished_seventh",
+//         symbol: "dim7",
+//         formula: "1-3-♭5-6",
+//         scale_type: "diminished", 
+//         steps: {
+//           take: [1, 3, 6],
+//           alterations: ["♭5"]
+//         },
+//       }
+//     ]
+//   },
+// }

@@ -13,7 +13,6 @@ import { WidFretboardString } from './fretboard-string/wid-fretboard-string.comp
 import { DEFAULT_TUNING } from './wid-fretboard.constants';
 import { Note } from '@services/scale-steps/scale-steps.types';
 
-// TODO: Добавить подсветку одинаковых нот по ховеру
 @Component({
   selector: 'wid-fretboard',
   standalone: true,

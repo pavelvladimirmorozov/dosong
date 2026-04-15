@@ -44,7 +44,7 @@ export class WidGamma {
   );
 
   protected getNoteName(toniOffset: number | null) {
-    if(toniOffset == null) return '?';
+    if(toniOffset == null) return '-';
     return this.noteNamesManager.getNoteName(this.getNote(toniOffset));
   }
 

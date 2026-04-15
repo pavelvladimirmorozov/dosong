@@ -5,6 +5,33 @@
     justify-content: center;
 }
 
+:host(.size-sm) {
+    opacity: 0.65;
+
+    .note-presenter-name {
+        font-size: 0.75em;
+    }
+
+    .note-presenter-scale-step {
+        font-size: 0.55em;
+    }
+
+    .note-presenter-octave {
+        font-size: 0.6em;
+    }
+}
+
+:host(.size-lg) {
+    .note-presenter-name {
+        font-size: 1.4em;
+        font-weight: 600;
+    }
+
+    .note-presenter-octave {
+        font-size: 1em;
+    }
+}
+
 .note-presenter-name {
     display: flex;
     align-items: center;

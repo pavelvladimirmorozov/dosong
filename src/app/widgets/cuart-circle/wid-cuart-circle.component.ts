@@ -91,9 +91,9 @@ export class WidCuartCircle implements AfterViewInit {
 
     const { radius, angle } = this.calculateTextParams(sector, isMinor);
 
-    if (tonicScaleStep == null || tonicScaleStep.stepNumber == null) {
+    if (tonicScaleStep == null || tonicScaleStep.stepNumber == null || tonicScaleStep.type === ScaleStepQuality.None) {
       this.drawText(radius, angle, chord.name);
-    } else if (tonicScaleStep.type === ScaleStepQuality.Any || tonicScaleStep.type === ScaleStepQuality.None) {
+    } else if (tonicScaleStep.type === ScaleStepQuality.Any) {
       this.fillSector(sectorParams, '#aaa');
 
       this.drawText(radius, angle, chord.name);

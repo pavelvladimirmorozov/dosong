@@ -11,6 +11,8 @@ import { NoteNamesManager } from '@services/note-names/note-names.service';
   host: {
     '[style.width]': 'width()',
     '[style.flexBasis]': 'width()',
+    '[class.size-sm]': 'size() === "sm"',
+    '[class.size-lg]': 'size() === "lg"',
   }
 })
 export class ComNotePresenter {
@@ -20,6 +22,8 @@ export class ComNotePresenter {
   public width = input<string>();
   public octave = input<string>();
   public scaleStep = input<number>();
+  /** Визуальный размер: 'sm' — сосед в тюнере, 'md' — дефолт (гриф), 'lg' — акцент */
+  public size = input<'sm' | 'md' | 'lg'>('md');
 
   protected scaleStepForDisplay = computed(() => {
     const scaleStep = this.scaleStep();
