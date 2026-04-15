@@ -1,9 +1,6 @@
 export const STATIC_NOTE_COLOR = '#1784ff';
 export const TRANSPARENT_NOTE_COLOR = '#ffffff00';
 
-export const SYSTEM_COLOR = '#686f8b';
-// export const SYSTEM_COLOR = '#ffffffff';
-
 export const COLOR_MODES = [
   { id: 0, name: 'No' },
   { id: 1, name: 'Dynamic Multi' },

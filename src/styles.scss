@@ -376,17 +376,61 @@ meter {
   -webkit-user-drag: element;
 }
 
+// ── Тёмная тема (по умолчанию) ───────────────────────────────────────────────
+:root,
+.dark {
+  --color-bg:                  #1e2433;
+  --color-surface:             #2c3e50;
+  --color-surface-hover:       #34495e;
+  --color-text:                #ffffff;
+  --color-text-muted:          #aaaaaa;
+  --color-text-dim:            #777777;
+
+  --color-btn-primary-bg:      #4caf50;
+  --color-btn-primary-hover:   #45a049;
+  --color-btn-primary-text:    #ffffff;
+  --color-btn-secondary-bg:    #5a6380;
+  --color-btn-secondary-hover: #4a5270;
+  --color-btn-disabled-bg:     #444455;
+  --color-btn-disabled-text:   #888888;
+
+  --color-accent:              #1784ff;
+  --color-accent-hover:        #0f6de0;
+  --color-nav-active-bg:       rgba(255, 255, 255, 0.12);
+  --color-nav-active-text:     #ffffff;
+}
+
+// ── Светлая тема ──────────────────────────────────────────────────────────────
+.white {
+  --color-bg:                  #f0f2f5;
+  --color-surface:             #ffffff;
+  --color-surface-hover:       #e8eaf0;
+  --color-text:                #1a1a2e;
+  --color-text-muted:          #555555;
+  --color-text-dim:            #888888;
+
+  --color-btn-primary-bg:      #4caf50;
+  --color-btn-primary-hover:   #45a049;
+  --color-btn-primary-text:    #ffffff;
+  --color-btn-secondary-bg:    #c0c8d8;
+  --color-btn-secondary-hover: #aab4c8;
+  --color-btn-disabled-bg:     #d0d0d0;
+  --color-btn-disabled-text:   #888888;
+
+  --color-accent:              #1784ff;
+  --color-accent-hover:        #0f6de0;
+  --color-nav-active-bg:       rgba(0, 0, 0, 0.08);
+  --color-nav-active-text:     #1a1a2e;
+}
+
+// ── Алиасы для обратной совместимости ────────────────────────────────────────
 :root {
-  // .dark {
-  --app-theme-background-color: #686f8b;
-  --app-theme-font-color: #ffffff;
-  // }
+  --app-theme-background-color: var(--color-bg);
+  --app-theme-font-color:       var(--color-text);
+}
 
-  // .light {
-  // --app-theme-background-color: #ffffffff;
-  // --app-theme-font-color: #000000;
-  // }
-
-  background-color: var(--app-theme-background-color);
-  color: var(--app-theme-font-color)
+// ── Корневой элемент приложения ───────────────────────────────────────────────
+app-root {
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }

@@ -3,10 +3,11 @@ import { DecimalPipe } from '@angular/common';
 
 import { CustomAudioProcessor } from '@services/audio-processor/custom-audio-processor';
 import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
+import { ComButton } from '@components/button/com-button.component';
 
 @Component({
   selector: 'com-tuner',
-  imports: [DecimalPipe, ComNotePresenter],
+  imports: [DecimalPipe, ComNotePresenter, ComButton],
   templateUrl: './com-tuner.component.html',
   styleUrl: './com-tuner.component.scss'
 })

@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
 import { AppNavigationComponent } from './layout/app-navigation.component';
+import { ThemeService } from '@services/theme/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +9,10 @@ import { AppNavigationComponent } from './layout/app-navigation.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   host: {
-    '[class]': 'currentTheme()',
+    '[class]': 'themeService.currentTheme()',
   }
 })
 export class AppComponent {
-  title = 'dosong';
-
   // TODO: Настроить линтер
-  // TODO: Доделать выбор темы. Добавить кнопку в навигацию
-  currentTheme = signal<"dark" | "white">("dark");
+  protected readonly themeService = inject(ThemeService);
 }

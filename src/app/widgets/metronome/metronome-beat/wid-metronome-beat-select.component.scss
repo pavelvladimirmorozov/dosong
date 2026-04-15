@@ -1,23 +1,25 @@
 :host {
-    width: 40px;
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 3px;
+  width: 40px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 4px;
+  cursor: pointer;
 }
 
 .wid-metronome-beat-section {
-    border: 1px solid grey;
-    border-radius: 3px;
-    height: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  height: 14px;
+  transition: background-color 0.1s ease;
 
-    &.selected {
-        background-color: #00000010;
-    }
-
-    &:first-child {
-        height: 3px;
-    }
+  &:first-child {
+    height: 4px;
+  }
 }
+
 .wid-metronome-beat-number {
-    font-weight: bold;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.75;
 }

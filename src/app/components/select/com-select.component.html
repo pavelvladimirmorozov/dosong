@@ -6,7 +6,7 @@
   {{ displayValue() }}
   }
   @else {
-    <ng-container *ngTemplateOutlet="contentSlot()!.template; context: { $implicit: selectedOption() }"></ng-container>
+  <ng-container *ngTemplateOutlet="contentSlot()!.template; context: { $implicit: selectedOption() }"></ng-container>
   }
 </span>
 <span class="com-select-arrow">

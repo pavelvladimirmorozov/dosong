@@ -1,7 +1,8 @@
 import {
   AfterViewInit,
   Component,
-  computed, effect,
+  computed,
+  effect,
   ElementRef,
   HostListener,
   inject,
@@ -14,182 +15,140 @@ import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
 import { ScaleStepQuality } from '@services/scale-steps/scale-steps.types';
 import { MAJOR_CHORDS, MINOR_CHORDS } from './wid-cuart-circle.constants';
 import { ROMAN_NUMERALS } from '@utils/constants';
-import { SectorParams, TextParams } from './wid-cuart-circle.types';
+import { SectorParams, SectorVisualState } from './wid-cuart-circle.types';
+import { CuartCircleGeometry } from './cuart-circle-geometry';
 
 @Component({
   selector: 'wid-cuart-circle',
   imports: [],
   templateUrl: './wid-cuart-circle.component.html',
-  styleUrl: './wid-cuart-circle.component.scss'
+  styleUrl: './wid-cuart-circle.component.scss',
 })
 export class WidCuartCircle implements AfterViewInit {
-  // Смещение на 105° против часовой стрелке
+  // Смещение на 105° против часовой стрелки
   angleOffset = input(-105);
-
-  majorKeys = MAJOR_CHORDS;
-  minorKeys = MINOR_CHORDS;
 
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly colorsManager = inject(NoteColorsService);
-  private readonly scaleSteepsManager = inject(ScaleSteepsService);
-  canvasElenemt = viewChild.required<ElementRef<HTMLCanvasElement>>('circleCanvas');
+  private readonly scaleStepsManager = inject(ScaleSteepsService);
+
+  private canvasElement = viewChild.required<ElementRef<HTMLCanvasElement>>('circleCanvas');
   canvasSize = signal(400);
 
-  canvas = computed(() => this.canvasElenemt().nativeElement);
-  ctx = computed(() => this.canvasElenemt().nativeElement.getContext('2d')!);
+  private canvas = computed(() => this.canvasElement().nativeElement);
+  private ctx = computed(() => this.canvasElement().nativeElement.getContext('2d')!);
 
-  chordFontSize = computed(() => Math.floor(this.canvasSize() / 30));
-  chordFontStyle = computed(() => `Bold ${this.chordFontSize()}px Arial`);
+  private chordFontSize = computed(() => Math.floor(this.canvasSize() / 30));
+  private chordFontStyle = computed(() => `Bold ${this.chordFontSize()}px Arial`);
+  private gammaFontStyle = computed(() => `Bold ${this.chordFontSize()}px Arial`);
 
-  gammaFontSize = computed(() => Math.floor(this.chordFontSize() / 1.5));
-  gammaFontStyle = computed(() => `Bold ${this.gammaFontSize()}px Arial`);
+  private geometry = computed(() => new CuartCircleGeometry(this.canvasSize(), this.angleOffset()));
 
-  center = computed(() => this.canvasSize() / 2);
-  outerRadius = computed(() => Math.floor(this.canvasSize() / 2 - 5));
-  middleRadius = computed(() => Math.floor(this.canvasSize() / 3));
-  innerRadius = computed(() => Math.floor(this.canvasSize() / 6));
-  innerTextRadius = computed(() => Math.floor(this.canvasSize() / 4));
-  outerTextRadius = computed(() => Math.floor(this.canvasSize() / 2.5));
-  angleStep = (2 * Math.PI) / 12;
+  drawCircleEffect = effect(() => this.draw());
 
   ngAfterViewInit(): void {
     this.updateSize();
   }
 
   @HostListener('window:resize')
-  public onResize(): void {
+  onResize(): void {
     this.updateSize();
   }
 
-  private updateSize() {
-    const ref = this.elementRef;
-    if (ref != null) {
-      const width = ref.nativeElement.clientWidth
-      this.canvasSize.set(width);
-    }
+  private updateSize(): void {
+    const width = this.elementRef.nativeElement.clientWidth;
+    this.canvasSize.set(width);
   }
 
-  drawCircleEffect = effect(() => this.draw());
+  private draw(): void {
+    const size = this.canvasSize();
+    this.canvas().width = size;
+    this.canvas().height = size;
+    this.ctx().clearRect(0, 0, size, size);
 
-  protected draw() {
-    this.canvas().width = this.canvasSize();
-    this.canvas().height = this.canvasSize();
-
-    this.ctx().clearRect(0, 0, this.canvasSize(), this.canvasSize());
     for (let sector = 0; sector < 12; sector++) {
       this.drawSector(sector, true);
       this.drawSector(sector, false);
     }
   }
 
-  protected drawSector(sector: number, isMinor: boolean) {
-    const sectorParams = this.calculateSectorParams(sector, isMinor);
+  private drawSector(sector: number, isMinor: boolean): void {
+    const geo = this.geometry();
+    const sectorParams = geo.sectorParams(sector, isMinor);
+    const textPos = geo.textParams(sector, isMinor);
+    const visual = this.resolveSectorVisualState(sector, isMinor);
+
     this.drawSectorBorder(sectorParams);
 
-    const chord = isMinor ? this.minorKeys[sector] : this.majorKeys[sector];
-    const tonicScaleStep = this.scaleSteepsManager.getScaleStep(chord.id);
-
-    const { radius, angle } = this.calculateTextParams(sector, isMinor);
-
-    if (tonicScaleStep == null || tonicScaleStep.stepNumber == null || tonicScaleStep.type === ScaleStepQuality.None) {
-      this.drawText(radius, angle, chord.name);
-    } else if (tonicScaleStep.type === ScaleStepQuality.Any) {
-      this.fillSector(sectorParams, '#aaa');
-
-      this.drawText(radius, angle, chord.name);
-    } else if ((tonicScaleStep.type === ScaleStepQuality.Minor) === isMinor) {
-      const color = this.colorsManager.getNoteColor(chord.id, tonicScaleStep.stepNumber);
-      this.fillSector(sectorParams, color.backgroundColor);
-
-      const labelParams = this.calculateLabelParams(sector, isMinor);
-      this.drawText(labelParams.radius, labelParams.angle, ROMAN_NUMERALS[tonicScaleStep.stepNumber], '#fff');
-
-      this.drawText(radius, angle, chord.name, color.color);
-    } else {
-      const { radius, angle } = this.calculateTextParams(sector, isMinor);
-      this.drawText(radius, angle, chord.name);
+    if (visual.fillColor) {
+      this.fillSector(sectorParams, visual.fillColor);
     }
+    if (visual.labelNumeral) {
+      const labelPos = geo.labelParams(sector, isMinor);
+      this.drawText(labelPos.radius, labelPos.angle, visual.labelNumeral, '#fff', this.gammaFontStyle());
+    }
+    this.drawText(textPos.radius, textPos.angle, visual.chord.name, visual.textColor);
   }
 
-  //#region Draw
-  private drawText(radius: number, angle: number, text: string, color: string = "#000") {
-    this.ctx().font = this.chordFontStyle();
-    this.ctx().textAlign = 'center';
-    this.ctx().fillStyle = color;
-    this.ctx().fillText(
-      text,
-      this.center() + radius * Math.cos(angle),
-      this.center() + radius * Math.sin(angle)
-    );
+  // Единственное место, где запрашиваются сервисы — возвращает чистые данные без рендеринга
+  private resolveSectorVisualState(sector: number, isMinor: boolean): SectorVisualState {
+    const chord = isMinor ? MINOR_CHORDS[sector] : MAJOR_CHORDS[sector];
+    const step = this.scaleStepsManager.getScaleStep(chord.id);
+    const defaultColor = this.colorsManager.themeColor();
+
+    if (!step || step.stepNumber == null || step.type === ScaleStepQuality.None) {
+      return { chord, fillColor: null, textColor: defaultColor, labelNumeral: null };
+    }
+    if (step.type === ScaleStepQuality.Any) {
+      return { chord, fillColor: '#aaa', textColor: defaultColor, labelNumeral: null };
+    }
+    if ((step.type === ScaleStepQuality.Minor) === isMinor) {
+      const colors = this.colorsManager.getNoteColor(chord.id, step.stepNumber);
+      return {
+        chord,
+        fillColor: colors.backgroundColor,
+        textColor: colors.color,
+        labelNumeral: ROMAN_NUMERALS[step.stepNumber],
+      };
+    }
+    return { chord, fillColor: null, textColor: defaultColor, labelNumeral: null };
   }
 
-  drawSectorBorder(sectorParams: SectorParams) {
-    this.selectSectorBorder(sectorParams);
+  //#region Canvas drawing primitives
+
+  private buildSectorPath(sectorParams: SectorParams): void {
+    const ctx = this.ctx();
+    const center = this.geometry().center;
+    const { startRadius, endRadius, startAngle, endAngle } = sectorParams;
+
+    ctx.beginPath();
+    ctx.moveTo(center + startRadius * Math.cos(startAngle), center + startRadius * Math.sin(startAngle));
+    ctx.arc(center, center, endRadius, startAngle, endAngle);
+    ctx.lineTo(center + startRadius * Math.cos(endAngle), center + startRadius * Math.sin(endAngle));
+    ctx.arc(center, center, startRadius, endAngle, startAngle, true);
+  }
+
+  private drawSectorBorder(sectorParams: SectorParams): void {
+    this.buildSectorPath(sectorParams);
     this.ctx().stroke();
   }
 
-  fillSector(sectorParams: SectorParams, fillStyle: string) {
-    this.selectSectorBorder(sectorParams);
+  private fillSector(sectorParams: SectorParams, fillStyle: string): void {
+    this.buildSectorPath(sectorParams);
     this.ctx().fillStyle = fillStyle;
     this.ctx().fill();
-  }
-
-  selectSectorBorder(sectorParams: SectorParams) {
-    this.ctx().beginPath();
-    this.ctx().moveTo(
-      this.center() + sectorParams.startRadius * Math.cos(sectorParams.startAngle),
-      this.center() + sectorParams.startRadius * Math.sin(sectorParams.startAngle)
-    );
-    this.ctx().arc(
-      this.center(),
-      this.center(),
-      sectorParams.endRadius,
-      sectorParams.startAngle,
-      sectorParams.endAngle
-    );
-    this.ctx().lineTo(
-      this.center() + sectorParams.startRadius * Math.cos(sectorParams.endAngle),
-      this.center() + sectorParams.startRadius * Math.sin(sectorParams.endAngle)
-    );
-    this.ctx().arc(
-      this.center(),
-      this.center(),
-      sectorParams.startRadius,
-      sectorParams.endAngle,
-      sectorParams.startAngle,
-      true);
     this.ctx().stroke();
   }
-  //#endregion Draw
 
-  //#region Calculate params
-  private calculateSectorParams(sector: number, isMinor: boolean): SectorParams {
-    return {
-      startAngle: this.calculateAngeleForSector(sector),
-      endAngle: this.calculateAngeleForSector(sector + 1),
-      startRadius: isMinor ? this.innerRadius() : this.middleRadius(),
-      endRadius: isMinor ? this.middleRadius() : this.outerRadius(),
-    }
+  private drawText(radius: number, angle: number, text: string, color?: string, font?: string): void {
+    const ctx = this.ctx();
+    const geo = this.geometry();
+    ctx.font = font ?? this.chordFontStyle();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = color ?? this.colorsManager.themeColor();
+    ctx.fillText(text, geo.center + radius * Math.cos(angle), geo.center + radius * Math.sin(angle));
   }
 
-  private calculateTextParams(sector: number, isMinor: boolean): TextParams {
-    return {
-      angle: this.calculateAngeleForSector(sector + 0.5),
-      radius: isMinor ? this.innerTextRadius() : this.outerTextRadius(),
-    }
-  }
-
-  private calculateLabelParams(sector: number, isMinor: boolean): TextParams {
-    const radiusScale = sector > 3 && sector < 9 ? 1.17 : 1.13;
-    const angleScale = sector > 3 && sector < 9 ? 0.8 : 0.85;
-    return {
-      angle: this.calculateAngeleForSector(sector + angleScale),
-      radius: isMinor ? this.innerTextRadius() * radiusScale : this.outerTextRadius() * radiusScale,
-    }
-  }
-
-  private calculateAngeleForSector(sector: number) {
-    return sector * this.angleStep + this.angleOffset() * (Math.PI / 180)
-  }
-  //#endregion Calculate params
+  //#endregion
 }

@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
   `,
   host: {
     '[attr.viewBox]': "'0 0 256 256'",
-    '[attr.fill]': "'none'"
+    '[attr.fill]': "'currentColor'",
   }
 })
 export class ComMetronomeIcon { }

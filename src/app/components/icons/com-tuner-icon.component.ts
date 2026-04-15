@@ -10,8 +10,8 @@ import { Component } from '@angular/core';
   `,
   host: {
     '[attr.viewBox]': "'0 0 48 48'",
-    '[attr.fill]': "'#000'",
-    '[attr.stroke]': "'#000000'",
+    '[attr.fill]': "'#0000'",
+    '[attr.stroke]': "'currentColor'",
   }
 })
 export class ComTunerIcon { }

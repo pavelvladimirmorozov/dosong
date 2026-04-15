@@ -1,8 +1,9 @@
-import { Component, OnDestroy, model, signal, computed } from '@angular/core';
+import { Component, OnDestroy, model, signal, computed, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { iterableFilledArray, iterableRange } from '@utils/helpers';
+import { iterableRange } from '@utils/helpers';
 
 import { ComSelect } from "@components/select";
+import { ComButton } from "@components/button";
 
 import { WidMetronomeBeatSelectComponent } from "./metronome-beat/wid-metronome-beat-select.component";
 import { BEATS } from '@services/audio-processor/audio-processor.constants';
@@ -10,7 +11,7 @@ import { Beat, BeatElement } from '@services/audio-processor/audio-processor.typ
 
 @Component({
   selector: 'wid-metronome',
-  imports: [FormsModule, ComSelect, WidMetronomeBeatSelectComponent],
+  imports: [FormsModule, ComSelect, WidMetronomeBeatSelectComponent, ComButton],
   templateUrl: './wid-metronome.component.html',
   styleUrls: ['./wid-metronome.component.scss']
 })
@@ -26,14 +27,40 @@ export class WidMetronome implements OnDestroy {
 
   private currentBeat = signal(0);
 
-  // Элементы визуализации
-  beatElements = computed(() =>
-    [...iterableFilledArray(this.beatsPerMeasure() - 1)].
-      map<BeatElement>((_, i) => ({
-        number: i + 1,
-        isActive: false,
-        sound: BEATS[1],
-      })));
+  // Persistent sound selection per beat (survives beatsPerMeasure changes)
+  private beatSounds = signal<Beat[]>(new Array(4).fill(BEATS[1]));
+  // Which beat index is currently highlighted (-1 = none)
+  private activeBeatIndex = signal<number>(-1);
+
+  constructor() {
+    // Resize beatSounds when beatsPerMeasure changes — preserve existing, add defaults for new
+    effect(() => {
+      const count = this.beatsPerMeasure();
+      this.beatSounds.update(prev => {
+        if (prev.length === count) return prev;
+        if (prev.length < count) {
+          return [...prev, ...new Array(count - prev.length).fill(BEATS[1])];
+        }
+        return prev.slice(0, count);
+      });
+    });
+  }
+
+  beatElements = computed<BeatElement[]>(() =>
+    this.beatSounds().map((sound, i) => ({
+      number: i + 1,
+      isActive: this.activeBeatIndex() === i,
+      sound,
+    }))
+  );
+
+  public updateBeatSound(index: number, beat: Beat): void {
+    this.beatSounds.update(prev => {
+      const next = [...prev];
+      next[index] = beat;
+      return next;
+    });
+  }
 
   public ngOnDestroy(): void {
     this.stopMetronome();
@@ -56,19 +83,14 @@ export class WidMetronome implements OnDestroy {
 
     this.isRunning.set(false);
     clearInterval(this.interval);
-    this.beatElements().forEach(beat => beat.isActive = false);
+    this.activeBeatIndex.set(-1);
   }
 
   private playBeat(): void {
-    // Сброс активности всех долей
-    this.beatElements().forEach(beat => beat.isActive = false);
-    const currentBeatElement = this.beatElements()[this.currentBeat()];
-    // Установка активности текущей доли
-    currentBeatElement.isActive = true;
-    // Воспроизведение звука
-    this.playSound(currentBeatElement.sound);
-    // Переход к следующей доле
-    this.currentBeat.set((this.currentBeat() + 1) % this.beatsPerMeasure());
+    const idx = this.currentBeat();
+    this.activeBeatIndex.set(idx);
+    this.playSound(this.beatSounds()[idx]);
+    this.currentBeat.set((idx + 1) % this.beatsPerMeasure());
   }
 
   private playSound(beat: Beat): void {

@@ -1,36 +1,39 @@
-
-/* Основные стили меню */
 .app-navigation {
   display: flex;
-  background-color: #2c3e50;
+  background-color: var(--color-surface);
   padding: 10px 0;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-.app-navigation a {
-  color: white;
-  text-decoration: none;
+// Кнопка переключения темы — те же стили, что у app-nav-item a
+.theme-toggle {
+  color: var(--color-text);
+  background: none;
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-grow: 1;
   padding: 8px 5px;
-  transition: all 0.3s ease;
-}
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  font-family: inherit;
 
-.app-navigation svg {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 5px;
-  fill: white;
-}
+  svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 5px;
+    fill: var(--color-text);
+    transition: fill 0.3s ease;
+  }
 
-.app-navigation a:hover {
-  background-color: #34495e;
-}
+  .nav-text {
+    font-size: 14px;
+  }
 
-.app-navigation .nav-text {
-  font-size: 14px;
+  &:hover {
+    background-color: var(--color-surface-hover);
+  }
 }
 
 /* Десктопная версия */
@@ -42,20 +45,20 @@
     padding: 15px 0;
   }
 
-  .app-navigation a {
+  .theme-toggle {
     flex-direction: row;
     flex-grow: 0;
     padding: 10px 15px;
     border-radius: 5px;
-  }
 
-  .app-navigation svg {
-    margin-bottom: 0;
-    margin-right: 8px;
-  }
+    svg {
+      margin-bottom: 0;
+      margin-right: 8px;
+    }
 
-  .app-navigation .nav-text {
-    font-size: 16px;
+    .nav-text {
+      font-size: 16px;
+    }
   }
 }
 
@@ -69,7 +72,7 @@
     z-index: 1000;
   }
 
-  .app-navigation .nav-text {
+  .theme-toggle .nav-text {
     font-size: 12px;
   }
 

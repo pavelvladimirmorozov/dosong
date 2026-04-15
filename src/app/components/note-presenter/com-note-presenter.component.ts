@@ -16,8 +16,6 @@ import { NoteNamesManager } from '@services/note-names/note-names.service';
   }
 })
 export class ComNotePresenter {
-  private readonly noteNamesManager = inject(NoteNamesManager);
-
   public noteName = input<string>();
   public width = input<string>();
   public octave = input<string>();

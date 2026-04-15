@@ -1,53 +1,110 @@
 :host {
   display: block;
-  text-align: center;
   width: 100%;
-  max-width: 600px;
-  margin: 20px auto;
+  max-width: 520px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.wid-metronome {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.wid-metronome-bpm-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.wid-metronome-bpm-display {
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -2px;
+  color: var(--color-text);
+}
+
+.wid-metronome-bpm-label {
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.wid-metronome-bpm-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.wid-metronome-bpm-input {
+  width: 72px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  padding: 6px 4px;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button { -webkit-appearance: none; }
+  -moz-appearance: textfield;
 }
 
 .wid-metronome-control-group {
-  margin: 15px 0;
+  width: 100%;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
+}
+
+.wid-metronome-label {
+  font-size: 14px;
+  opacity: 0.8;
+  white-space: nowrap;
 }
 
 .wid-metronome-visualizer {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 20px 0;
-  gap: 10px;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  width: 100%;
 }
 
-.wid-metronome-volume-control {
+.wid-metronome-transport {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.wid-metronome-volume-row {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1;
 }
 
-
-
-
-.com-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
+.wid-metronome-volume-slider {
+  flex: 1;
+  accent-color: #4CAF50;
   cursor: pointer;
-  margin: 5px;
-  transition: background-color 0.3s;
+}
 
-  &:hover {
-    background-color: #45a049;
-  }
-
-  &:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
+.wid-metronome-volume-value {
+  width: 42px;
+  text-align: right;
+  font-size: 14px;
+  opacity: 0.8;
 }

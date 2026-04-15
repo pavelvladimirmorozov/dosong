@@ -73,8 +73,8 @@
     </div>
   </div>
 
-  <button class="tuner-btn" (click)="processor.startStop()">
+  <com-button (click)="processor.startStop()">
     {{ processor.isActive() ? 'Стоп' : 'Старт' }}
-  </button>
+  </com-button>
 
 </div>
