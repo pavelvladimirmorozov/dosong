@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'svg[com-multicolor-icon]',
@@ -15,6 +15,7 @@ import { Component } from '@angular/core';
     </svg:defs>
     <svg:circle cx = "12" cy = "12" r = "10" fill = "url(#colorPickerGradient)" stroke = "#333" stroke - width="1" />
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.viewBox]': "'0 0 24 24'",
     '[attr.fill]': "'none'"

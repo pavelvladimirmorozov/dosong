@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ROMAN_NUMERALS } from '@utils/constants';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
 
@@ -8,6 +8,7 @@ import { NoteNamesManager } from '@services/note-names/note-names.service';
   imports: [],
   templateUrl: './com-note-presenter.component.html',
   styleUrl: './com-note-presenter.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[style.width]': 'width()',
     '[style.flexBasis]': 'width()',

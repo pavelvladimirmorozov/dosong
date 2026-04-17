@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
 import { CustomAudioProcessor } from '@services/audio-processor/custom-audio-processor';
@@ -9,7 +9,8 @@ import { ComButton } from '@components/button/com-button.component';
   selector: 'com-tuner',
   imports: [DecimalPipe, ComNotePresenter, ComButton],
   templateUrl: './com-tuner.component.html',
-  styleUrl: './com-tuner.component.scss'
+  styleUrl: './com-tuner.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComTuner {
   processor = inject(CustomAudioProcessor);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'svg[com-picture-icon]',
@@ -10,6 +10,7 @@ import { Component } from '@angular/core';
      stroke-width="2" 
      stroke-linecap="round"/>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.viewBox]': "'0 0 24 24'",
     '[attr.fill]': "'none'"

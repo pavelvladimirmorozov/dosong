@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
 import { AppNavigationComponent } from './layout/app-navigation.component';
 import { ThemeService } from '@services/theme/theme.service';
@@ -8,11 +8,11 @@ import { ThemeService } from '@services/theme/theme.service';
   imports: [RouterOutlet, AppNavigationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'themeService.currentTheme()',
   }
 })
 export class AppComponent {
-  // TODO: Настроить линтер
   protected readonly themeService = inject(ThemeService);
 }

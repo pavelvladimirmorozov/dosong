@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'svg[com-guitar-icon]',
@@ -83,6 +83,7 @@ import { Component } from '@angular/core';
       0.3581,-0.91087 0.79805,-0.91087s0.79805,0.40872 0.79805,0.91087c0,0.50214 -0.3581,0.91087
       -0.79805,0.91087s-0.79805,-0.40872 -0.79805,-0.91087zm0,0"/>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.viewBox]': "'0 0 48 24'",
     '[attr.fill]': "'currentColor'"

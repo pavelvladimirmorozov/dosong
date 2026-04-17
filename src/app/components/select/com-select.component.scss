@@ -11,9 +11,9 @@
   cursor: pointer;
   
   &.com-select-disabled {
-    background: #f5f5f522;
+    background: var(--color-input-bg);
     cursor: not-allowed;
-    color: #999;
+    color: var(--color-text-muted);
     opacity: 0.7;
   }
   .com-select-icon-slot {
@@ -28,7 +28,7 @@
   
   .com-select-value {
     &.placeholder {
-      color: #999;
+      color: var(--color-text-muted);
     }
     &:empty {
       display: none;

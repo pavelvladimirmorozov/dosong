@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -23,6 +24,7 @@ import { CuartCircleGeometry } from './cuart-circle-geometry';
   imports: [],
   templateUrl: './wid-cuart-circle.component.html',
   styleUrl: './wid-cuart-circle.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidCuartCircle implements AfterViewInit {
   // Смещение на 105° против часовой стрелки
@@ -85,7 +87,7 @@ export class WidCuartCircle implements AfterViewInit {
     }
     if (visual.labelNumeral) {
       const labelPos = geo.labelParams(sector, isMinor);
-      this.drawText(labelPos.radius, labelPos.angle, visual.labelNumeral, '#fff', this.gammaFontStyle());
+      this.drawText(labelPos.radius, labelPos.angle, visual.labelNumeral, this.colorsManager.themeColor(), this.gammaFontStyle());
     }
     this.drawText(textPos.radius, textPos.angle, visual.chord.name, visual.textColor);
   }
@@ -100,7 +102,7 @@ export class WidCuartCircle implements AfterViewInit {
       return { chord, fillColor: null, textColor: defaultColor, labelNumeral: null };
     }
     if (step.type === ScaleStepQuality.Any) {
-      return { chord, fillColor: '#aaa', textColor: defaultColor, labelNumeral: null };
+      return { chord, fillColor: this.colorsManager.themeMutedColor(), textColor: defaultColor, labelNumeral: null };
     }
     if ((step.type === ScaleStepQuality.Minor) === isMinor) {
       const colors = this.colorsManager.getNoteColor(chord.id, step.stepNumber);
