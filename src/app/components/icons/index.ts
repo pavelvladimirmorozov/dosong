@@ -5,6 +5,8 @@ export * from './com-metronome-icon.component';
 export * from './com-plus-icon.component';
 export * from './com-trash-icon.component';
 export * from './com-briefcase-icon.component';
+export * from './com-sun-icon.component';
+export * from './com-moon-icon.component';
 export * from './com-static-multicolor-icon.component';
 export * from './com-static-singlecolor-icon.component';
 export * from './com-dynamic-multicolor-icon.component';

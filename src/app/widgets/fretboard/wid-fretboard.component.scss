@@ -37,6 +37,7 @@
   left: 0;
   background-color: var(--color-bg);
   align-self: flex-start;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .wid-fretboard__action {

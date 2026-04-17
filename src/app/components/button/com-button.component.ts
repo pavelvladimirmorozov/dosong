@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class': 'com-button',
+    '[class.com-button--primary]': 'variant() === "primary"',
     '[class.com-button--secondary]': 'variant() === "secondary"',
     '[class.com-button--disabled]': 'disabled()',
     '[attr.aria-disabled]': 'disabled()',

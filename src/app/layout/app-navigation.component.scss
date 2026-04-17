@@ -5,34 +5,11 @@
   transition: background-color 0.3s ease;
 }
 
-.app-navigation__theme-toggle {
-  color: var(--color-text);
-  background: none;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-grow: 1;
-  padding: 8px 5px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  cursor: pointer;
-  font-family: inherit;
-
-  svg {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 5px;
-    fill: var(--color-text);
-    transition: fill 0.3s ease;
-  }
-
-  .app-navigation__nav-text {
-    font-size: 14px;
-  }
-
-  &:hover {
-    background-color: var(--color-surface-hover);
-  }
+app-nav-item svg,
+app-nav-item-button svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
 /* Desktop */
@@ -42,22 +19,6 @@
     justify-content: center;
     gap: 20px;
     padding: 15px 0;
-  }
-
-  .app-navigation__theme-toggle {
-    flex-direction: row;
-    flex-grow: 0;
-    padding: 10px 15px;
-    border-radius: 5px;
-
-    svg {
-      margin-bottom: 0;
-      margin-right: 8px;
-    }
-
-    .app-navigation__nav-text {
-      font-size: 16px;
-    }
   }
 }
 
@@ -69,10 +30,6 @@
     left: 0;
     right: 0;
     z-index: 1000;
-  }
-
-  .app-navigation__theme-toggle .app-navigation__nav-text {
-    font-size: 12px;
   }
 
   .main-container {

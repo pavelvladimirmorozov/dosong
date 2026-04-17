@@ -5,21 +5,25 @@
   padding: 10px 20px;
   font-size: 16px;
   font-family: inherit;
-  background-color: var(--color-btn-primary-bg);
-  color: var(--color-btn-primary-text);
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin: 5px;
-  transition: background-color 0.3s, opacity 0.2s;
+  transition: opacity 0.2s;
   user-select: none;
 
-  &:hover:not(.com-button--disabled) {
-    background-color: var(--color-btn-primary-hover);
+  &.com-button--primary {
+    background-color: var(--color-btn-primary-bg);
+    color: var(--color-btn-primary-text);
+
+    &:hover:not(.com-button--disabled) {
+      background-color: var(--color-btn-primary-hover);
+    }
   }
 
   &.com-button--secondary {
     background-color: var(--color-btn-secondary-bg);
+    color: var(--color-btn-primary-text);
 
     &:hover:not(.com-button--disabled) {
       background-color: var(--color-btn-secondary-hover);
