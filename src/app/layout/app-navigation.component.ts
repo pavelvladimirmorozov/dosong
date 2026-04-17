@@ -17,7 +17,6 @@ import { AppNavItemComponent } from './app-nav-item.component';
 @Component({
   selector: 'app-navigation',
   imports: [
-    ComBriefcaseIcon,
     ComTunerIcon,
     ComGuitarIcon,
     ComMetronomeIcon,

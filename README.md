@@ -1,59 +1,88 @@
 # Dosong
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.1.
+Веб-приложение для гитаристов, помогающее изучать гаммы и тональности, а также поддерживать ритм и строй инструмента. Все инструменты работают прямо в браузере — без установки, бэкенда и регистрации.
 
-## Development server
+## Возможности
 
-To start a local development server, run:
+- **Гриф гитары** — интерактивная визуализация нот грифа. Можно выбрать тональность и тип гаммы (мажор, минор и их лады), увидеть подсветку ступеней и ноты во всех позициях.
+- **Виджет гаммы** — отображает ступени выбранной гаммы со звуковыми обозначениями и цветовой кодировкой.
+- **Квинто-квартовый круг** — показывает аккорды выбранной тональности на круге; помогает наглядно видеть родственные тональности и строить последовательности.
+- **Метроном** — настраиваемый темп и размер с визуальной индикацией долей.
+- **Тюнер** — настройка инструмента через микрофон с помощью Web Audio API (определение высоты ноты и отклонения в центах).
+- **Темы оформления** — поддержка тёмной и светлой темы.
+
+## Стек технологий
+
+- [Angular](https://angular.dev) 20 со standalone-компонентами и новым control flow (`@if` / `@for`).
+- TypeScript 5.8.
+- SCSS для стилей, Stylelint для проверки.
+- ESLint + `angular-eslint` + `typescript-eslint` + `eslint-plugin-perfectionist`.
+- Web Audio API для тюнера и метронома.
+- [`angular-cli-ghpages`](https://github.com/angular-schule/angular-cli-ghpages) для публикации на GitHub Pages.
+
+## Структура маршрутов
+
+| Путь              | Страница                                    |
+| ----------------- | ------------------------------------------- |
+| `/`               | Гриф + гамма + квинто-квартовый круг        |
+| `/tuner`          | Тюнер                                       |
+| `/metronome`      | Метроном                                    |
+| `/knowledge-base` | База знаний (в разработке)                  |
+
+## Запуск в режиме разработки
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Запускает dev-сервер с горячей перезагрузкой. Приложение будет доступно по адресу `http://localhost:4200/` и автоматически перезагрузится при изменении исходников.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Для сборки в режиме разработки с пересборкой при изменениях (без dev-сервера):
 
 ```bash
-ng generate component component-name
+ng build --watch --configuration development
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Линтинг
+
+Проверка TypeScript и HTML через ESLint (правила Angular + `perfectionist` для сортировки импортов и свойств):
 
 ```bash
-ng generate --help
+ng lint
 ```
 
-## Building
+Проверка SCSS-файлов через Stylelint (конфигурация `stylelint-config-standard-scss`):
 
-To build the project run:
+```bash
+npx stylelint "src/**/*.scss"
+```
+
+Автоматическое исправление стилевых ошибок, где это возможно:
+
+```bash
+npx stylelint "src/**/*.scss" --fix
+```
+
+### Fix-all в редакторе
+
+В [.vscode/settings.json](.vscode/settings.json) уже включены `source.fixAll.eslint` и `source.fixAll.stylelint` для fix-on-save. Для запуска всех фиксеров (ESLint + Stylelint + TypeScript) одной клавишей рекомендуется привязать команду `editor.action.fixAll` — подробная инструкция и рекомендуемый биндинг `Ctrl+Alt+O` описаны в [.vscode/KEYBINDINGS.md](.vscode/KEYBINDINGS.md). Эта команда в том числе пересортирует импорты по правилам `perfectionist/sort-imports`.
+
+## Сборка
+
+Production-сборка:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Артефакты сохраняются в директории `dist/`. Production-конфигурация включает оптимизацию, минификацию и прописанный `deployUrl` для GitHub Pages.
 
-## Running unit tests
+## Деплой на GitHub Pages
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Публикация выполняется через `angular-cli-ghpages`: пакет собирает проект и пушит содержимое `dist/` в ветку `gh-pages` репозитория.
 
 ```bash
-ng e2e
+ng deploy
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+После успешной публикации приложение будет доступно на <https://pavelvladimirmorozov.github.io/dosong/>.
