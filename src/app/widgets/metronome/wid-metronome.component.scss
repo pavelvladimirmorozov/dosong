@@ -13,14 +13,14 @@
   align-items: center;
 }
 
-.wid-metronome-bpm-section {
+.wid-metronome__bpm-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
 }
 
-.wid-metronome-bpm-display {
+.wid-metronome__bpm-display {
   font-size: 72px;
   font-weight: 700;
   line-height: 1;
@@ -28,21 +28,21 @@
   color: var(--color-text);
 }
 
-.wid-metronome-bpm-label {
+.wid-metronome__bpm-label {
   font-size: 13px;
   letter-spacing: 3px;
   text-transform: uppercase;
   opacity: 0.6;
 }
 
-.wid-metronome-bpm-controls {
+.wid-metronome__bpm-controls {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 8px;
 }
 
-.wid-metronome-bpm-input {
+.wid-metronome__bpm-input {
   width: 72px;
   text-align: center;
   font-size: 18px;
@@ -54,11 +54,12 @@
   padding: 6px 4px;
 
   &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button { -webkit-appearance: none; }
-  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button { appearance: none; }
+
+  appearance: textfield;
 }
 
-.wid-metronome-control-group {
+.wid-metronome__control-group {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -66,13 +67,13 @@
   gap: 12px;
 }
 
-.wid-metronome-label {
+.wid-metronome__label {
   font-size: 14px;
   opacity: 0.8;
   white-space: nowrap;
 }
 
-.wid-metronome-visualizer {
+.wid-metronome__visualizer {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -83,26 +84,26 @@
   width: 100%;
 }
 
-.wid-metronome-transport {
+.wid-metronome__transport {
   display: flex;
   gap: 12px;
   justify-content: center;
 }
 
-.wid-metronome-volume-row {
+.wid-metronome__volume-row {
   display: flex;
   align-items: center;
   gap: 10px;
   flex: 1;
 }
 
-.wid-metronome-volume-slider {
+.wid-metronome__volume-slider {
   flex: 1;
   accent-color: var(--color-btn-primary-bg);
   cursor: pointer;
 }
 
-.wid-metronome-volume-value {
+.wid-metronome__volume-value {
   width: 42px;
   text-align: right;
   font-size: 14px;

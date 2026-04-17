@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, HostListener, inject, input, model } from '@angular/core';
+
 import { BEATS } from '@services/audio-processor/audio-processor.constants';
 import { Beat } from '@services/audio-processor/audio-processor.types';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';

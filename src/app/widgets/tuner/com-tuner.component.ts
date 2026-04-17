@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+
+import { ComButton } from '@components/button/com-button.component';
+import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
 
 import { CustomAudioProcessor } from '@services/audio-processor/custom-audio-processor';
-import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
-import { ComButton } from '@components/button/com-button.component';
 
 @Component({
   selector: 'com-tuner',

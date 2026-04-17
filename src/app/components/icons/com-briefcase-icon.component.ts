@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'svg[com-briefcase-icon]',
+  selector: 'svg[comBriefcaseIcon]',
   template: `
     <svg:path d="M 1 7 L 12 18 L 23 7" />
     <svg:path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 

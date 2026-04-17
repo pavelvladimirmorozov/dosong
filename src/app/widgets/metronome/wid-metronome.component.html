@@ -1,21 +1,21 @@
 <div class="wid-metronome">
 
-  <div class="wid-metronome-bpm-section">
-    <div class="wid-metronome-bpm-display">{{ bpm() }}</div>
-    <div class="wid-metronome-bpm-label">BPM</div>
-    <div class="wid-metronome-bpm-controls">
+  <div class="wid-metronome__bpm-section">
+    <div class="wid-metronome__bpm-display">{{ bpm() }}</div>
+    <div class="wid-metronome__bpm-label">BPM</div>
+    <div class="wid-metronome__bpm-controls">
       <com-button variant="secondary" (click)="bpm.set(bpm() - 10)" [disabled]="bpm() <= 40">−10</com-button>
-      <input type="number" class="wid-metronome-bpm-input" [(ngModel)]="bpm" min="40" max="300">
+      <input type="number" class="wid-metronome__bpm-input" [(ngModel)]="bpm" min="40" max="300">
       <com-button variant="secondary" (click)="bpm.set(bpm() + 10)" [disabled]="bpm() >= 300">+10</com-button>
     </div>
   </div>
 
-  <div class="wid-metronome-control-group">
-    <span class="wid-metronome-label">Долей в такте</span>
+  <div class="wid-metronome__control-group">
+    <span class="wid-metronome__label">Долей в такте</span>
     <com-select [options]="beatsPerMeasureOptions" [(selectedValue)]="beatsPerMeasure"></com-select>
   </div>
 
-  <div class="wid-metronome-visualizer">
+  <div class="wid-metronome__visualizer">
     @for (beat of beatElements(); track $index) {
       <wid-metronome-beat-select
         [isActive]="beat.isActive"
@@ -26,16 +26,16 @@
     }
   </div>
 
-  <div class="wid-metronome-transport">
+  <div class="wid-metronome__transport">
     <com-button (click)="startMetronome()" [disabled]="isRunning()">Старт</com-button>
     <com-button (click)="stopMetronome()" [disabled]="!isRunning()">Стоп</com-button>
   </div>
 
-  <div class="wid-metronome-control-group">
-    <span class="wid-metronome-label">Громкость</span>
-    <div class="wid-metronome-volume-row">
-      <input class="wid-metronome-volume-slider" type="range" [(ngModel)]="volume" min="0" max="100">
-      <span class="wid-metronome-volume-value">{{ volume() }}%</span>
+  <div class="wid-metronome__control-group">
+    <span class="wid-metronome__label">Громкость</span>
+    <div class="wid-metronome__volume-row">
+      <input class="wid-metronome__volume-slider" type="range" [(ngModel)]="volume" min="0" max="100">
+      <span class="wid-metronome__volume-value">{{ volume() }}%</span>
     </div>
   </div>
 

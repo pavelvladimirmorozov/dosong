@@ -95,7 +95,6 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
   font: inherit;
   vertical-align: baseline;
 }
@@ -128,10 +127,10 @@ q {
   quotes: none;
 }
 
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
   content: "";
   content: none;
 }
@@ -143,7 +142,7 @@ table {
 
 html {
   line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 main {
@@ -162,7 +161,7 @@ hr {
 }
 
 pre {
-  font-family: monospace, monospace;
+  font-family: monospace;
   font-size: 1em;
 }
 
@@ -184,7 +183,7 @@ strong {
 code,
 kbd,
 samp {
-  font-family: monospace, monospace;
+  font-family: monospace;
   font-size: 1em;
 }
 
@@ -237,7 +236,7 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
-  -webkit-appearance: button;
+  appearance: auto;
 }
 
 button::-moz-focus-inner,
@@ -265,6 +264,7 @@ legend {
   display: table;
   max-width: 100%;
   padding: 0;
+
   /* 3 */
   white-space: normal;
 }
@@ -289,16 +289,16 @@ textarea {
 }
 
 [type="search"] {
-  -webkit-appearance: textfield;
+  appearance: textfield;
   outline-offset: -2px;
 }
 
 [type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 ::-webkit-file-upload-button {
-  -webkit-appearance: button;
+  appearance: auto;
   font: inherit;
 }
 
@@ -353,7 +353,6 @@ textarea {
 }
 
 meter {
-  -webkit-appearance: revert;
   appearance: revert;
 }
 
@@ -366,8 +365,6 @@ meter {
 }
 
 :where([contenteditable]) {
-  -moz-user-modify: read-write;
-  -webkit-user-modify: read-write;
   overflow-wrap: break-word;
   -webkit-line-break: after-white-space;
 }
@@ -385,54 +382,48 @@ meter {
   --color-text:                #d4d4d4;
   --color-text-muted:          #858585;
   --color-text-dim:            #6e6e6e;
-
   --color-btn-primary-bg:      #0e639c;
-  --color-btn-primary-hover:   #1177bb;
-  --color-btn-primary-text:    #ffffff;
+  --color-btn-primary-hover:   #17b;
+  --color-btn-primary-text:    #fff;
   --color-btn-secondary-bg:    #3a3d41;
   --color-btn-secondary-hover: #45494e;
   --color-btn-disabled-bg:     #2d2d2d;
   --color-btn-disabled-text:   #6e6e6e;
-
   --color-accent:              #007acc;
   --color-accent-hover:        #0a84d8;
   --color-nav-active-bg:       #37373d;
-  --color-nav-active-text:     #ffffff;
-
-  --color-input-bg:               rgba(255, 255, 255, 0.12);
-  --color-input-border:           rgba(255, 255, 255, 0.25);
-  --color-surface-inset:          rgba(0, 0, 0, 0.15);
-  --color-select-active-bg:       rgba(23, 132, 255, 0.15);
-  --color-select-active-hover-bg: rgba(23, 132, 255, 0.25);
+  --color-nav-active-text:     #fff;
+  --color-input-bg:               rgb(255 255 255 / 12%);
+  --color-input-border:           rgb(255 255 255 / 25%);
+  --color-surface-inset:          rgb(0 0 0 / 15%);
+  --color-select-active-bg:       rgb(23 132 255 / 15%);
+  --color-select-active-hover-bg: rgb(23 132 255 / 25%);
 }
 
 // ── Светлая тема ──────────────────────────────────────────────────────────────
 .white {
   --color-bg:                  #f0f2f5;
-  --color-surface:             #ffffff;
+  --color-surface:             #fff;
   --color-surface-hover:       #e8eaf0;
   --color-text:                #1a1a2e;
-  --color-text-muted:          #555555;
-  --color-text-dim:            #888888;
-
+  --color-text-muted:          #555;
+  --color-text-dim:            #888;
   --color-btn-primary-bg:      #4caf50;
   --color-btn-primary-hover:   #45a049;
-  --color-btn-primary-text:    #ffffff;
+  --color-btn-primary-text:    #fff;
   --color-btn-secondary-bg:    #c0c8d8;
   --color-btn-secondary-hover: #aab4c8;
   --color-btn-disabled-bg:     #d0d0d0;
-  --color-btn-disabled-text:   #888888;
-
+  --color-btn-disabled-text:   #888;
   --color-accent:              #1784ff;
   --color-accent-hover:        #0f6de0;
-  --color-nav-active-bg:       rgba(0, 0, 0, 0.08);
+  --color-nav-active-bg:       rgb(0 0 0 / 8%);
   --color-nav-active-text:     #1a1a2e;
-
-  --color-input-bg:               rgba(0, 0, 0, 0.06);
-  --color-input-border:           rgba(0, 0, 0, 0.15);
-  --color-surface-inset:          rgba(0, 0, 0, 0.06);
-  --color-select-active-bg:       rgba(23, 132, 255, 0.1);
-  --color-select-active-hover-bg: rgba(23, 132, 255, 0.18);
+  --color-input-bg:               rgb(0 0 0 / 6%);
+  --color-input-border:           rgb(0 0 0 / 15%);
+  --color-surface-inset:          rgb(0 0 0 / 6%);
+  --color-select-active-bg:       rgb(23 132 255 / 10%);
+  --color-select-active-hover-bg: rgb(23 132 255 / 18%);
 }
 
 // ── Корневой элемент приложения ───────────────────────────────────────────────

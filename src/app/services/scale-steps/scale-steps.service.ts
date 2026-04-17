@@ -1,7 +1,9 @@
 import { Injectable, signal, computed } from "@angular/core";
+
 import { NoteHelper } from "@utils/helpers/note-helpers";
-import { Note, Scale, ScaleQuality, ScaleSteepState } from "./scale-steps.types";
+
 import { SHARP_NOTES, SCALE_STEPS, FLAT_KEYS_MINOR, FLAT_KEYS_MAJOR, FLAT_NOTES } from "./scale-steps.constants";
+import { Note, Scale, ScaleQuality, ScaleSteepState } from "./scale-steps.types";
 
 @Injectable({ providedIn: 'root' })
 export class ScaleSteepsService {
@@ -28,13 +30,13 @@ export class ScaleSteepsService {
     const baseNotes = this.baseNotes();
     const scaleStepsNotes = this.scaleStepsOptions().find(x => x.id === this.selectedScale())!.steps.map((step, index) => {
       const midiNote = step.interval != null ? NoteHelper.getNoteIndex(this.selectedTonic(), step.interval) : null;
-      return <ScaleSteepState>{
+      return {
         name: midiNote != null ? baseNotes[midiNote].name : 'X',
         midiNote: midiNote,
         interval: step.interval,
         type: step.type,
         stepNumber: index,
-      }
+      } as ScaleSteepState
     });
     scaleStepsNotes.forEach((note) => {
       if (note.name === 'F' && scaleStepsNotes.some(x => x.name === 'D#') && !scaleStepsNotes.some(x => x.name === 'E')) {

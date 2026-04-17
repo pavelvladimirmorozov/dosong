@@ -1,8 +1,10 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
+
 import { NoteHelper } from "@utils/helpers";
+
+import { SHARP_NOTES } from "../scale-steps/scale-steps.constants";
 import { ScaleSteepsService } from "../scale-steps/scale-steps.service";
 import { NoteInfo, ScaleSteepState } from "../scale-steps/scale-steps.types";
-import { SHARP_NOTES } from "../scale-steps/scale-steps.constants";
 
 @Injectable({ providedIn: 'root' })
 export class NoteNamesManager {

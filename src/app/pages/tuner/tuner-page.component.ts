@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { ComTuner } from "@widgets/tuner/com-tuner.component";
 
 @Component({

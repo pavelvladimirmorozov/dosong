@@ -16,7 +16,7 @@ a {
     transition: fill 0.3s ease;
   }
 
-  .nav-text {
+  .app-nav-item__nav-text {
     font-size: 14px;
   }
 
@@ -34,7 +34,7 @@ a {
   }
 }
 
-@media (min-width: 769px) {
+@media (width >= 769px) {
   a {
     flex-direction: row;
     flex-grow: 0;
@@ -46,14 +46,14 @@ a {
       margin-right: 8px;
     }
 
-    .nav-text {
+    .app-nav-item__nav-text {
       font-size: 16px;
     }
   }
 }
 
-@media (max-width: 768px) {
-  a .nav-text {
+@media (width <= 768px) {
+  a .app-nav-item__nav-text {
     font-size: 12px;
   }
 }

@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, model, signal, computed, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { iterableRange } from '@utils/helpers';
 
-import { ComSelect } from "@components/select";
 import { ComButton } from "@components/button";
+import { ComSelect } from "@components/select";
 
-import { WidMetronomeBeatSelectComponent } from "./metronome-beat/wid-metronome-beat-select.component";
 import { BEATS } from '@services/audio-processor/audio-processor.constants';
 import { Beat, BeatElement } from '@services/audio-processor/audio-processor.types';
+import { iterableRange } from '@utils/helpers';
+
+import { WidMetronomeBeatSelectComponent } from "./metronome-beat/wid-metronome-beat-select.component";
 
 @Component({
   selector: 'wid-metronome',
@@ -17,8 +18,8 @@ import { Beat, BeatElement } from '@services/audio-processor/audio-processor.typ
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidMetronome implements OnDestroy {
-  private audioContext: AudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-  private interval: any;
+  private audioContext: AudioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+  private interval: ReturnType<typeof setInterval> | undefined;
 
   public bpm = model(120);
   public volume = model(70);

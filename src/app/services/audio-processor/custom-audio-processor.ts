@@ -17,7 +17,7 @@ export class CustomAudioProcessor {
   private analyserNode: AnalyserNode | null = null;
   private buffer: Float32Array<ArrayBuffer> | null = null;
   private mediaStream: MediaStream | null = null;
-  private intervalId: any = null;
+  private intervalId: ReturnType<typeof setInterval> | null = null;
 
   private readonly SILENCE_THRESHOLD = 0.01;
   private readonly HISTORY_LENGTH = 5;
@@ -110,8 +110,8 @@ export class CustomAudioProcessor {
 
   private calculateVolume(buf: Float32Array<ArrayBuffer>): number {
     let sum = 0;
-    for (let i = 0; i < buf.length; i++) {
-      sum += buf[i] * buf[i];
+    for (const v of buf) {
+      sum += v * v;
     }
     return Math.sqrt(sum / buf.length);
   }

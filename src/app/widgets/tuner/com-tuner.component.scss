@@ -8,21 +8,19 @@
   margin: 0 auto;
 }
 
-// ── Текущая нота с октавой ────────────────────────────────────────────────────
-
-.tuner-note {
+.tuner__note {
   display: flex;
   align-items: flex-end;
   line-height: 1;
   min-height: 100px;
 
-  .tuner-note-name {
+  .tuner__note-name {
     font-size: 96px;
     font-weight: 700;
     letter-spacing: -2px;
   }
 
-  .tuner-note-octave {
+  .tuner__note-octave {
     font-size: 40px;
     font-weight: 400;
     color: var(--color-text-dim);
@@ -31,82 +29,72 @@
   }
 }
 
-// ── Центы ─────────────────────────────────────────────────────────────────────
-
-.tuner-cents {
+.tuner__cents {
   font-size: 22px;
   color: var(--color-text-muted);
   min-height: 30px;
   font-variant-numeric: tabular-nums;
 }
 
-// ── Расширенный индикатор ─────────────────────────────────────────────────────
-
 .tuner-indicator {
   width: 100%;
 }
 
-// Подписи нот над полосой: prev @ 25%, current @ 50%, next @ 75%
-.indicator-notes {
+.tuner-indicator__notes {
   position: relative;
   width: 100%;
   height: 52px;
 
-  .indicator-note {
+  .tuner-indicator__note {
     position: absolute;
     bottom: 4px;
     transform: translateX(-50%);
 
-    &.indicator-note-prev   { left: 25%; }
-    &.indicator-note-current { left: 50%; }
-    &.indicator-note-next   { left: 75%; }
+    &.tuner-indicator__note--prev    { left: 25%; }
+    &.tuner-indicator__note--current { left: 50%; }
+    &.tuner-indicator__note--next    { left: 75%; }
   }
 }
 
-// Полоса
-.indicator-bar {
+.tuner-indicator__bar {
   position: relative;
   height: 44px;
   border-radius: 6px;
-  // 0–25% зона prev (приглушённый красный), 25–75% зона текущей ноты, 75–100% зона next
   background: linear-gradient(
     90deg,
-    rgba(180, 50, 20, 0.45) 0%,
-    rgba(230, 87, 44, 1)    25%,
-    rgba(215, 245, 95, 1)   37.5%,
-    rgba(71, 250, 0, 1)     50%,
-    rgba(215, 245, 95, 1)   62.5%,
-    rgba(230, 87, 44, 1)    75%,
-    rgba(180, 50, 20, 0.45) 100%
+    rgb(180 50 20 / 45%) 0%,
+    rgb(230 87 44 / 100%)    25%,
+    rgb(215 245 95 / 100%)   37.5%,
+    rgb(71 250 0 / 100%)     50%,
+    rgb(215 245 95 / 100%)   62.5%,
+    rgb(230 87 44 / 100%)    75%,
+    rgb(180 50 20 / 45%) 100%
   );
 
-  // Вертикальные черточки на границах соседних нот
-  .indicator-tick {
+  .tuner-indicator__tick {
     position: absolute;
     top: -6px;
     bottom: -6px;
     width: 2px;
-    background: rgba(0, 0, 0, 0.35);
+    background: rgb(0 0 0 / 35%);
     transform: translateX(-50%);
 
-    &.indicator-tick-left  { left: 25%; }
-    &.indicator-tick-right { left: 75%; }
+    &.tuner-indicator__tick--left  { left: 25%; }
+    &.tuner-indicator__tick--right { left: 75%; }
   }
 
-  // Тонкая центровая метка (0¢)
-  .indicator-center {
+  .tuner-indicator__center {
     position: absolute;
     left: 50%;
     top: 0;
     bottom: 0;
     width: 1px;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgb(0 0 0 / 20%);
     transform: translateX(-50%);
     pointer-events: none;
   }
 
-  // Иголка — движется в диапазоне 25–75%
-  .indicator-needle {
+  .tuner-indicator__needle {
     position: absolute;
     top: -8px;
     bottom: -8px;
@@ -114,14 +102,13 @@
     background: var(--color-text);
     border-radius: 3px;
     transform: translateX(-50%);
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 6px rgb(0 0 0 / 40%);
     transition: left 0.05s linear;
     pointer-events: none;
   }
 }
 
-// Подписи центов под полосой
-.indicator-labels {
+.tuner-indicator__labels {
   position: relative;
   width: 100%;
   height: 20px;
@@ -133,35 +120,31 @@
     font-size: 11px;
     color: var(--color-text-muted);
 
-    &.label-at-25 { left: 25%; }
-    &.label-at-50 { left: 50%; }
-    &.label-at-75 { left: 75%; }
+    &.tuner-indicator__label-25 { left: 25%; }
+    &.tuner-indicator__label-50 { left: 50%; }
+    &.tuner-indicator__label-75 { left: 75%; }
   }
 }
 
-// ── Частота ───────────────────────────────────────────────────────────────────
-
-.tuner-hz {
+.tuner__hz {
   font-size: 18px;
   color: var(--color-text-muted);
   font-variant-numeric: tabular-nums;
   min-height: 26px;
 }
 
-// ── Громкость ─────────────────────────────────────────────────────────────────
-
-.tuner-volume-wrap {
+.tuner__volume-wrap {
   width: 100%;
 }
 
-.tuner-volume {
+.tuner__volume {
   width: 100%;
   height: 6px;
   background: var(--color-surface-hover);
   border-radius: 3px;
   overflow: hidden;
 
-  .volume-bar {
+  .tuner__volume-bar {
     height: 100%;
     background: var(--color-btn-primary-bg);
     border-radius: 3px;

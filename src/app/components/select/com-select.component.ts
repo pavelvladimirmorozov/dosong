@@ -1,15 +1,14 @@
-import { Component, forwardRef, ElementRef, AfterViewInit, inject, ViewEncapsulation, input, signal, model, ChangeDetectionStrategy, effect, computed, contentChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgTemplateOutlet } from '@angular/common';
-
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
 import { ConnectedPosition } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, forwardRef, ElementRef, AfterViewInit, inject, ViewEncapsulation, input, signal, model, ChangeDetectionStrategy, effect, computed, contentChild, OnDestroy } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ComChevronDownIcon } from '@components/icons/com-chevron-down-icon.component';
 
-import { ComSelectContentSlot } from './com-select-slots';
 import { ComSelectOption } from './com-select-option';
+import { ComSelectContentSlot } from './com-select-slots';
 import { ComSelectDropdown } from './dropdown/com-select-dropdown.component';
 
 @Component({
@@ -19,8 +18,8 @@ import { ComSelectDropdown } from './dropdown/com-select-dropdown.component';
   imports: [ComChevronDownIcon, NgTemplateOutlet],
   host: {
     class: 'com-select',
-    '[class.com-select-disabled]': 'disabled()',
-    '[attr.tabindex]': 'disabled() ? -1 : tabIndex',
+    '[class.com-select--disabled]': 'disabled()',
+    '[attr.tabindex]': 'disabled() ? -1 : 0',
     '[attr.aria-disabled]': 'disabled()',
     '(click)': 'toggle()'
   },
@@ -34,7 +33,7 @@ import { ComSelectDropdown } from './dropdown/com-select-dropdown.component';
     }
   ]
 })
-export class ComSelect<T> implements ControlValueAccessor, AfterViewInit {
+export class ComSelect<T> implements ControlValueAccessor, AfterViewInit, OnDestroy {
   public placeholder = input<string>();
   public options = input<ComSelectOption<T>[]>([]);
 
@@ -96,7 +95,11 @@ export class ComSelect<T> implements ControlValueAccessor, AfterViewInit {
   }
 
   public toggle(): void {
-    this.isOpen() ? this.close() : this.open();
+    if (this.isOpen()) {
+      this.close();
+    } else {
+      this.open();
+    }
   }
 
   private close(): void {
@@ -121,8 +124,8 @@ export class ComSelect<T> implements ControlValueAccessor, AfterViewInit {
   }
 
   // #region  ControlValueAccessor methods
-  private onChange: any = () => { };
-  private onTouched: any = () => { };
+  private onChange: (value: T | null) => void = () => undefined;
+  private onTouched: () => void = () => undefined;
 
   private selectedValueChangeEffct = effect(() => {
     if (this.isInited()) {
@@ -138,11 +141,11 @@ export class ComSelect<T> implements ControlValueAccessor, AfterViewInit {
     this.selectedValue.set(value);
   }
 
-  public registerOnChange(fn: any): void {
+  public registerOnChange(fn: (value: T | null) => void): void {
     this.onChange = fn;
   }
 
-  public registerOnTouched(fn: any): void {
+  public registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 

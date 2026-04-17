@@ -1,55 +1,55 @@
-<div class="wid-gamma-container">
-  <!-- <com-select class="wid-gamma-select" [options]="colorsManager.colorModeOptions"
+<div class="wid-gamma__container">
+  <!-- <com-select class="wid-gamma__select" [options]="colorsManager.colorModeOptions"
     [(selectedValue)]="colorsManager.selectedMode" /> -->
 
-  <div class="button-toggle-group">
-    <label class="button-toggle-label">
+  <div class="button-toggle">
+    <label class="button-toggle__label">
       <input type="radio" name="selectedColorModeRadio" [(ngModel)]="colorsManager.selectedMode" [value]="0"
-        class="button-toggle-input">
-      <span class="button-toggle-button"><svg com-static-singlecolor-icon></svg></span>
+        class="button-toggle__input">
+      <span class="button-toggle__button"><svg comStaticSinglecolorIcon></svg></span>
     </label>
-    <label class="button-toggle-label">
+    <label class="button-toggle__label">
       <input type="radio" name="selectedColorModeRadio" [(ngModel)]="colorsManager.selectedMode" [value]="2"
-        class="button-toggle-input">
-      <span class="button-toggle-button"><svg com-dynamic-singlecolor-icon></svg></span>
+        class="button-toggle__input">
+      <span class="button-toggle__button"><svg comDynamicSinglecolorIcon></svg></span>
     </label>
-    <label class="button-toggle-label">
+    <label class="button-toggle__label">
       <input type="radio" name="selectedColorModeRadio" [(ngModel)]="colorsManager.selectedMode" [value]="1"
-        class="button-toggle-input">
-      <span class="button-toggle-button"><svg com-dynamic-multicolor-icon></svg></span>
+        class="button-toggle__input">
+      <span class="button-toggle__button"><svg comDynamicMulticolorIcon></svg></span>
     </label>
-    <label class="button-toggle-label">
+    <label class="button-toggle__label">
       <input type="radio" name="selectedColorModeRadio" [(ngModel)]="colorsManager.selectedMode" [value]="3"
-        class="button-toggle-input">
-      <span class="button-toggle-button"><svg com-static-multicolor-icon></svg></span>
+        class="button-toggle__input">
+      <span class="button-toggle__button"><svg comStaticMulticolorIcon></svg></span>
     </label>
   </div>
 
-  <!-- <com-select class="wid-gamma-select" [options]="scaleSteepsManager.modeOptions"
+  <!-- <com-select class="wid-gamma__select" [options]="scaleSteepsManager.modeOptions"
     [(selectedValue)]="scaleSteepsManager.selectedMode" /> -->
 
-  <com-select class="wid-gamma-select" [options]="scaleSteepsManager.scaleStepsOptions()"
+  <com-select class="wid-gamma__select" [options]="scaleSteepsManager.scaleStepsOptions()"
     [(selectedValue)]="scaleSteepsManager.selectedScale" />
 </div>
 
-<div class="wid-gamma-container">
-  <com-select class="wid-gamma-select" [style]="getNoteColor(0)"
+<div class="wid-gamma__container">
+  <com-select class="wid-gamma__select" [style]="getNoteColor(0)"
     [options]="scaleSteepsManager.tonicOptions" [(selectedValue)]="scaleSteepsManager.selectedTonic">
     <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [scaleStep]="getScaleStep()" />
   </com-select>
 
   @for(offset of selectedFormula(); track $index) {
-  <com-note-presenter class="wid-gamma-note" [style]="getNoteColor(offset.interval)" [noteName]="getNoteName(offset.interval)"
+  <com-note-presenter class="wid-gamma__note" [style]="getNoteColor(offset.interval)" [noteName]="getNoteName(offset.interval)"
     [scaleStep]="getScaleStep(offset.interval)" width="60px" />
   }
 </div>
 
-<div class="wid-gamma-formula">
-  <span class="wid-gamma-formula-label">
+<div class="wid-gamma__formula">
+  <span class="wid-gamma__formula-label">
     Формула:
   </span>
 
-  <span class="wid-gamma-formula-steps">
+  <span class="wid-gamma__formula-steps">
     @for(offset of selectedFormulaFormatted(); track $index) {
     <span>
       {{offset}}

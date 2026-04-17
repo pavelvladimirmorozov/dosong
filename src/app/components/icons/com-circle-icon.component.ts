@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'svg[com-circle-icon]',
+  selector: 'svg[comCircleIcon]',
   template: `
     <svg:path 
       d="M12 12L12 3M12 12L19.5 7.5M12 12L4.5 7.5M21 12C21 16.9706 16.9706 21 12 21C7.02944 

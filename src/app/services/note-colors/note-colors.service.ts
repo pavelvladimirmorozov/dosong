@@ -1,10 +1,12 @@
 import { computed, Injectable, inject, signal } from "@angular/core";
-import { ColorHelper } from "./note-colors.utils";
-import { NoteColorsStyle } from "./note-colors.types";
+
 import { Note } from "@services/scale-steps/scale-steps.types";
-import { COLOR_MODES, NOTE_COLORS, STATIC_NOTE_COLOR, TRANSPARENT_NOTE_COLOR } from "./note-colors.constants";
-import { ThemeService } from "@services/theme/theme.service";
 import { THEME_COLORS } from "@services/theme/theme.constants";
+import { ThemeService } from "@services/theme/theme.service";
+
+import { COLOR_MODES, NOTE_COLORS, STATIC_NOTE_COLOR, TRANSPARENT_NOTE_COLOR } from "./note-colors.constants";
+import { NoteColorsStyle } from "./note-colors.types";
+import { ColorHelper } from "./note-colors.utils";
 
 @Injectable({ providedIn: 'root' })
 export class NoteColorsService {
@@ -48,7 +50,7 @@ export class NoteColorsService {
       : this.getNoteMultiColor(currentNote);
   }
 
-  private _getOpacity(scaleStep?: number, isStaticMode: boolean = false) {
+  private _getOpacity(scaleStep?: number, isStaticMode = false) {
     return isStaticMode || scaleStep == null
       ? ColorHelper.calculateStaticOpacity(scaleStep)
       : ColorHelper.calculateDynamicOpacity(scaleStep);

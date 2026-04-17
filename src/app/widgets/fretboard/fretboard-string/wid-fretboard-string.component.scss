@@ -2,13 +2,13 @@
   display: contents;
 }
 
-.wid-fretboard-note {
+.wid-fretboard__note {
   border: 1px solid var(--color-text-dim);
   flex-shrink: 0;
   flex-grow: 1;
 }
 
-.wid-fretboard-sticky {
+.wid-fretboard__sticky {
   display: flex;
   position: sticky;
   left: 0;
@@ -16,7 +16,7 @@
   align-self: flex-start;
 }
 
-.wid-fretboard-action {
+.wid-fretboard__action {
   flex-shrink: 0;
   flex-grow: 1;
   display: flex;

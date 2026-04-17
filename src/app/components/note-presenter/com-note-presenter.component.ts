@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+
 import { ROMAN_NUMERALS } from '@utils/constants';
-import { NoteNamesManager } from '@services/note-names/note-names.service';
 
 // TODO: Добавить визуальную подсветку октавы
 @Component({
@@ -12,8 +12,8 @@ import { NoteNamesManager } from '@services/note-names/note-names.service';
   host: {
     '[style.width]': 'width()',
     '[style.flexBasis]': 'width()',
-    '[class.size-sm]': 'size() === "sm"',
-    '[class.size-lg]': 'size() === "lg"',
+    '[class.note-presenter--size-sm]': 'size() === "sm"',
+    '[class.note-presenter--size-lg]': 'size() === "lg"',
   }
 })
 export class ComNotePresenter {

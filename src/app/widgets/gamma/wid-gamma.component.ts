@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NoteHelper } from '@utils/helpers';
 
-import { NoteColorsService } from '@services/note-colors/note-colors.service';
-import { NoteNamesManager } from '@services/note-names/note-names.service';
-import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
-
-import { ComSelect, ComSelectContentSlot } from '@components/select';
-import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
 import { 
   ComStaticMulticolorIcon, 
   ComStaticSinglecolorIcon, 
   ComDynamicMulticolorIcon, 
   ComDynamicSinglecolorIcon 
 } from '@components/icons';
+import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
+import { ComSelect, ComSelectContentSlot } from '@components/select';
+
+import { NoteColorsService } from '@services/note-colors/note-colors.service';
+import { NoteNamesManager } from '@services/note-names/note-names.service';
+import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
+import { NoteHelper } from '@utils/helpers';
 
 @Component({
   selector: 'wid-gamma',

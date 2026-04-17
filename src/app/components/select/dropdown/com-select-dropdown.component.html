@@ -1,5 +1,14 @@
   @for (option of options(); track option.id) {
-  <div class="com-select-option" [class.com-select-option-selected]="isSelected(option)" (click)="selectOption(option.id)">
+  <div
+    class="com-select-dropdown__option"
+    [class.com-select-dropdown__option--selected]="isSelected(option)"
+    role="option"
+    tabindex="0"
+    [attr.aria-selected]="isSelected(option)"
+    (click)="selectOption(option.id)"
+    (keydown.enter)="selectOption(option.id)"
+    (keydown.space)="selectOption(option.id); $event.preventDefault()"
+  >
     {{ option.name }}
   </div>
   }

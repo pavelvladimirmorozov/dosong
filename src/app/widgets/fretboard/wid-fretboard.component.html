@@ -1,29 +1,29 @@
 <div class="wid-fretboard">
-  <div class="wid-fretboard-line">
-    <com-select class="wid-fretboard-action" [options]="countOptions" [(selectedValue)]="fretsCount"></com-select>
+  <div class="wid-fretboard__line">
+    <com-select class="wid-fretboard__action" [options]="countOptions" [(selectedValue)]="fretsCount"></com-select>
 
-    <button class="wid-fretboard-action" (click)="insertString()">
-      <svg width="16" height="16" com-plus-icon></svg>
+    <button class="wid-fretboard__action" (click)="insertString()">
+      <svg width="16" height="16" comPlusIcon></svg>
     </button>
-    <div class="wid-fretboard-sticky">
-      <div class="wid-fretboard-action">
+    <div class="wid-fretboard__sticky">
+      <div class="wid-fretboard__action">
         <input type="checkbox" [(ngModel)]="noteNamesManager.useGammaNotes">
       </div>
-      <div class="wid-fretboard-action">0</div>
+      <div class="wid-fretboard__action">0</div>
     </div>
       @for (fret of frets(); track $index) {
-      <div class="wid-fretboard-fret" [style.flexBasis]="getFretWidth(fret) + 'px'">{{fret}}</div>
+      <div class="wid-fretboard__fret" [style.flexBasis]="getFretWidth(fret) + 'px'">{{fret}}</div>
       }
   </div>
 
   @for (tuningNote of tuning(); track $index;let stringNumber = $index) {
-  <div class="wid-fretboard-line">
-    <div class="wid-fretboard-action">
+  <div class="wid-fretboard__line">
+    <div class="wid-fretboard__action">
       {{stringNumber + 1}}
     </div>
 
-    <button class="wid-fretboard-action" (click)="removeString(stringNumber)">
-      <svg width="16" height="16" com-trash-icon></svg>
+    <button class="wid-fretboard__action" (click)="removeString(stringNumber)">
+      <svg width="16" height="16" comTrashIcon></svg>
     </button>
 
     <wid-fretboard-string [index]="stringNumber" [startNote]="tuningNote.note" [startOctave]="tuningNote.octave"
@@ -33,19 +33,19 @@
   </div>
   }
 
-  <div class="wid-fretboard-line">
-    <div class="wid-fretboard-action">#</div>
+  <div class="wid-fretboard__line">
+    <div class="wid-fretboard__action">#</div>
 
-    <button class="wid-fretboard-action" (click)="appendString()">
-      <svg width="16" height="16" com-plus-icon></svg>
+    <button class="wid-fretboard__action" (click)="appendString()">
+      <svg width="16" height="16" comPlusIcon></svg>
     </button>
 
-    <div class="wid-fretboard-sticky">
-      <div class="wid-fretboard-action">#</div>
-      <div class="wid-fretboard-action">0</div>
+    <div class="wid-fretboard__sticky">
+      <div class="wid-fretboard__action">#</div>
+      <div class="wid-fretboard__action">0</div>
     </div>
       @for (fret of frets(); track $index) {
-      <div class="wid-fretboard-fret" [style.width]="getFretWidth(fret) + 'px'">{{fret}}</div>
+      <div class="wid-fretboard__fret" [style.width]="getFretWidth(fret) + 'px'">{{fret}}</div>
       }
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'svg[com-tuner-icon]',
+  selector: 'svg[comTunerIcon]',
   template: `
     <svg:path class="cls-1" d="M7.5,5.5a2,2,0,0,0-2,2v33a2,2,0,0,0,2,2h33a2,2,0,0,0,2-2V7.5a2,2,0,0,0-2-2Z"/>
     <svg:line class="cls-1" x1="18.16" y1="5.5" x2="18.16" y2="42.5"/>

@@ -1,7 +1,7 @@
 import { Note, ScaleStep } from "@services/scale-steps/scale-steps.types";
 
 export class NoteHelper {
-  public static getNoteIndex(startIndex: number, offset: number = 0): Note {
+  public static getNoteIndex(startIndex: number, offset = 0): Note {
     return (startIndex + offset) % 12;
   }
 

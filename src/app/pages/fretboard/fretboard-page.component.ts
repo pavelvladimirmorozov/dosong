@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+import { WidCuartCircle } from "@widgets/cuart-circle/wid-cuart-circle.component";
 import { WidFretboard } from "@widgets/fretboard/wid-fretboard.component";
 import { WidGamma } from "@widgets/gamma/wid-gamma.component";
-import { WidCuartCircle } from "@widgets/cuart-circle/wid-cuart-circle.component";
 
 @Component({
   selector: 'app-fretboard-page',

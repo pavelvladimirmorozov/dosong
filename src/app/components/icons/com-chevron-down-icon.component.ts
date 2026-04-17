@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'svg[com-chevron-down-icon]',
+  selector: 'svg[comChevronDownIcon]',
   template: `
     <svg:path d="M 1 7 L 12 18 L 23 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
   `,

@@ -2,21 +2,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   position: relative;
   min-width: 55px;
   gap: 8px;
-
   background: transparent;
   cursor: pointer;
-  
-  &.com-select-disabled {
+
+  &.com-select--disabled {
     background: var(--color-input-bg);
     cursor: not-allowed;
     color: var(--color-text-muted);
     opacity: 0.7;
   }
-  .com-select-icon-slot {
+
+  .com-select__icon-slot {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,24 +24,24 @@
       display: none;
     }
   }
-  
-  .com-select-value {
-    &.placeholder {
+
+  .com-select__value {
+    &.com-select__value--placeholder {
       color: var(--color-text-muted);
     }
+
     &:empty {
       display: none;
     }
   }
-  
-  .com-select-arrow {
+
+  .com-select__arrow {
     svg {
       transition: transform 0.3s ease;
-      
-      &.rotate-180 {
+
+      &.com-select__arrow-icon--rotated {
         transform: rotate(180deg);
       }
     }
   }
 }
-

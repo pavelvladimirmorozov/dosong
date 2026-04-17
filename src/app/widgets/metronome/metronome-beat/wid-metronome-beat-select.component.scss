@@ -6,7 +6,7 @@
   cursor: pointer;
 }
 
-.wid-metronome-beat-section {
+.wid-metronome-beat__section {
   border: 1px solid var(--color-input-border);
   border-radius: 4px;
   height: 14px;
@@ -17,7 +17,7 @@
   }
 }
 
-.wid-metronome-beat-number {
+.wid-metronome-beat__number {
   font-weight: bold;
   font-size: 12px;
   text-align: center;

@@ -11,13 +11,15 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
 import { ScaleStepQuality } from '@services/scale-steps/scale-steps.types';
-import { MAJOR_CHORDS, MINOR_CHORDS } from './wid-cuart-circle.constants';
 import { ROMAN_NUMERALS } from '@utils/constants';
-import { SectorParams, SectorVisualState } from './wid-cuart-circle.types';
+
 import { CuartCircleGeometry } from './cuart-circle-geometry';
+import { MAJOR_CHORDS, MINOR_CHORDS } from './wid-cuart-circle.constants';
+import { SectorParams, SectorVisualState } from './wid-cuart-circle.types';
 
 @Component({
   selector: 'wid-cuart-circle',

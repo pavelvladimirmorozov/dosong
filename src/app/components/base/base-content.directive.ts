@@ -4,5 +4,5 @@ import { Directive, inject, TemplateRef } from "@angular/core";
   selector: '[comTemplateDef]',
 })
 export abstract class ComTemplateDefBase {
-  template = inject<TemplateRef<any>>(TemplateRef);
+  template = inject<TemplateRef<unknown>>(TemplateRef);
 }

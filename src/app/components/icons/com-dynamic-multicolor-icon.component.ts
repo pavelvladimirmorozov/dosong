@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'svg[com-dynamic-multicolor-icon]',
+  selector: 'svg[comDynamicMulticolorIcon]',
   template: `
   <svg:rect x="3" y="6" width="18" height="2" fill="#FF3D00"/>
   <svg:rect x="3" y="11" width="18" height="2" fill="#00C853"/>

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'svg[com-multicolor-icon]',
+  selector: 'svg[comMulticolorIcon]',
   template: `
     <svg:defs>
       <linearGradient id="colorPickerGradient" x1 = "0%" y1 = "0%" x2 = "100%" y2 = "100%" >

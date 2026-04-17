@@ -11,7 +11,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       [routerLinkActiveOptions]="{ exact: exact() }"
     >
       <ng-content />
-      <span class="nav-text">{{ label() }}</span>
+      <span class="app-nav-item__nav-text">{{ label() }}</span>
     </a>
   `,
   styleUrl: './app-nav-item.component.scss',

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { WidMetronome } from "@widgets/metronome/wid-metronome.component";
 
 @Component({

@@ -5,8 +5,7 @@
   transition: background-color 0.3s ease;
 }
 
-// Кнопка переключения темы — те же стили, что у app-nav-item a
-.theme-toggle {
+.app-navigation__theme-toggle {
   color: var(--color-text);
   background: none;
   border: none;
@@ -27,7 +26,7 @@
     transition: fill 0.3s ease;
   }
 
-  .nav-text {
+  .app-navigation__nav-text {
     font-size: 14px;
   }
 
@@ -36,8 +35,8 @@
   }
 }
 
-/* Десктопная версия */
-@media (min-width: 769px) {
+/* Desktop */
+@media (width >= 769px) {
   .app-navigation {
     position: static;
     justify-content: center;
@@ -45,7 +44,7 @@
     padding: 15px 0;
   }
 
-  .theme-toggle {
+  .app-navigation__theme-toggle {
     flex-direction: row;
     flex-grow: 0;
     padding: 10px 15px;
@@ -56,14 +55,14 @@
       margin-right: 8px;
     }
 
-    .nav-text {
+    .app-navigation__nav-text {
       font-size: 16px;
     }
   }
 }
 
-/* Мобильная версия */
-@media (max-width: 768px) {
+/* Mobile */
+@media (width <= 768px) {
   .app-navigation {
     position: fixed;
     bottom: 0;
@@ -72,7 +71,7 @@
     z-index: 1000;
   }
 
-  .theme-toggle .nav-text {
+  .app-navigation__theme-toggle .app-navigation__nav-text {
     font-size: 12px;
   }
 

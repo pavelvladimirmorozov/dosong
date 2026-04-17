@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, signal, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, ViewEncapsulation } from '@angular/core';
+
 import { ComSelectOption } from '../com-select-option';
 
 @Component({

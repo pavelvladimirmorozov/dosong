@@ -1,4 +1,5 @@
 import { Directive } from "@angular/core";
+
 import { ComTemplateDefBase } from "../base/base-content.directive";
 
 @Directive({

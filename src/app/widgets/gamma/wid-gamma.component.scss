@@ -4,55 +4,55 @@
   overflow-x: auto;
 }
 
-.wid-gamma-container {
+.wid-gamma__container {
   display: flex;
   align-items: center;
   padding: 8px;
 }
 
-.wid-gamma-formula {
+.wid-gamma__formula {
   display: flex;
   align-items: center;
   padding: 8px;
   gap: 5px;
 }
 
-.wid-gamma-note {
+.wid-gamma__note {
   border: 1px solid var(--color-text-dim);
   height: 32px;
 }
 
-.wid-gamma-select {
+.wid-gamma__select {
   border: 1px solid var(--color-text-dim);
   height: 32px;
   padding: 8px;
 }
 
-.wid-gamma-formula-label {
+.wid-gamma__formula-label {
   font-weight: bold;
 }
 
-.wid-gamma-formula-steps span:not(:last-child)::after {
+.wid-gamma__formula-steps span:not(:last-child)::after {
   content: "-";
 }
 
-.button-toggle-group {
+.button-toggle {
   display: inline-flex;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 }
 
-.button-toggle-label {
+.button-toggle__label {
   position: relative;
   flex: 1;
 }
 
-.button-toggle-input {
+.button-toggle__input {
   position: absolute;
   opacity: 0;
 }
 
-.button-toggle-button {
+.button-toggle__button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,12 +65,12 @@
   text-align: center;
 }
 
-.button-toggle-input:checked + .button-toggle-button {
+.button-toggle__input:checked + .button-toggle__button {
   background-color: var(--color-surface);
   color: var(--color-text);
   border-color: var(--color-surface);
 }
 
-.button-toggle-input:not(:checked) + .button-toggle-button:hover {
+.button-toggle__input:not(:checked) + .button-toggle__button:hover {
   background-color: var(--color-surface-hover);
 }

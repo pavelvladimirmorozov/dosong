@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'svg[com-guitar-icon]',
+  selector: 'svg[comGuitarIcon]',
   template: `
     <svg:path stroke="null" id="svg_2" d="m43.3955,3.73188l0,-2.0753c0,-0.91337 -0.65079,-1.65657
       -1.4514,-1.65657l-1.49964,0c-0.80025,0 -1.4514,0.74321

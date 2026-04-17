@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(wc -l /c/repos/dosong/src/app/**/*.ts)"
+      "Bash(wc -l /c/repos/dosong/src/app/**/*.ts)",
+      "mcp__context7__query-docs",
+      "mcp__context7__resolve-library-id",
+      "Bash(npx ng *)",
+      "Bash(npm run *)"
     ]
   }
 }

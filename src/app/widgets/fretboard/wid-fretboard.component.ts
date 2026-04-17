@@ -1,17 +1,16 @@
 import { Component, ElementRef, AfterViewInit, HostListener, computed, model, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { iterableRange, NoteHelper } from '@utils/helpers';
-
-import { NoteNamesManager } from '@services/note-names/note-names.service';
-
-import { ComSelect } from '@components/select/com-select.component';
 import { ComPlusIcon } from '@components/icons/com-plus-icon.component';
 import { ComTrashIcon } from '@components/icons/com-trash-icon.component';
+import { ComSelect } from '@components/select/com-select.component';
+
+import { NoteNamesManager } from '@services/note-names/note-names.service';
+import { Note } from '@services/scale-steps/scale-steps.types';
+import { iterableRange, NoteHelper } from '@utils/helpers';
 
 import { WidFretboardString } from './fretboard-string/wid-fretboard-string.component';
 import { DEFAULT_TUNING } from './wid-fretboard.constants';
-import { Note } from '@services/scale-steps/scale-steps.types';
 
 @Component({
   selector: 'wid-fretboard',
