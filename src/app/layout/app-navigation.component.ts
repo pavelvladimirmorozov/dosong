@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import {
-  ComBriefcaseIcon,
   ComGuitarIcon,
   ComMetronomeIcon,
   ComMoonIcon,
@@ -10,6 +9,7 @@ import {
 import { ComTunerIcon } from '@components/icons/com-tuner-icon.component';
 
 import { ThemeService } from '@services/theme/theme.service';
+import { WidMetronomeIndicator } from '@widgets/metronome/indicator/wid-metronome-indicator.component';
 
 import { AppNavItemButtonComponent } from './app-nav-item-button.component';
 import { AppNavItemComponent } from './app-nav-item.component';
@@ -24,8 +24,10 @@ import { AppNavItemComponent } from './app-nav-item.component';
     ComMoonIcon,
     AppNavItemComponent,
     AppNavItemButtonComponent,
+    WidMetronomeIndicator,
   ],
   template: `
+    <wid-metronome-indicator></wid-metronome-indicator>
     <nav class="app-navigation">
       <app-nav-item route="/" label="Гриф" [exact]="true">
         <svg width="20" height="20" comGuitarIcon></svg>

@@ -1,0 +1,21 @@
+.com-field {
+  display: inline-flex;
+  align-items: stretch;
+  height: var(--control-height);
+  padding: 0 10px;
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  border-radius: 6px;
+  color: var(--color-text);
+  box-sizing: border-box;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+
+  &:focus-within {
+    border-color: var(--color-accent);
+  }
+
+  > * {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}

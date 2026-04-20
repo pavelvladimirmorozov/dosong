@@ -1,0 +1,12 @@
+<button type="button" class="com-spoiler__header" (click)="toggle()" [attr.aria-expanded]="open()">
+  <span class="com-spoiler__arrow">
+    <svg width="12" height="12" comChevronDownIcon [class.com-spoiler__arrow--rotated]="open()"></svg>
+  </span>
+  <span class="com-spoiler__title">{{ title() }}</span>
+</button>
+
+@if (open()) {
+  <div class="com-spoiler__body">
+    <ng-content></ng-content>
+  </div>
+}

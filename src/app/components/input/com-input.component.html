@@ -1,0 +1,12 @@
+<input
+  class="com-input__field"
+  [type]="type()"
+  [attr.min]="min() ?? null"
+  [attr.max]="max() ?? null"
+  [attr.step]="step() ?? null"
+  [attr.placeholder]="placeholder() ?? null"
+  [disabled]="disabled()"
+  [ngModel]="value()"
+  (ngModelChange)="onNgModelChange($event)"
+  (blur)="onBlur()"
+>

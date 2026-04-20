@@ -10,7 +10,14 @@ export class ThemeService {
 
   constructor() {
     effect(() => {
-      localStorage.setItem(THEME_KEY, this.currentTheme());
+      const theme = this.currentTheme();
+      localStorage.setItem(THEME_KEY, theme);
+
+      // Класс темы ставим на <html>, чтобы CSS-переменные достали
+      // и до CDK-оверлеев (они монтируются в body, вне app-root).
+      const root = document.documentElement;
+      root.classList.toggle('white', theme === 'white');
+      root.classList.toggle('dark', theme === 'dark');
     });
   }
 

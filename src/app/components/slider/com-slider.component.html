@@ -1,0 +1,14 @@
+<input
+  class="com-slider__input"
+  type="range"
+  [min]="min()"
+  [max]="max()"
+  [step]="step()"
+  [disabled]="disabled()"
+  [ngModel]="value()"
+  (ngModelChange)="onNgModelChange($event)"
+  (blur)="onBlur()"
+>
+@if (showValue()) {
+  <span class="com-slider__value">{{ value() }}{{ valueSuffix() }}</span>
+}

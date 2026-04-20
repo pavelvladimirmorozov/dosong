@@ -103,9 +103,19 @@ export class CustomAudioProcessor {
     const cents = Math.max(-50, Math.min(50, this.centsOffPitch(frequency, targetFreq)));
     this.currentCents.set(cents);
 
-    // Иголка движется в диапазоне 25–75%, отражая ±50¢
-    // (0% и 100% — это зоны соседних нот на расширенной шкале)
-    this.currentIndent.update(current => this.lerp(current, cents / 2 + 50, 0.15));
+    // Иголка движется в диапазоне 10–90%, отражая ±50¢
+    // (0% и 100% — небольшой зазор до меток соседних нот)
+
+    // Линейный вариант (оставлен для сравнения):
+    // const target = cents * 0.8 + 50;
+
+    // Нелинейное отображение: центр растянут, края сжаты — при малых
+    // отклонениях от цели иголка движется быстрее, зона ±50¢ остаётся
+    // корректной (cents=±50 → indent=10%/90%).
+    const absFrac = Math.abs(cents) / 50;
+    const target = 50 + Math.sign(cents) * 40 * Math.pow(absFrac, 0.7);
+
+    this.currentIndent.update(current => this.lerp(current, target, 0.15));
   };
 
   private calculateVolume(buf: Float32Array<ArrayBuffer>): number {

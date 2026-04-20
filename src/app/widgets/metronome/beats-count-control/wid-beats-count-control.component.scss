@@ -1,0 +1,50 @@
+:host {
+  display: inline-block;
+}
+
+.wid-beats-count-control__body {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.wid-beats-count-control__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.wid-beats-count-control__select {
+  min-width: 84px;
+  justify-content: space-between;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.wid-beats-count-control__label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+// По умолчанию и в auto — горизонтальная (десктоп). Минус слева, плюс справа — через порядок HTML.
+:host(.wid-beats-count-control--horizontal) .wid-beats-count-control__body,
+:host(.wid-beats-count-control--auto) .wid-beats-count-control__body {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+:host(.wid-beats-count-control--vertical) .wid-beats-count-control__body {
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+// Auto: на mobile — вертикальная
+@media (width <= 768px) {
+  :host(.wid-beats-count-control--auto) .wid-beats-count-control__body {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+}

@@ -1,0 +1,55 @@
+<com-spoiler title="Автотемп">
+  <div class="wid-auto-tempo__body">
+
+    <com-checkbox class="wid-auto-tempo__row" [(checked)]="metronome.rampEnabled">
+      Включить постепенное изменение темпа
+    </com-checkbox>
+
+    <div class="wid-auto-tempo__row">
+      <span class="wid-auto-tempo__label">Шаг BPM</span>
+      <com-field class="wid-auto-tempo__input">
+        <com-input
+          type="number"
+          [step]="1"
+          [value]="metronome.rampDeltaBpm()"
+          (valueChange)="onDeltaChange($event)"
+        ></com-input>
+      </com-field>
+      <span class="wid-auto-tempo__hint">+ ускоряет, − замедляет</span>
+    </div>
+
+    <div class="wid-auto-tempo__row">
+      <span class="wid-auto-tempo__label">Период</span>
+      <com-field class="wid-auto-tempo__input">
+        <com-input
+          type="number"
+          [min]="1"
+          [step]="1"
+          [value]="metronome.rampEveryMeasures()"
+          (valueChange)="onPeriodChange($event)"
+        ></com-input>
+      </com-field>
+      <span class="wid-auto-tempo__hint">тактов между шагами</span>
+    </div>
+
+    <div class="wid-auto-tempo__row">
+      <com-checkbox [checked]="hasTarget()" (checkedChange)="onTargetToggle($event)">
+        Целевой BPM
+      </com-checkbox>
+
+      @if (hasTarget()) {
+        <com-field class="wid-auto-tempo__input">
+          <com-input
+            type="number"
+            [min]="bpmMin"
+            [max]="bpmMax"
+            [step]="1"
+            [value]="metronome.rampTargetBpm()"
+            (valueChange)="onTargetChange($event)"
+          ></com-input>
+        </com-field>
+      }
+    </div>
+
+  </div>
+</com-spoiler>

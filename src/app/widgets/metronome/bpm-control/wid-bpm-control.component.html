@@ -1,0 +1,29 @@
+<div class="wid-bpm-control__body">
+  <com-button
+    class="wid-bpm-control__btn wid-bpm-control__btn--dec"
+    variant="secondary"
+    [disabled]="!canDecrease()"
+    (click)="decrease()"
+  >−{{ step() }}</com-button>
+
+  <div class="wid-bpm-control__center">
+    <com-field class="wid-bpm-control__input">
+      <com-input
+        type="number"
+        commitOn="blur"
+        [min]="min()"
+        [max]="max()"
+        [value]="value()"
+        (valueChange)="onInputChange($event)"
+      ></com-input>
+    </com-field>
+    <span class="wid-bpm-control__label">{{ label() }}</span>
+  </div>
+
+  <com-button
+    class="wid-bpm-control__btn wid-bpm-control__btn--inc"
+    variant="secondary"
+    [disabled]="!canIncrease()"
+    (click)="increase()"
+  >+{{ step() }}</com-button>
+</div>

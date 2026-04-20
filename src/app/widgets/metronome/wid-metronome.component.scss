@@ -1,4 +1,7 @@
 :host {
+  // 8 битов × 40px + 7 гэпов × 8px + паддинги 2×16px + 4px запас на субпиксели
+  --widget-box-width: calc(8 * 40px + 7 * 8px + 32px + 4px);
+
   display: block;
   width: 100%;
   max-width: 520px;
@@ -13,50 +16,12 @@
   align-items: center;
 }
 
-.wid-metronome__bpm-section {
+.wid-metronome__controls-row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.wid-metronome__bpm-display {
-  font-size: 72px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -2px;
-  color: var(--color-text);
-}
-
-.wid-metronome__bpm-label {
-  font-size: 13px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  opacity: 0.6;
-}
-
-.wid-metronome__bpm-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.wid-metronome__bpm-input {
-  width: 72px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-  background: var(--color-input-bg);
-  color: var(--color-text);
-  border: 1px solid var(--color-input-border);
-  border-radius: 6px;
-  padding: 6px 4px;
-
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button { appearance: none; }
-
-  appearance: textfield;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
 .wid-metronome__control-group {
@@ -73,6 +38,12 @@
   white-space: nowrap;
 }
 
+.wid-metronome__visualizer-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .wid-metronome__visualizer {
   display: flex;
   justify-content: center;
@@ -81,6 +52,7 @@
   padding: 16px;
   background: var(--color-surface-inset);
   border-radius: 12px;
+  max-width: var(--widget-box-width);
   width: 100%;
 }
 
@@ -90,22 +62,4 @@
   justify-content: center;
 }
 
-.wid-metronome__volume-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-}
 
-.wid-metronome__volume-slider {
-  flex: 1;
-  accent-color: var(--color-btn-primary-bg);
-  cursor: pointer;
-}
-
-.wid-metronome__volume-value {
-  width: 42px;
-  text-align: right;
-  font-size: 14px;
-  opacity: 0.8;
-}

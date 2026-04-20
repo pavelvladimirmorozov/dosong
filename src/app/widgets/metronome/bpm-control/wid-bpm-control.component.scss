@@ -1,0 +1,51 @@
+:host {
+  display: inline-block;
+}
+
+.wid-bpm-control__body {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.wid-bpm-control__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.wid-bpm-control__input {
+  width: 84px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.wid-bpm-control__label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+// По умолчанию и в auto — горизонтальная раскладка (десктоп)
+// Минус слева, плюс справа обеспечивается порядком в HTML.
+:host(.wid-bpm-control--horizontal) .wid-bpm-control__body,
+:host(.wid-bpm-control--auto) .wid-bpm-control__body {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+// Вертикальная раскладка — минус снизу, плюс сверху (column-reverse + порядок HTML)
+:host(.wid-bpm-control--vertical) .wid-bpm-control__body {
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+// Auto: на mobile — вертикальная
+@media (width <= 768px) {
+  :host(.wid-bpm-control--auto) .wid-bpm-control__body {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+}

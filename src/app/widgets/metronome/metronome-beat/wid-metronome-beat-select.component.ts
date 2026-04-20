@@ -21,7 +21,7 @@ export class WidMetronomeBeatSelectComponent {
 
   isActive = input<boolean>(false);
 
-  color = computed(() => this.isActive() ? this.activeColor() : '#00000030');
+  color = computed(() => this.isActive() ? this.activeColor() : 'var(--color-input-border)');
 
   index = input<number>(0);
 
@@ -34,7 +34,7 @@ export class WidMetronomeBeatSelectComponent {
   }
 
   protected getColor(index: number) {
-    return this.selectedCondition(index) ? this.color() : '#00000000';
+    return this.selectedCondition(index) ? this.color() : 'transparent';
   }
 
   private selectedCondition(index: number) {

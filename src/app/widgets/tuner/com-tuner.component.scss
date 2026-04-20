@@ -50,9 +50,9 @@
     bottom: 4px;
     transform: translateX(-50%);
 
-    &.tuner-indicator__note--prev    { left: 25%; }
+    &.tuner-indicator__note--prev    { left: 10%; }
     &.tuner-indicator__note--current { left: 50%; }
-    &.tuner-indicator__note--next    { left: 75%; }
+    &.tuner-indicator__note--next    { left: 90%; }
   }
 }
 
@@ -62,13 +62,13 @@
   border-radius: 6px;
   background: linear-gradient(
     90deg,
-    rgb(180 50 20 / 45%) 0%,
-    rgb(230 87 44 / 100%)    25%,
-    rgb(215 245 95 / 100%)   37.5%,
-    rgb(71 250 0 / 100%)     50%,
-    rgb(215 245 95 / 100%)   62.5%,
-    rgb(230 87 44 / 100%)    75%,
-    rgb(180 50 20 / 45%) 100%
+    rgb(180 50 20 / 45%)   0%,
+    rgb(230 87 44 / 100%)  10%,
+    rgb(215 245 95 / 100%) 30%,
+    rgb(71 250 0 / 100%)   50%,
+    rgb(215 245 95 / 100%) 70%,
+    rgb(230 87 44 / 100%)  90%,
+    rgb(180 50 20 / 45%)   100%
   );
 
   .tuner-indicator__tick {
@@ -79,8 +79,8 @@
     background: rgb(0 0 0 / 35%);
     transform: translateX(-50%);
 
-    &.tuner-indicator__tick--left  { left: 25%; }
-    &.tuner-indicator__tick--right { left: 75%; }
+    &.tuner-indicator__tick--left  { left: 10%; }
+    &.tuner-indicator__tick--right { left: 90%; }
   }
 
   .tuner-indicator__center {
@@ -120,9 +120,9 @@
     font-size: 11px;
     color: var(--color-text-muted);
 
-    &.tuner-indicator__label-25 { left: 25%; }
-    &.tuner-indicator__label-50 { left: 50%; }
-    &.tuner-indicator__label-75 { left: 75%; }
+    &.tuner-indicator__label--left   { left: 10%; }
+    &.tuner-indicator__label--center { left: 50%; }
+    &.tuner-indicator__label--right  { left: 90%; }
   }
 }
 

@@ -1,0 +1,25 @@
+<div class="wid-beats-count-control__body">
+  <com-button
+    class="wid-beats-count-control__btn wid-beats-count-control__btn--dec"
+    variant="secondary"
+    [disabled]="!canDecrease()"
+    (click)="decrease()"
+  >−1</com-button>
+
+  <div class="wid-beats-count-control__center">
+    <com-field class="wid-beats-count-control__select">
+      <com-select
+        [options]="options()"
+        [(selectedValue)]="value"
+      ></com-select>
+    </com-field>
+    <span class="wid-beats-count-control__label">{{ label() }}</span>
+  </div>
+
+  <com-button
+    class="wid-beats-count-control__btn wid-beats-count-control__btn--inc"
+    variant="secondary"
+    [disabled]="!canIncrease()"
+    (click)="increase()"
+  >+1</com-button>
+</div>

@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: var(--widget-box-width);
+  box-sizing: border-box;
+  background: var(--color-surface-inset);
+  border-radius: 12px;
+  padding: 4px 16px 12px;
+}
+
+.wid-auto-tempo__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wid-auto-tempo__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.wid-auto-tempo__label {
+  min-width: 90px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.wid-auto-tempo__input {
+  width: 84px;
+}
+
+.wid-auto-tempo__hint {
+  font-size: 12px;
+  opacity: 0.55;
+}

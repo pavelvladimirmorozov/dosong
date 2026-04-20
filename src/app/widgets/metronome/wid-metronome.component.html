@@ -1,42 +1,52 @@
 <div class="wid-metronome">
 
-  <div class="wid-metronome__bpm-section">
-    <div class="wid-metronome__bpm-display">{{ bpm() }}</div>
-    <div class="wid-metronome__bpm-label">BPM</div>
-    <div class="wid-metronome__bpm-controls">
-      <com-button variant="secondary" (click)="bpm.set(bpm() - 10)" [disabled]="bpm() <= 40">−10</com-button>
-      <input type="number" class="wid-metronome__bpm-input" [(ngModel)]="bpm" min="40" max="300">
-      <com-button variant="secondary" (click)="bpm.set(bpm() + 10)" [disabled]="bpm() >= 300">+10</com-button>
-    </div>
-  </div>
-
   <div class="wid-metronome__control-group">
-    <span class="wid-metronome__label">Долей в такте</span>
-    <com-select [options]="beatsPerMeasureOptions" [(selectedValue)]="beatsPerMeasure"></com-select>
+    <span class="wid-metronome__label">Громкость</span>
+    <com-slider
+      [value]="metronome.volume()"
+      (valueChange)="metronome.volume.set($event)"
+      [min]="0"
+      [max]="100"
+      [showValue]="true"
+      valueSuffix="%"
+    ></com-slider>
   </div>
 
-  <div class="wid-metronome__visualizer">
-    @for (beat of beatElements(); track $index) {
-      <wid-metronome-beat-select
-        [isActive]="beat.isActive"
-        [selectedBeat]="beat.sound"
-        (selectedBeatChange)="updateBeatSound($index, $event)"
-        [index]="$index">
-      </wid-metronome-beat-select>
-    }
+  <div class="wid-metronome__controls-row">
+    <wid-bpm-control
+      [(value)]="metronome.bpm"
+      [min]="bpmMin"
+      [max]="bpmMax"
+      [step]="10"
+      label="BPM"
+    ></wid-bpm-control>
+
+    <wid-beats-count-control
+      [(value)]="metronome.beatsPerMeasure"
+      [min]="1"
+      [max]="16"
+      label="Доли"
+    ></wid-beats-count-control>
+  </div>
+
+  <div class="wid-metronome__visualizer-wrap">
+    <div class="wid-metronome__visualizer">
+      @for (beat of metronome.beatElements(); track $index) {
+        <wid-metronome-beat-select
+          [isActive]="beat.isActive"
+          [selectedBeat]="beat.sound"
+          (selectedBeatChange)="updateBeatSound($index, $event)"
+          [index]="$index">
+        </wid-metronome-beat-select>
+      }
+    </div>
   </div>
 
   <div class="wid-metronome__transport">
-    <com-button (click)="startMetronome()" [disabled]="isRunning()">Старт</com-button>
-    <com-button (click)="stopMetronome()" [disabled]="!isRunning()">Стоп</com-button>
+    <com-button (click)="metronome.start()" [disabled]="metronome.isRunning()">Старт</com-button>
+    <com-button (click)="metronome.stop()" [disabled]="!metronome.isRunning()">Стоп</com-button>
   </div>
 
-  <div class="wid-metronome__control-group">
-    <span class="wid-metronome__label">Громкость</span>
-    <div class="wid-metronome__volume-row">
-      <input class="wid-metronome__volume-slider" type="range" [(ngModel)]="volume" min="0" max="100">
-      <span class="wid-metronome__volume-value">{{ volume() }}%</span>
-    </div>
-  </div>
+  <wid-auto-tempo></wid-auto-tempo>
 
 </div>

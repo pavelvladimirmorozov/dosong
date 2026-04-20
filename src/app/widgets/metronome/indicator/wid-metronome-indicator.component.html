@@ -1,0 +1,35 @@
+<div class="wid-metronome-indicator">
+  <div class="wid-metronome-indicator__beats">
+    @for (i of beats(); track i) {
+      <span
+        class="wid-metronome-indicator__dot"
+        [class.wid-metronome-indicator__dot--active]="activeIndex() === i"
+        [class.wid-metronome-indicator__dot--accent]="i === 0"
+      ></span>
+    }
+  </div>
+
+  <div class="wid-metronome-indicator__actions">
+    <button
+      type="button"
+      class="wid-metronome-indicator__btn"
+      [attr.aria-label]="isRunning() ? 'Стоп' : 'Запустить'"
+      (click)="toggle()"
+    >
+      @if (isRunning()) {
+        <svg width="18" height="18" comStopIcon></svg>
+      } @else {
+        <svg width="18" height="18" comPlayIcon></svg>
+      }
+    </button>
+
+    <button
+      type="button"
+      class="wid-metronome-indicator__btn"
+      aria-label="Закрыть"
+      (click)="close()"
+    >
+      <svg width="18" height="18" comCloseIcon></svg>
+    </button>
+  </div>
+</div>

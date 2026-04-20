@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+:host(.wid-metronome-indicator--visible) {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.wid-metronome-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 8px 16px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-input-border);
+  color: var(--color-text);
+}
+
+.wid-metronome-indicator__beats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.wid-metronome-indicator__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-text-dim);
+  background: transparent;
+  transition: background-color 0.08s linear, transform 0.08s linear, border-color 0.08s linear;
+
+  &.wid-metronome-indicator__dot--accent {
+    border-color: var(--color-accent);
+  }
+
+  &.wid-metronome-indicator__dot--active {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: scale(1.25);
+  }
+}
+
+.wid-metronome-indicator__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.wid-metronome-indicator__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--color-surface-hover);
+  }
+}

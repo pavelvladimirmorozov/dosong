@@ -1,0 +1,53 @@
+.com-spoiler {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  align-self: stretch;
+
+  .com-spoiler__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 0;
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    font: inherit;
+    user-select: none;
+
+    &:hover .com-spoiler__title {
+      opacity: 1;
+    }
+  }
+
+  .com-spoiler__title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    transition: opacity 0.15s ease;
+  }
+
+  .com-spoiler__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+
+    svg {
+      transition: transform 0.25s ease;
+    }
+
+    .com-spoiler__arrow--rotated {
+      transform: rotate(180deg);
+    }
+  }
+
+  .com-spoiler__body {
+    padding-top: 8px;
+  }
+}
