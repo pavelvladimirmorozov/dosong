@@ -8,15 +8,6 @@
   flex-grow: 1;
 }
 
-.wid-fretboard__sticky {
-  display: flex;
-  position: sticky;
-  left: 0;
-  background-color: var(--color-bg);
-  align-self: flex-start;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
 .wid-fretboard__action {
   flex-shrink: 0;
   flex-grow: 1;

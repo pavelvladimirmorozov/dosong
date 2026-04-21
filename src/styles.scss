@@ -376,6 +376,9 @@ meter {
 // ── Общие размеры (не зависят от темы) ──────────────────────────────────────
 :root {
   --control-height: 32px;
+  --color-btn-primary-bg:      #0e639c;
+  --color-btn-primary-hover:   #17b;
+  --color-btn-primary-text:    #fff;
 }
 
 // ── Тёмная тема (по умолчанию) — палитра VSCode Default Dark+ ────────────────
@@ -387,9 +390,6 @@ meter {
   --color-text:                #d4d4d4;
   --color-text-muted:          #858585;
   --color-text-dim:            #6e6e6e;
-  --color-btn-primary-bg:      #0e639c;
-  --color-btn-primary-hover:   #17b;
-  --color-btn-primary-text:    #fff;
   --color-btn-secondary-bg:    #3a3d41;
   --color-btn-secondary-hover: #45494e;
   --color-btn-disabled-bg:     #2d2d2d;
@@ -413,9 +413,6 @@ meter {
   --color-text:                #1a1a2e;
   --color-text-muted:          #555;
   --color-text-dim:            #888;
-  --color-btn-primary-bg:      #4caf50;
-  --color-btn-primary-hover:   #45a049;
-  --color-btn-primary-text:    #fff;
   --color-btn-secondary-bg:    #c0c8d8;
   --color-btn-secondary-hover: #aab4c8;
   --color-btn-disabled-bg:     #d0d0d0;

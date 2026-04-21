@@ -1,12 +1,14 @@
-export enum Scale { Chromatic, Major, Minor, HarmonicMinor, MelodicMinor, MajorPentatonic, MinorPentatonic, Blues, Egyptian, Japanese }
-export enum ScaleStepQuality { Minor, Major, Any, None };
+export enum Scale { Chromatic, Major, Minor, HarmonicMinor, MelodicMinor, MajorPentatonic, MinorPentatonic, Blues, Egyptian, Japanese, HarmonicMajor, MelodicMajor }
+export enum ScaleStepQuality { Minor, Major, Diminished, Augmented, Any, None };
 export enum ScaleQuality { Minor, Major, None }
+export enum ScaleKind { Natural, Harmonic, Melodic, Pentatonic, Blues, Chromatic, Japanese, Egyptian }
 export enum Note { C, Csharp, D, Dsharp, E, F, Fsharp, G, Gsharp, A, Asharp, B }
 
 export interface ScaleSteps {
   id: Scale;
   name: string,
   type: ScaleQuality;
+  kind: ScaleKind;
   steps: ScaleStep[];
 }
 
@@ -16,7 +18,6 @@ export interface ScaleStep {
 };
 
 export interface ScaleSteepState {
-  name: string;
   midiNote: Note | null;
   interval: number | null;
   type: ScaleStepQuality;

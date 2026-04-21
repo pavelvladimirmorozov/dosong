@@ -1,158 +1,117 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  ElementRef,
-  HostListener,
-  inject,
-  input,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
+import { NoteNamesManager } from '@services/note-names/note-names.service';
 import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
-import { ScaleStepQuality } from '@services/scale-steps/scale-steps.types';
+import { Note, ScaleQuality, ScaleStepQuality } from '@services/scale-steps/scale-steps.types';
 import { ROMAN_NUMERALS } from '@utils/constants';
 
 import { CuartCircleGeometry } from './cuart-circle-geometry';
-import { MAJOR_CHORDS, MINOR_CHORDS } from './wid-cuart-circle.constants';
-import { SectorParams, SectorVisualState } from './wid-cuart-circle.types';
+import { CuartCircleSector } from './cuart-circle-sector/cuart-circle-sector.component';
+import { MAJOR_CHORD_ORDER, MINOR_CHORD_ORDER } from './wid-cuart-circle.constants';
+import { SectorChord, SectorRenderState } from './wid-cuart-circle.types';
+
+const VIEWBOX_SIZE = 400;
 
 @Component({
   selector: 'wid-cuart-circle',
-  imports: [],
+  imports: [CuartCircleSector],
   templateUrl: './wid-cuart-circle.component.html',
   styleUrl: './wid-cuart-circle.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WidCuartCircle implements AfterViewInit {
+export class WidCuartCircle {
   // Смещение на 105° против часовой стрелки
-  angleOffset = input(-105);
+  public angleOffset = input(-105);
+  public sectorSelected = output<Note>();
 
-  private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly colorsManager = inject(NoteColorsService);
   private readonly scaleStepsManager = inject(ScaleSteepsService);
+  private readonly noteNamesManager = inject(NoteNamesManager);
 
-  private canvasElement = viewChild.required<ElementRef<HTMLCanvasElement>>('circleCanvas');
-  canvasSize = signal(400);
+  protected readonly viewBox = `0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`;
+  private readonly geometry = computed(() => new CuartCircleGeometry(VIEWBOX_SIZE, this.angleOffset()));
 
-  private canvas = computed(() => this.canvasElement().nativeElement);
-  private ctx = computed(() => this.canvasElement().nativeElement.getContext('2d')!);
-
-  private chordFontSize = computed(() => Math.floor(this.canvasSize() / 30));
-  private chordFontStyle = computed(() => `Bold ${this.chordFontSize()}px Arial`);
-  private gammaFontStyle = computed(() => `Bold ${this.chordFontSize()}px Arial`);
-
-  private geometry = computed(() => new CuartCircleGeometry(this.canvasSize(), this.angleOffset()));
-
-  drawCircleEffect = effect(() => this.draw());
-
-  ngAfterViewInit(): void {
-    this.updateSize();
-  }
-
-  @HostListener('window:resize')
-  onResize(): void {
-    this.updateSize();
-  }
-
-  private updateSize(): void {
-    const width = this.elementRef.nativeElement.clientWidth;
-    this.canvasSize.set(width);
-  }
-
-  private draw(): void {
-    const size = this.canvasSize();
-    this.canvas().width = size;
-    this.canvas().height = size;
-    this.ctx().clearRect(0, 0, size, size);
-
-    for (let sector = 0; sector < 12; sector++) {
-      this.drawSector(sector, true);
-      this.drawSector(sector, false);
-    }
-  }
-
-  private drawSector(sector: number, isMinor: boolean): void {
+  protected readonly sectors = computed<SectorRenderState[]>(() => {
     const geo = this.geometry();
-    const sectorParams = geo.sectorParams(sector, isMinor);
-    const textPos = geo.textParams(sector, isMinor);
-    const visual = this.resolveSectorVisualState(sector, isMinor);
-
-    this.drawSectorBorder(sectorParams);
-
-    if (visual.fillColor) {
-      this.fillSector(sectorParams, visual.fillColor);
+    const noteNames = this.noteNamesManager.noteNames();
+    const result: SectorRenderState[] = [];
+    for (let sector = 0; sector < 12; sector++) {
+      result.push(this.buildSectorState(sector, false, geo, noteNames));
+      result.push(this.buildSectorState(sector, true, geo, noteNames));
     }
-    if (visual.labelNumeral) {
-      const labelPos = geo.labelParams(sector, isMinor);
-      this.drawText(labelPos.radius, labelPos.angle, visual.labelNumeral, this.colorsManager.themeColor(), this.gammaFontStyle());
+    return result;
+  });
+
+  protected onSectorClick(state: SectorRenderState): void {
+    this.scaleStepsManager.selectedTonic.set(state.chord.id);
+    const targetQuality = state.isMinor ? ScaleQuality.Minor : ScaleQuality.Major;
+    if (this.scaleStepsManager.selectedQuality() !== targetQuality) {
+      this.scaleStepsManager.setQuality(targetQuality);
     }
-    this.drawText(textPos.radius, textPos.angle, visual.chord.name, visual.textColor);
+    this.sectorSelected.emit(state.chord.id);
   }
 
-  // Единственное место, где запрашиваются сервисы — возвращает чистые данные без рендеринга
-  private resolveSectorVisualState(sector: number, isMinor: boolean): SectorVisualState {
-    const chord = isMinor ? MINOR_CHORDS[sector] : MAJOR_CHORDS[sector];
-    const step = this.scaleStepsManager.getScaleStep(chord.id);
+  private buildSectorState(
+    sector: number,
+    isMinor: boolean,
+    geo: CuartCircleGeometry,
+    noteNames: { name: string }[],
+  ): SectorRenderState {
+    const chordId = isMinor ? MINOR_CHORD_ORDER[sector] : MAJOR_CHORD_ORDER[sector];
+    const baseName = noteNames[chordId].name;
+    const chord: SectorChord = { id: chordId, name: isMinor ? baseName + 'm' : baseName };
+    const step = this.scaleStepsManager.getScaleStep(chordId);
     const defaultColor = this.colorsManager.themeColor();
+    const base = {
+      sector,
+      isMinor,
+      chord,
+      path: geo.sectorPath(sector, isMinor),
+      chordTextPos: geo.chordTextPoint(sector, isMinor),
+      numeralTextPos: geo.numeralTextPoint(sector, isMinor),
+      strokeColor: defaultColor,
+    };
 
     if (!step || step.stepNumber == null || step.type === ScaleStepQuality.None) {
-      return { chord, fillColor: null, textColor: defaultColor, labelNumeral: null };
+      return { ...base, fillColor: null, textColor: defaultColor, numeral: null };
     }
     if (step.type === ScaleStepQuality.Any) {
-      return { chord, fillColor: this.colorsManager.themeMutedColor(), textColor: defaultColor, labelNumeral: null };
+      return { ...base, fillColor: this.colorsManager.themeMutedColor(), textColor: defaultColor, numeral: null };
     }
-    if ((step.type === ScaleStepQuality.Minor) === isMinor) {
-      const colors = this.colorsManager.getNoteColor(chord.id, step.stepNumber);
-      return {
-        chord,
-        fillColor: colors.backgroundColor,
-        textColor: colors.color,
-        labelNumeral: ROMAN_NUMERALS[step.stepNumber],
-      };
+
+    // Уменьшенные аккорды живут в минорном кольце, увеличенные — в мажорном
+    const ringMatches =
+      (isMinor && (step.type === ScaleStepQuality.Minor || step.type === ScaleStepQuality.Diminished)) ||
+      (!isMinor && (step.type === ScaleStepQuality.Major || step.type === ScaleStepQuality.Augmented));
+
+    if (!ringMatches) {
+      return { ...base, fillColor: null, textColor: defaultColor, numeral: null };
     }
-    return { chord, fillColor: null, textColor: defaultColor, labelNumeral: null };
+
+    const colors = this.colorsManager.getNoteColor(chordId, step.stepNumber);
+    return {
+      ...base,
+      chord: { ...chord, name: this.decorateChordName(chord.name, step.type) },
+      fillColor: colors.backgroundColor,
+      textColor: colors.color,
+      numeral: ROMAN_NUMERALS[step.stepNumber] + this.qualitySuffix(step.type),
+    };
   }
 
-  //#region Canvas drawing primitives
-
-  private buildSectorPath(sectorParams: SectorParams): void {
-    const ctx = this.ctx();
-    const center = this.geometry().center;
-    const { startRadius, endRadius, startAngle, endAngle } = sectorParams;
-
-    ctx.beginPath();
-    ctx.moveTo(center + startRadius * Math.cos(startAngle), center + startRadius * Math.sin(startAngle));
-    ctx.arc(center, center, endRadius, startAngle, endAngle);
-    ctx.lineTo(center + startRadius * Math.cos(endAngle), center + startRadius * Math.sin(endAngle));
-    ctx.arc(center, center, startRadius, endAngle, startAngle, true);
+  private decorateChordName(name: string, quality: ScaleStepQuality): string {
+    if (quality === ScaleStepQuality.Diminished) {
+      return name.endsWith('m') ? name.slice(0, -1) + 'dim' : name + 'dim';
+    }
+    if (quality === ScaleStepQuality.Augmented) {
+      return name + 'aug';
+    }
+    return name;
   }
 
-  private drawSectorBorder(sectorParams: SectorParams): void {
-    this.buildSectorPath(sectorParams);
-    this.ctx().stroke();
+  private qualitySuffix(quality: ScaleStepQuality): string {
+    if (quality === ScaleStepQuality.Diminished) return '°';
+    if (quality === ScaleStepQuality.Augmented) return '+';
+    return '';
   }
-
-  private fillSector(sectorParams: SectorParams, fillStyle: string): void {
-    this.buildSectorPath(sectorParams);
-    this.ctx().fillStyle = fillStyle;
-    this.ctx().fill();
-    this.ctx().stroke();
-  }
-
-  private drawText(radius: number, angle: number, text: string, color?: string, font?: string): void {
-    const ctx = this.ctx();
-    const geo = this.geometry();
-    ctx.font = font ?? this.chordFontStyle();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle = color ?? this.colorsManager.themeColor();
-    ctx.fillText(text, geo.center + radius * Math.cos(angle), geo.center + radius * Math.sin(angle));
-  }
-
-  //#endregion
 }

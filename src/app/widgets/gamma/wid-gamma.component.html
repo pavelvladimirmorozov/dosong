@@ -25,11 +25,13 @@
     </label>
   </div>
 
-  <!-- <com-select class="wid-gamma__select" [options]="scaleSteepsManager.modeOptions"
-    [(selectedValue)]="scaleSteepsManager.selectedMode" /> -->
+  <com-select class="wid-gamma__select" [options]="scaleSteepsManager.qualityOptions"
+    [selectedValue]="scaleSteepsManager.selectedQuality()"
+    (selectedValueChange)="scaleSteepsManager.setQuality($event)" />
 
-  <com-select class="wid-gamma__select" [options]="scaleSteepsManager.scaleStepsOptions()"
-    [(selectedValue)]="scaleSteepsManager.selectedScale" />
+  <com-select class="wid-gamma__select" [options]="scaleSteepsManager.availableKindOptions()"
+    [selectedValue]="scaleSteepsManager.selectedKind()"
+    (selectedValueChange)="scaleSteepsManager.setKind($event)" />
 </div>
 
 <div class="wid-gamma__container">

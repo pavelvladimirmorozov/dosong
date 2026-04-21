@@ -1,48 +1,76 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
 
-import { NoteHelper } from "@utils/helpers";
+import { DOUBLE_SHARP, FLAT, SHARP } from "@utils/constants";
+import { NoteHelper, NoteSpelling } from "@utils/helpers";
 
-import { SHARP_NOTES } from "../scale-steps/scale-steps.constants";
+import {
+  SHARP_NOTES,
+  FLAT_NOTES,
+  FLAT_KEYS_MAJOR,
+  FLAT_KEYS_MINOR,
+} from "../scale-steps/scale-steps.constants";
 import { ScaleSteepsService } from "../scale-steps/scale-steps.service";
-import { NoteInfo, ScaleSteepState } from "../scale-steps/scale-steps.types";
+import { NoteInfo, ScaleQuality } from "../scale-steps/scale-steps.types";
+
+const DIATONIC_STEP_COUNT = 7;
 
 @Injectable({ providedIn: 'root' })
 export class NoteNamesManager {
   private readonly scaleSteepsManager = inject(ScaleSteepsService);
 
   public useGammaNotes = signal(true);
-  
-  public noteNames = computed(() => {
+
+  public noteNames = computed<NoteInfo[]>(() => {
     if (!this.useGammaNotes()) return SHARP_NOTES;
-    return this.merge(
-      this.scaleSteepsManager.baseNotes(),
-      this.scaleSteepsManager.selectedScaleState()
-    );
+
+    const tonicId = this.scaleSteepsManager.selectedTonic();
+    const scale = this.scaleSteepsManager.selectedScaleDef();
+    const spelled = this.spellScaleNotes(tonicId, scale.steps);
+    const fallback = this.pickFallback(tonicId, scale.type, spelled);
+
+    return SHARP_NOTES.map(({ id }) => ({
+      id,
+      name: spelled.get(id) ?? fallback[id].name,
+    }));
   });
 
   public getNoteName(note: number): string {
-    const noteIndex = NoteHelper.getNoteIndex(note);
-    return this.noteNames()[noteIndex].name;
-  }
-  
-  // TODO: Добавить выбор нот на основе гаммы
-  // public noteOptions = computed(() => {
-  //   if (!this.useGammaNotes()) return SHARP_NOTES;
-  //   return UNIVERSAL_NOTES;
-  // });
-
-  private merge(arr1: NoteInfo[], arr2: ScaleSteepState[]) {
-    const map = new Map();
-    arr1.forEach(item => {
-      map.set(item.id, { ...item });
-    });
-    arr2.forEach(item => {
-      const keyValue = item.midiNote;
-      if (map.has(keyValue)) {
-        map.set(keyValue, { ...map.get(keyValue), name: item.name });
-      }
-    });
-    return Array.from(map.values());
+    return this.noteNames()[NoteHelper.getNoteIndex(note)].name;
   }
 
+  private spellScaleNotes(
+    tonicId: number,
+    steps: { interval: number | null }[],
+  ): Map<number, string> {
+    const result = new Map<number, string>();
+    // Буквенное именование работает только для 7-ступенных ладов (диатоника и пентатоники).
+    // Для хроматизма/блюза (≠7 ступеней) полагаемся на fallback-таблицу.
+    if (steps.length !== DIATONIC_STEP_COUNT) return result;
+
+    const tonic = NoteSpelling.parse(SHARP_NOTES[tonicId].name);
+
+    steps.forEach((step, index) => {
+      if (step.interval == null) return;
+      const midi = (tonicId + step.interval) % 12;
+      if (result.has(midi)) return;
+      result.set(midi, NoteSpelling.spellStep(tonic, index, step.interval));
+    });
+    return result;
+  }
+
+  private pickFallback(
+    tonicId: number,
+    scaleType: ScaleQuality,
+    spelled: Map<number, string>,
+  ): NoteInfo[] {
+    const names = Array.from(spelled.values());
+    const hasFlat = names.some(n => n.includes(FLAT));
+    const hasSharp = names.some(n => n.includes(SHARP) || n.includes(DOUBLE_SHARP));
+    if (hasFlat && !hasSharp) return FLAT_NOTES;
+    if (hasSharp && !hasFlat) return SHARP_NOTES;
+
+    // Смешанный случай или нет спеллинга (хроматизм/блюз) — ориентируемся на тонику:
+    const flatKeys = scaleType === ScaleQuality.Minor ? FLAT_KEYS_MINOR : FLAT_KEYS_MAJOR;
+    return flatKeys.includes(tonicId) ? FLAT_NOTES : SHARP_NOTES;
+  }
 }

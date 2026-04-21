@@ -5,15 +5,16 @@
     <button class="wid-fretboard__action" (click)="insertString()">
       <svg width="16" height="16" comPlusIcon></svg>
     </button>
-    <div class="wid-fretboard__sticky">
-      <div class="wid-fretboard__action">
-        <input type="checkbox" [(ngModel)]="noteNamesManager.useGammaNotes">
-      </div>
-      <div class="wid-fretboard__action">0</div>
+
+    <div class="wid-fretboard__action">
+      <input type="checkbox" [(ngModel)]="noteNamesManager.useGammaNotes">
     </div>
-      @for (fret of frets(); track $index) {
-      <div class="wid-fretboard__fret" [style.flexBasis]="getFretWidth(fret) + 'px'">{{fret}}</div>
-      }
+
+    <div class="wid-fretboard__action">0</div>
+    
+    @for (fret of frets(); track $index) {
+    <div class="wid-fretboard__fret" [style.flexBasis]="getFretWidth(fret) + 'px'">{{fret}}</div>
+    }
   </div>
 
   @for (tuningNote of tuning(); track $index;let stringNumber = $index) {
@@ -40,12 +41,12 @@
       <svg width="16" height="16" comPlusIcon></svg>
     </button>
 
-    <div class="wid-fretboard__sticky">
-      <div class="wid-fretboard__action">#</div>
-      <div class="wid-fretboard__action">0</div>
-    </div>
-      @for (fret of frets(); track $index) {
-      <div class="wid-fretboard__fret" [style.width]="getFretWidth(fret) + 'px'">{{fret}}</div>
-      }
+    <div class="wid-fretboard__action">#</div>
+
+    <div class="wid-fretboard__action">0</div>
+
+    @for (fret of frets(); track $index) {
+    <div class="wid-fretboard__fret" [style.width]="getFretWidth(fret) + 'px'">{{fret}}</div>
+    }
   </div>
 </div>

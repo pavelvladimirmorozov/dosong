@@ -1,7 +1,8 @@
 :host {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .wid-gamma__container {
@@ -67,11 +68,13 @@
 }
 
 .button-toggle__input:checked + .button-toggle__button {
-  background-color: var(--color-surface);
+  // background-color: var(--color-surface);
+  background-color: var(--color-btn-primary-bg);
   color: var(--color-text);
-  border-color: var(--color-surface);
+
+  // border-color: var(--color-surface);
 }
 
 .button-toggle__input:not(:checked) + .button-toggle__button:hover {
-  background-color: var(--color-surface-hover);
+  background-color: var(--color-btn-primary-hover);
 }

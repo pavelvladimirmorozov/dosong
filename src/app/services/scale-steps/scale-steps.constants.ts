@@ -1,4 +1,8 @@
-import { ScaleSteps, Scale, ScaleQuality, ScaleStepQuality, NoteInfo, Note } from "./scale-steps.types";
+import { ComSelectOption } from "@components/select/com-select-option";
+
+import { FLAT, SHARP } from "@utils/constants";
+
+import { ScaleSteps, Scale, ScaleKind, ScaleQuality, ScaleStepQuality, NoteInfo, Note } from "./scale-steps.types";
 
 // export const SCALE_MODE_OPTIONS  = [
 //   {
@@ -16,6 +20,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
     id: Scale.Chromatic,
     name: "Хроматизм",
     type: ScaleQuality.None,
+    kind: ScaleKind.Chromatic,
     steps: [
       { interval: 0, type: ScaleStepQuality.None },
       { interval: 1, type: ScaleStepQuality.None },
@@ -35,6 +40,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
     id: Scale.Major,
     name: "Натуральный мажор",
     type: ScaleQuality.Major,
+    kind: ScaleKind.Natural,
     steps: [
       { interval: 0, type: ScaleStepQuality.Major },
       { interval: 2, type: ScaleStepQuality.Minor },
@@ -42,16 +48,17 @@ export const SCALE_STEPS: ScaleSteps[] = [
       { interval: 5, type: ScaleStepQuality.Major },
       { interval: 7, type: ScaleStepQuality.Major },
       { interval: 9, type: ScaleStepQuality.Minor },
-      { interval: 11, type: ScaleStepQuality.Any }
+      { interval: 11, type: ScaleStepQuality.Diminished }
     ],
   },
   {
     id: Scale.Minor,
     name: "Натуральный минор",
     type: ScaleQuality.Minor,
+    kind: ScaleKind.Natural,
     steps: [
       { interval: 0, type: ScaleStepQuality.Minor },
-      { interval: 2, type: ScaleStepQuality.Any },
+      { interval: 2, type: ScaleStepQuality.Diminished },
       { interval: 3, type: ScaleStepQuality.Major },
       { interval: 5, type: ScaleStepQuality.Minor },
       { interval: 7, type: ScaleStepQuality.Minor },
@@ -63,34 +70,67 @@ export const SCALE_STEPS: ScaleSteps[] = [
     id: Scale.HarmonicMinor,
     name: "Гармонический минор",
     type: ScaleQuality.Minor,
+    kind: ScaleKind.Harmonic,
     steps: [
       { interval: 0, type: ScaleStepQuality.Minor },
-      { interval: 2, type: ScaleStepQuality.Any },
-      { interval: 3, type: ScaleStepQuality.Any },
+      { interval: 2, type: ScaleStepQuality.Diminished },
+      { interval: 3, type: ScaleStepQuality.Augmented },
       { interval: 5, type: ScaleStepQuality.Minor },
       { interval: 7, type: ScaleStepQuality.Major },
       { interval: 8, type: ScaleStepQuality.Major },
-      { interval: 11, type: ScaleStepQuality.Any },
+      { interval: 11, type: ScaleStepQuality.Diminished },
     ],
   },
   {
     id: Scale.MelodicMinor,
     name: "Мелодический минор",
     type: ScaleQuality.Minor,
+    kind: ScaleKind.Melodic,
     steps: [
       { interval: 0, type: ScaleStepQuality.Minor },
       { interval: 2, type: ScaleStepQuality.Minor },
-      { interval: 3, type: ScaleStepQuality.Any },
+      { interval: 3, type: ScaleStepQuality.Augmented },
       { interval: 5, type: ScaleStepQuality.Major },
       { interval: 7, type: ScaleStepQuality.Major },
-      { interval: 9, type: ScaleStepQuality.Any },
-      { interval: 11, type: ScaleStepQuality.Any },
+      { interval: 9, type: ScaleStepQuality.Diminished },
+      { interval: 11, type: ScaleStepQuality.Diminished },
+    ],
+  },
+  {
+    id: Scale.HarmonicMajor,
+    name: "Гармонический мажор",
+    type: ScaleQuality.Major,
+    kind: ScaleKind.Harmonic,
+    steps: [
+      { interval: 0, type: ScaleStepQuality.Major },
+      { interval: 2, type: ScaleStepQuality.Diminished },
+      { interval: 4, type: ScaleStepQuality.Minor },
+      { interval: 5, type: ScaleStepQuality.Minor },
+      { interval: 7, type: ScaleStepQuality.Major },
+      { interval: 8, type: ScaleStepQuality.Augmented },
+      { interval: 11, type: ScaleStepQuality.Diminished },
+    ],
+  },
+  {
+    id: Scale.MelodicMajor,
+    name: "Мелодический мажор",
+    type: ScaleQuality.Major,
+    kind: ScaleKind.Melodic,
+    steps: [
+      { interval: 0, type: ScaleStepQuality.Major },
+      { interval: 2, type: ScaleStepQuality.Diminished },
+      { interval: 4, type: ScaleStepQuality.Diminished },
+      { interval: 5, type: ScaleStepQuality.Minor },
+      { interval: 7, type: ScaleStepQuality.Minor },
+      { interval: 8, type: ScaleStepQuality.Augmented },
+      { interval: 10, type: ScaleStepQuality.Major },
     ],
   },
   {
     id: Scale.MajorPentatonic,
     name: "Мажорная пентатоника",
     type: ScaleQuality.Major,
+    kind: ScaleKind.Pentatonic,
     steps: [
       { interval: 0, type: ScaleStepQuality.Major },
       { interval: 2, type: ScaleStepQuality.Minor },
@@ -105,6 +145,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
     id: Scale.MinorPentatonic,
     name: "Минорная пентатоника",
     type: ScaleQuality.Minor,
+    kind: ScaleKind.Pentatonic,
     steps: [
       { interval: 0, type: ScaleStepQuality.Minor },
       { interval: null, type: ScaleStepQuality.Any },
@@ -119,6 +160,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
     id: Scale.Blues,
     name: "Блюзовая гамма",
     type: ScaleQuality.Major,
+    kind: ScaleKind.Blues,
     steps: [
       { interval: 0, type: ScaleStepQuality.Major },
       { interval: 3, type: ScaleStepQuality.Major },
@@ -131,7 +173,8 @@ export const SCALE_STEPS: ScaleSteps[] = [
   {
     id: Scale.Egyptian,
     name: "Египетская пентатоника",
-    type: ScaleQuality.Major,
+    type: ScaleQuality.None,
+    kind: ScaleKind.Egyptian,
     steps: [
       { interval: 0, type: ScaleStepQuality.Minor },
       { interval: 2, type: ScaleStepQuality.Any },
@@ -145,7 +188,8 @@ export const SCALE_STEPS: ScaleSteps[] = [
   {
     id: Scale.Japanese,
     name: "Японская пентатоника",
-    type: ScaleQuality.Major,
+    type: ScaleQuality.None,
+    kind: ScaleKind.Japanese,
     steps: [
       { interval: 0, type: ScaleStepQuality.Minor },
       { interval: 1, type: ScaleStepQuality.Major },
@@ -156,6 +200,23 @@ export const SCALE_STEPS: ScaleSteps[] = [
       { interval: 10, type: ScaleStepQuality.Any },
     ],
   },
+];
+
+export const SCALE_QUALITY_OPTIONS: ComSelectOption<ScaleQuality>[] = [
+  { id: ScaleQuality.Major, name: "Мажор" },
+  { id: ScaleQuality.Minor, name: "Минор" },
+  { id: ScaleQuality.None,  name: "Без" },
+];
+
+export const SCALE_KIND_OPTIONS: ComSelectOption<ScaleKind>[] = [
+  { id: ScaleKind.Natural,    name: "Натуральный" },
+  { id: ScaleKind.Harmonic,   name: "Гармонический" },
+  { id: ScaleKind.Melodic,    name: "Мелодический" },
+  { id: ScaleKind.Pentatonic, name: "Пентатоника" },
+  { id: ScaleKind.Blues,      name: "Блюзовый" },
+  { id: ScaleKind.Chromatic,  name: "Хроматический" },
+  { id: ScaleKind.Japanese,   name: "Японская пентатоника" },
+  { id: ScaleKind.Egyptian,   name: "Египетская пентатоника" },
 ];
 
 // export const CHORDS_SCALE_STEPS  = [
@@ -219,46 +280,46 @@ export const SCALE_STEPS: ScaleSteps[] = [
 
 export const SHARP_NOTES: NoteInfo[] = [
   { id: Note.C, name: 'C' },
-  { id: Note.Csharp, name: 'C#' },
+  { id: Note.Csharp, name: `C${SHARP}` },
   { id: Note.D, name: 'D' },
-  { id: Note.Dsharp, name: 'D#' },
+  { id: Note.Dsharp, name: `D${SHARP}` },
   { id: Note.E, name: 'E' },
   { id: Note.F, name: 'F' },
-  { id: Note.Fsharp, name: 'F#' },
+  { id: Note.Fsharp, name: `F${SHARP}` },
   { id: Note.G, name: 'G' },
-  { id: Note.Gsharp, name: 'G#' },
+  { id: Note.Gsharp, name: `G${SHARP}` },
   { id: Note.A, name: 'A' },
-  { id: Note.Asharp, name: 'A#' },
+  { id: Note.Asharp, name: `A${SHARP}` },
   { id: Note.B, name: 'B' },
 ];
 
 export const FLAT_NOTES: NoteInfo[] = [
   { id: Note.C, name: 'C' },
-  { id: Note.Csharp, name: 'Db' },
+  { id: Note.Csharp, name: `D${FLAT}` },
   { id: Note.D, name: 'D' },
-  { id: Note.Dsharp, name: 'Eb' },
+  { id: Note.Dsharp, name: `E${FLAT}` },
   { id: Note.E, name: 'E' },
   { id: Note.F, name: 'F' },
-  { id: Note.Fsharp, name: 'Gb' },
+  { id: Note.Fsharp, name: `G${FLAT}` },
   { id: Note.G, name: 'G' },
-  { id: Note.Gsharp, name: 'Ab' },
+  { id: Note.Gsharp, name: `A${FLAT}` },
   { id: Note.A, name: 'A' },
-  { id: Note.Asharp, name: 'Bb' },
+  { id: Note.Asharp, name: `B${FLAT}` },
   { id: Note.B, name: 'B' },
 ];
 
 export const UNIVERSAL_NOTES: NoteInfo[] = [
   { id: Note.C, name: 'C' },
-  { id: Note.Csharp, name: 'C#' },
+  { id: Note.Csharp, name: `C${SHARP}` },
   { id: Note.D, name: 'D' },
-  { id: Note.Dsharp, name: 'Eb' },
+  { id: Note.Dsharp, name: `E${FLAT}` },
   { id: Note.E, name: 'E' },
   { id: Note.F, name: 'F' },
-  { id: Note.Fsharp, name: 'F#' },
+  { id: Note.Fsharp, name: `F${SHARP}` },
   { id: Note.G, name: 'G' },
-  { id: Note.Gsharp, name: 'Ab' },
+  { id: Note.Gsharp, name: `A${FLAT}` },
   { id: Note.A, name: 'A' },
-  { id: Note.Asharp, name: 'Bb' },
+  { id: Note.Asharp, name: `B${FLAT}` },
   { id: Note.B, name: 'B' },
 ];
 

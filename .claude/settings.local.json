@@ -5,7 +5,8 @@
       "mcp__context7__*",
       "Bash(npx ng *)",
       "Bash(npm run *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(npx tsc *)"
     ]
   }
 }

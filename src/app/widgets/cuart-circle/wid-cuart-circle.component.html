@@ -1,3 +1,5 @@
-
-<canvas #circleCanvas>
-</canvas>
+<svg [attr.viewBox]="viewBox" xmlns="http://www.w3.org/2000/svg" class="cuart-circle">
+  @for (sector of sectors(); track $index) {
+    <svg:g widCuartCircleSector [state]="sector" (sectorClick)="onSectorClick($event)"></svg:g>
+  }
+</svg>

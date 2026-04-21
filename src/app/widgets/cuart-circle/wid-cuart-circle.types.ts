@@ -1,20 +1,21 @@
 import { Note } from '@services/scale-steps/scale-steps.types';
 
-export interface SectorParams {
-  startAngle: number;
-  endAngle: number;
-  startRadius: number;
-  endRadius: number;
+import { Point } from './cuart-circle-geometry';
+
+export interface SectorChord {
+  id: Note;
+  name: string;
 }
 
-export interface TextParams {
-  angle: number;
-  radius: number;
-}
-
-export interface SectorVisualState {
-  chord: { id: Note; name: string };
+export interface SectorRenderState {
+  sector: number;
+  isMinor: boolean;
+  chord: SectorChord;
+  path: string;
+  chordTextPos: Point;
+  numeralTextPos: Point;
   fillColor: string | null;
   textColor: string;
-  labelNumeral: string | null;
+  strokeColor: string;
+  numeral: string | null;
 }

@@ -23,3 +23,13 @@
   text-align: center;
   opacity: 0.75;
 }
+
+@media (width <= 450px) {
+  :host {
+    width: 28px;
+  }
+
+  .wid-metronome-beat__number {
+    font-size: 11px;
+  }
+}

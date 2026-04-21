@@ -1,19 +1,16 @@
-<div class="wid-fretboard__sticky">
-  <com-select class="wid-fretboard__action" [options]="octaveOptions" [(selectedValue)]="startOctave">
-    <ng-container *comSelectContentSlot="let option">
-      {{option.id}}
-    </ng-container>
-  </com-select>
+<com-select class="wid-fretboard__action" [options]="octaveOptions" [(selectedValue)]="startOctave">
+  <ng-container *comSelectContentSlot="let option">
+    {{option.id}}
+  </ng-container>
+</com-select>
 
-  <com-select class="wid-fretboard__action" [style]="getNoteColor(0)" [options]="notesOptions()"
-    [(selectedValue)]="startNote">
-    <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [octave]="getOctave(0)"
-      [scaleStep]="getScaleStep(0)" />
-  </com-select>
-</div>
+<com-select class="wid-fretboard__action" [style]="getNoteColor(0)" [options]="notesOptions()"
+  [(selectedValue)]="startNote">
+  <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [octave]="getOctave(0)"
+    [scaleStep]="getScaleStep(0)" />
+</com-select>
 
 @for (fret of frets(); track fret) {
 <com-note-presenter class="wid-fretboard__note" [noteName]="getNoteName(fret)" [scaleStep]="getScaleStep(fret)"
-  [style]="getNoteColor(fret)" [width]="getFretWidth(fret) + 'px'"
-  [octave]="getOctave(fret)"></com-note-presenter>
+  [style]="getNoteColor(fret)" [width]="getFretWidth(fret) + 'px'" [octave]="getOctave(fret)"></com-note-presenter>
 }

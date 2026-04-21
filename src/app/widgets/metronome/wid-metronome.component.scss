@@ -56,6 +56,18 @@
   width: 100%;
 }
 
+@media (width <= 450px) {
+  :host {
+    // 8 битов × 28px + 7 гэпов × 6px + паддинги 2×12px + 4px запас
+    --widget-box-width: calc(8 * 28px + 7 * 6px + 24px + 4px);
+  }
+
+  .wid-metronome__visualizer {
+    gap: 6px;
+    padding: 12px;
+  }
+}
+
 .wid-metronome__transport {
   display: flex;
   gap: 12px;

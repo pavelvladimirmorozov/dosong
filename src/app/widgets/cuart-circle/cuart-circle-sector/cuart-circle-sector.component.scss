@@ -1,0 +1,29 @@
+.cuart-circle-sector {
+  &__path {
+    cursor: pointer;
+    stroke-width: 1;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  &__chord,
+  &__numeral {
+    pointer-events: none;
+    user-select: none;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  &__chord {
+    font-size: 14px;
+  }
+
+  &__numeral {
+    font-size: 13px;
+  }
+}

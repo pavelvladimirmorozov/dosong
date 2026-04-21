@@ -1,0 +1,21 @@
+<svg:path
+  class="cuart-circle-sector__path"
+  [attr.d]="state().path"
+  [attr.fill]="state().fillColor ?? 'transparent'"
+  [attr.stroke]="state().strokeColor"
+  (click)="onClick()"
+/>
+<svg:text
+  class="cuart-circle-sector__chord"
+  [attr.x]="state().chordTextPos.x"
+  [attr.y]="state().chordTextPos.y"
+  [attr.fill]="state().textColor"
+>{{ state().chord.name }}</svg:text>
+@if (state().numeral) {
+  <svg:text
+    class="cuart-circle-sector__numeral"
+    [attr.x]="state().numeralTextPos.x"
+    [attr.y]="state().numeralTextPos.y"
+    [attr.fill]="state().textColor"
+  >{{ state().numeral }}</svg:text>
+}

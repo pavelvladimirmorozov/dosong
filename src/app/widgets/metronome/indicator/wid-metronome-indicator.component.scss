@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .wid-metronome-indicator__dot {
@@ -71,5 +71,31 @@
 
   &:hover {
     background: var(--color-surface-hover);
+  }
+}
+
+@media (width <= 450px) {
+  .wid-metronome-indicator {
+    gap: 12px;
+    padding: 6px 10px;
+  }
+
+  // На мобильных раскладываем биты в сетку по 8 в строку
+  .wid-metronome-indicator__beats {
+    display: grid;
+    grid-template-columns: repeat(8, auto);
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .wid-metronome-indicator__dot {
+    width: 9px;
+    height: 9px;
+    border-width: 1px;
+  }
+
+  .wid-metronome-indicator__btn {
+    width: 28px;
+    height: 28px;
   }
 }
