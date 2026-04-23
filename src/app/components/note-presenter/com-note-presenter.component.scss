@@ -1,4 +1,5 @@
 :host {
+    position: relative;
     display: flex;
     min-width: 30px;
     justify-content: center;
@@ -30,6 +31,7 @@
         font-size: 1em;
     }
 }
+
 
 .note-presenter__name {
     display: flex;

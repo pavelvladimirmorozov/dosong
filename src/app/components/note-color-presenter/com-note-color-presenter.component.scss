@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  justify-content: center;
+  color: var(--text-color);
+  background: var(--note-color);
+}
+
+:host(.note-presenter--has-octave-marker) {
+  background: linear-gradient(25deg,
+      var(--octave-marker-color) 0,
+      var(--octave-marker-color) 15px,
+      var(--color-text-dim) 15px,
+      var(--color-text-dim) 17px,
+      transparent 17px,
+      transparent 100%),
+    var(--note-color);
+}

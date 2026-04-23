@@ -1,22 +1,26 @@
 <div class="wid-gamma__container">
-  <com-select class="wid-gamma__select" [options]="scaleSteepsManager.qualityOptions()"
+  <com-select class="wid-gamma__select wid-gamma__component_wrapper" [options]="scaleSteepsManager.qualityOptions()"
     [selectedValue]="scaleSteepsManager.selectedQuality()"
     (selectedValueChange)="scaleSteepsManager.setQuality($event)" />
 
-  <com-select class="wid-gamma__select" [options]="scaleSteepsManager.availableKindOptions()"
-    [selectedValue]="scaleSteepsManager.selectedKind()"
-    (selectedValueChange)="scaleSteepsManager.setKind($event)" />
+  <com-select class="wid-gamma__select wid-gamma__component_wrapper" [options]="scaleSteepsManager.availableKindOptions()"
+    [selectedValue]="scaleSteepsManager.selectedKind()" (selectedValueChange)="scaleSteepsManager.setKind($event)" />
 </div>
 
 <div class="wid-gamma__container">
-  <com-select class="wid-gamma__select" [style]="getNoteColor(0)"
-    [options]="scaleSteepsManager.tonicOptions" [(selectedValue)]="scaleSteepsManager.selectedTonic">
-    <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [scaleStep]="getScaleStep()" />
-  </com-select>
+  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(0)">
+    <com-select class="wid-gamma__select" [options]="scaleSteepsManager.tonicOptions"
+      [(selectedValue)]="scaleSteepsManager.selectedTonic">
+      <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [scaleStep]="getScaleStep()" />
+    </com-select>
+  </com-note-color-presenter>
 
   @for(offset of selectedFormula(); track $index) {
-  <com-note-presenter class="wid-gamma__note" [style]="getNoteColor(offset.interval)" [noteName]="getNoteName(offset.interval)"
-    [scaleStep]="getScaleStep(offset.interval)" width="60px" />
+
+  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(offset.interval)">
+    <com-note-presenter class="wid-gamma__note" [noteName]="getNoteName(offset.interval)"
+      [scaleStep]="getScaleStep(offset.interval)" />
+  </com-note-color-presenter>
   }
 </div>
 

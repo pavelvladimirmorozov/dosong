@@ -3,16 +3,18 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, model } fr
 import { ComNotePresenter } from '@components/note-presenter';
 import { ComSelect, ComSelectContentSlot } from '@components/select';
 
+import { I18nService } from '@services/i18n';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
 import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
 import { Note } from '@services/scale-steps/scale-steps.types';
 import { OCTAVES } from '@utils/constants';
 import { iterableRange, NoteHelper } from '@utils/helpers';
+import { ComNoteColorPresenter } from "@components/note-color-presenter/com-note-color-presenter.component";
 
 @Component({
   selector: 'wid-fretboard-string',
-  imports: [ComSelect, ComNotePresenter, ComSelectContentSlot],
+  imports: [ComSelect, ComNotePresenter, ComSelectContentSlot, ComNoteColorPresenter],
   templateUrl: './wid-fretboard-string.component.html',
   styleUrl: './wid-fretboard-string.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,8 +23,9 @@ export class WidFretboardString {
   private readonly colorsManager = inject(NoteColorsService);
   private readonly scaleSteepsManager = inject(ScaleSteepsService);
   private readonly noteNamesManager = inject(NoteNamesManager);
+  private readonly i18n = inject(I18nService);
 
-  protected readonly octaveOptions = OCTAVES;
+  protected readonly octaveOptions = computed(() => this.i18n.translateOptions(OCTAVES));
   protected readonly notesOptions = this.noteNamesManager.noteNames;
 
   public startNote = model<Note>(Note.C);
@@ -35,29 +38,41 @@ export class WidFretboardString {
 
   protected frets = computed(() => [...iterableRange(1, this.fretsCount())]);
 
-  protected getNote(toniOffset = 0) {
+  protected getNote(fret = 0) {
     const startNote = this.startNote();
-    return NoteHelper.getNoteIndex(startNote, toniOffset);
+    return NoteHelper.getNoteIndex(startNote, fret);
   }
 
-  protected getNoteName(toniOffset = 0) {
-    return this.noteNamesManager.getNoteName(this.getNote(toniOffset));
+  protected getNoteName(fret = 0) {
+    return this.noteNamesManager.getNoteName(this.getNote(fret));
   }
 
-  protected getScaleStep(toniOffset = 0) {
-    const note = this.getNote(toniOffset);
+  protected getScaleStep(fret = 0) {
+    const note = this.getNote(fret);
     return this.scaleSteepsManager.getScaleStep(note)?.stepNumber;
   }
 
-  protected getNoteColor(toniOffset = 0) {
-    const note = this.getNote(toniOffset)!;
+  protected getNoteColor(fret = 0) {
+    const note = this.getNote(fret)!;
     const scaleStep = this.scaleSteepsManager.getScaleStep(note)?.stepNumber;
-    return this.colorsManager.getNoteColor(note, scaleStep);
+    const octaveNumber = this.getOctaveNumber(fret);
+    return this.colorsManager.getNoteColor(note, scaleStep, octaveNumber);
   }
 
-  protected getOctave(fret: number) {
-    const octave = Math.floor((this.startNote() + fret + 12 * this.startOctave()) / 12);
-    return `${octave}`;
+  protected getOctave(fret: number = 0) {
+    return `${this.getOctaveNumber(fret)}`;
+  }
+
+  protected getOctaveColor(fret: number) {
+    return this.colorsManager.getOctaveColor(this.getOctaveNumber(fret));
+  }
+
+  protected getOctaveSelectStyle() {
+    return this.colorsManager.getOctaveStyle(this.startOctave());
+  }
+
+  private getOctaveNumber(fret: number) {
+    return Math.floor((this.startNote() + fret + 12 * this.startOctave()) / 12);
   }
 
   protected getFretWidth(fretNumber: number) {

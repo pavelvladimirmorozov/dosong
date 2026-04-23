@@ -7,6 +7,7 @@ import {
   DEFAULT_DYNAMIC_NOTE_NAMING,
   DEFAULT_HIGHLIGHT_MODE,
   DEFAULT_LANGUAGE,
+  DEFAULT_OCTAVE_HIGHLIGHT,
   DEFAULT_THEME,
   Language,
 } from './settings.constants';
@@ -15,6 +16,7 @@ const KEYS = {
   theme: 'theme',
   dynamicNoteNaming: 'note-naming-dynamic',
   highlightMode: 'highlight-mode',
+  octaveHighlight: 'octave-highlight',
   language: 'language',
 } as const;
 
@@ -30,6 +32,10 @@ export class SettingsRepository {
   public readonly highlightMode = this.createPersistedSignal<number>(
     KEYS.highlightMode,
     DEFAULT_HIGHLIGHT_MODE,
+  );
+  public readonly octaveHighlight = this.createPersistedSignal<boolean>(
+    KEYS.octaveHighlight,
+    DEFAULT_OCTAVE_HIGHLIGHT,
   );
   public readonly language = this.createPersistedSignal<Language>(
     KEYS.language,

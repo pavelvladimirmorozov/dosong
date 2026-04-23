@@ -10,6 +10,7 @@ export const RU_TRANSLATIONS: Record<string, string> = {
   'settings.theme': 'Тема',
   'settings.noteNaming': 'Именование нот',
   'settings.highlight': 'Подсветка нот',
+  'settings.octaveHighlight': 'Подсветка октав',
   'settings.language': 'Язык',
 
   // Theme options

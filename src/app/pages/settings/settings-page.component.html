@@ -30,6 +30,11 @@
     </div>
 
     <div class="settings-page__row">
+      <span class="settings-page__label">{{ 'settings.octaveHighlight' | translate }}</span>
+      <com-checkbox [(checked)]="settings.octaveHighlight" />
+    </div>
+
+    <div class="settings-page__row">
       <span class="settings-page__label">{{ 'settings.language' | translate }}</span>
       <com-select
         class="settings-page__control"

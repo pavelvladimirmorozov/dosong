@@ -5,6 +5,7 @@ export type Language = 'ru' | 'en';
 export const DEFAULT_THEME: Theme = 'dark';
 export const DEFAULT_DYNAMIC_NOTE_NAMING = true;
 export const DEFAULT_HIGHLIGHT_MODE = 2;
+export const DEFAULT_OCTAVE_HIGHLIGHT = false;
 export const DEFAULT_LANGUAGE: Language = 'ru';
 
 export const LANGUAGE_OPTIONS: { id: Language; name: string }[] = [

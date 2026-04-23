@@ -1,4 +1,5 @@
 export interface NoteColorsStyle {
-  backgroundColor: string;
-  color: string;
+  noteColor: string;
+  textColor: string;
+  octaveColor?: string | null;
 }

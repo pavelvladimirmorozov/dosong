@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 import { ROMAN_NUMERALS } from '@utils/constants';
 
-// TODO: Добавить визуальную подсветку октавы
 @Component({
   selector: 'com-note-presenter',
   imports: [],
@@ -10,7 +9,6 @@ import { ROMAN_NUMERALS } from '@utils/constants';
   styleUrl: './com-note-presenter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[style.width]': 'width()',
     '[style.flexBasis]': 'width()',
     '[class.note-presenter--size-sm]': 'size() === "sm"',
     '[class.note-presenter--size-lg]': 'size() === "lg"',

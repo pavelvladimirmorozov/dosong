@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
+import { ComCheckbox } from '@components/checkbox';
 import { ComSelect } from '@components/select';
 
 import { I18nService, TranslatePipe } from '@services/i18n';
@@ -13,7 +14,7 @@ import {
 
 @Component({
   selector: 'app-settings-page',
-  imports: [ComSelect, TranslatePipe],
+  imports: [ComSelect, ComCheckbox, TranslatePipe],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

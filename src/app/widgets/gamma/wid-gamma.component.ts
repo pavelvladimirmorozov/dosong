@@ -8,6 +8,7 @@ import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
 import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
 import { NoteHelper } from '@utils/helpers';
+import { ComNoteColorPresenter } from "@components/note-color-presenter/com-note-color-presenter.component";
 
 @Component({
   selector: 'wid-gamma',
@@ -16,7 +17,8 @@ import { NoteHelper } from '@utils/helpers';
     ComNotePresenter,
     ComSelectContentSlot,
     TranslatePipe,
-  ],
+    ComNoteColorPresenter
+],
   templateUrl: './wid-gamma.component.html',
   styleUrl: './wid-gamma.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

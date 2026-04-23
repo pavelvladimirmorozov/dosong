@@ -93,8 +93,8 @@ export class WidCuartCircle {
     return {
       ...base,
       chord: { ...chord, name: this.decorateChordName(chord.name, step.type) },
-      fillColor: colors.backgroundColor,
-      textColor: colors.color,
+      fillColor: colors.noteColor,
+      textColor: colors.textColor,
       numeral: ROMAN_NUMERALS[step.stepNumber] + this.qualitySuffix(step.type),
     };
   }

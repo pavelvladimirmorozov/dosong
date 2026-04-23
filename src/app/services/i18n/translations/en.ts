@@ -10,6 +10,7 @@ export const EN_TRANSLATIONS: Record<string, string> = {
   'settings.theme': 'Theme',
   'settings.noteNaming': 'Note naming',
   'settings.highlight': 'Note highlighting',
+  'settings.octaveHighlight': 'Octave highlighting',
   'settings.language': 'Language',
 
   // Theme options
