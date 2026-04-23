@@ -4,13 +4,14 @@ import { ComButton } from '@components/button';
 import { ComField } from '@components/field';
 import { ComSelect } from '@components/select';
 
+import { TranslatePipe } from '@services/i18n';
 import { clamp, iterableRange } from '@utils/helpers';
 
 import type { ControlOrientation } from '../bpm-control/wid-bpm-control.component';
 
 @Component({
   selector: 'wid-beats-count-control',
-  imports: [ComButton, ComSelect, ComField],
+  imports: [ComButton, ComSelect, ComField, TranslatePipe],
   templateUrl: './wid-beats-count-control.component.html',
   styleUrl: './wid-beats-count-control.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,7 +26,7 @@ export class WidBeatsCountControl {
   public value = model.required<number>();
   public min = input(1);
   public max = input(16);
-  public label = input('Доли');
+  public label = input('metronome.beats');
   public orientation = input<ControlOrientation>('auto');
 
   protected readonly options = computed(() =>

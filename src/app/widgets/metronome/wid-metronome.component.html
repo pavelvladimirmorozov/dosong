@@ -1,7 +1,7 @@
 <div class="wid-metronome">
 
   <div class="wid-metronome__control-group">
-    <span class="wid-metronome__label">Громкость</span>
+    <span class="wid-metronome__label">{{ 'metronome.volume' | translate }}</span>
     <com-slider
       [value]="metronome.volume()"
       (valueChange)="metronome.volume.set($event)"
@@ -25,7 +25,7 @@
       [(value)]="metronome.beatsPerMeasure"
       [min]="1"
       [max]="16"
-      label="Доли"
+      [label]="'metronome.beats' | translate"
     ></wid-beats-count-control>
   </div>
 
@@ -43,8 +43,8 @@
   </div>
 
   <div class="wid-metronome__transport">
-    <com-button (click)="metronome.start()" [disabled]="metronome.isRunning()">Старт</com-button>
-    <com-button (click)="metronome.stop()" [disabled]="!metronome.isRunning()">Стоп</com-button>
+    <com-button (click)="metronome.start()" [disabled]="metronome.isRunning()">{{ 'metronome.start' | translate }}</com-button>
+    <com-button (click)="metronome.stop()" [disabled]="!metronome.isRunning()">{{ 'metronome.stop' | translate }}</com-button>
   </div>
 
   <wid-auto-tempo></wid-auto-tempo>

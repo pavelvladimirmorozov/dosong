@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
 import { ComSelect } from '@components/select';
 
+import { I18nService, TranslatePipe } from '@services/i18n';
 import {
   HIGHLIGHT_MODE_OPTIONS,
   LANGUAGE_OPTIONS,
@@ -12,16 +13,17 @@ import {
 
 @Component({
   selector: 'app-settings-page',
-  imports: [ComSelect],
+  imports: [ComSelect, TranslatePipe],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsPageComponent {
   protected readonly settings = inject(SettingsRepository);
+  private readonly i18n = inject(I18nService);
 
-  protected readonly themeOptions = THEME_OPTIONS;
-  protected readonly noteNamingOptions = NOTE_NAMING_OPTIONS;
-  protected readonly highlightModeOptions = HIGHLIGHT_MODE_OPTIONS;
-  protected readonly languageOptions = LANGUAGE_OPTIONS;
+  protected readonly themeOptions = computed(() => this.i18n.translateOptions(THEME_OPTIONS));
+  protected readonly noteNamingOptions = computed(() => this.i18n.translateOptions(NOTE_NAMING_OPTIONS));
+  protected readonly highlightModeOptions = computed(() => this.i18n.translateOptions(HIGHLIGHT_MODE_OPTIONS));
+  protected readonly languageOptions = computed(() => this.i18n.translateOptions(LANGUAGE_OPTIONS));
 }

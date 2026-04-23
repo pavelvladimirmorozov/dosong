@@ -1,12 +1,12 @@
-<com-spoiler title="Автотемп">
+<com-spoiler [title]="'autoTempo.title' | translate">
   <div class="wid-auto-tempo__body">
 
     <com-checkbox class="wid-auto-tempo__row" [(checked)]="metronome.rampEnabled">
-      Включить постепенное изменение темпа
+      {{ 'autoTempo.enable' | translate }}
     </com-checkbox>
 
     <div class="wid-auto-tempo__row">
-      <span class="wid-auto-tempo__label">Шаг BPM</span>
+      <span class="wid-auto-tempo__label">{{ 'autoTempo.bpmStep' | translate }}</span>
       <com-field class="wid-auto-tempo__input">
         <com-input
           type="number"
@@ -15,11 +15,11 @@
           (valueChange)="onDeltaChange($event)"
         ></com-input>
       </com-field>
-      <span class="wid-auto-tempo__hint">+ ускоряет, − замедляет</span>
+      <span class="wid-auto-tempo__hint">{{ 'autoTempo.bpmStepHint' | translate }}</span>
     </div>
 
     <div class="wid-auto-tempo__row">
-      <span class="wid-auto-tempo__label">Период</span>
+      <span class="wid-auto-tempo__label">{{ 'autoTempo.period' | translate }}</span>
       <com-field class="wid-auto-tempo__input">
         <com-input
           type="number"
@@ -29,12 +29,12 @@
           (valueChange)="onPeriodChange($event)"
         ></com-input>
       </com-field>
-      <span class="wid-auto-tempo__hint">тактов между шагами</span>
+      <span class="wid-auto-tempo__hint">{{ 'autoTempo.periodUnit' | translate }}</span>
     </div>
 
     <div class="wid-auto-tempo__row">
       <com-checkbox [checked]="hasTarget()" (checkedChange)="onTargetToggle($event)">
-        Целевой BPM
+        {{ 'autoTempo.targetBpm' | translate }}
       </com-checkbox>
 
       @if (hasTarget()) {

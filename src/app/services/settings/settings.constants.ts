@@ -8,23 +8,23 @@ export const DEFAULT_HIGHLIGHT_MODE = 2;
 export const DEFAULT_LANGUAGE: Language = 'ru';
 
 export const LANGUAGE_OPTIONS: { id: Language; name: string }[] = [
-  { id: 'ru', name: 'Русский' },
-  { id: 'en', name: 'English' },
+  { id: 'ru', name: 'language.ru' },
+  { id: 'en', name: 'language.en' },
 ];
 
 export const THEME_OPTIONS: { id: Theme; name: string }[] = [
-  { id: 'dark', name: 'Тёмная' },
-  { id: 'white', name: 'Светлая' },
+  { id: 'dark', name: 'theme.dark' },
+  { id: 'white', name: 'theme.light' },
 ];
 
 export const NOTE_NAMING_OPTIONS: { id: boolean; name: string }[] = [
-  { id: true, name: 'Динамическое' },
-  { id: false, name: 'Статическое' },
+  { id: true, name: 'noteNaming.dynamic' },
+  { id: false, name: 'noteNaming.static' },
 ];
 
 export const HIGHLIGHT_MODE_OPTIONS: { id: number; name: string }[] = [
-  { id: 0, name: 'Без подсветки' },
-  { id: 2, name: 'Динамическая одноцветная' },
-  { id: 1, name: 'Динамическая цветная' },
-  { id: 3, name: 'Статическая цветная' },
+  { id: 0, name: 'highlight.off' },
+  { id: 2, name: 'highlight.dynamicSingle' },
+  { id: 1, name: 'highlight.dynamicMulti' },
+  { id: 3, name: 'highlight.staticMulti' },
 ];

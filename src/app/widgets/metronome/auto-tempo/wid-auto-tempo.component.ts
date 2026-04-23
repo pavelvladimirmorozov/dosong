@@ -5,12 +5,13 @@ import { ComField } from '@components/field';
 import { ComInput } from '@components/input';
 import { ComSpoiler } from '@components/spoiler';
 
+import { TranslatePipe } from '@services/i18n';
 import { BPM_MAX, BPM_MIN, MetronomeService } from '@services/metronome/metronome.service';
 import { clamp, parseClampedInt } from '@utils/helpers';
 
 @Component({
   selector: 'wid-auto-tempo',
-  imports: [ComSpoiler, ComCheckbox, ComInput, ComField],
+  imports: [ComSpoiler, ComCheckbox, ComInput, ComField, TranslatePipe],
   templateUrl: './wid-auto-tempo.component.html',
   styleUrl: './wid-auto-tempo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -18,7 +18,7 @@ import { ScaleSteps, Scale, ScaleKind, ScaleQuality, ScaleStepQuality, NoteInfo,
 export const SCALE_STEPS: ScaleSteps[] = [
   {
     id: Scale.Chromatic,
-    name: "Хроматизм",
+    name: "scale.chromatic",
     type: ScaleQuality.None,
     kind: ScaleKind.Chromatic,
     steps: [
@@ -38,7 +38,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.Major,
-    name: "Натуральный мажор",
+    name: "scale.major",
     type: ScaleQuality.Major,
     kind: ScaleKind.Natural,
     steps: [
@@ -53,7 +53,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.Minor,
-    name: "Натуральный минор",
+    name: "scale.minor",
     type: ScaleQuality.Minor,
     kind: ScaleKind.Natural,
     steps: [
@@ -68,7 +68,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.HarmonicMinor,
-    name: "Гармонический минор",
+    name: "scale.harmonicMinor",
     type: ScaleQuality.Minor,
     kind: ScaleKind.Harmonic,
     steps: [
@@ -83,7 +83,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.MelodicMinor,
-    name: "Мелодический минор",
+    name: "scale.melodicMinor",
     type: ScaleQuality.Minor,
     kind: ScaleKind.Melodic,
     steps: [
@@ -98,7 +98,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.HarmonicMajor,
-    name: "Гармонический мажор",
+    name: "scale.harmonicMajor",
     type: ScaleQuality.Major,
     kind: ScaleKind.Harmonic,
     steps: [
@@ -113,7 +113,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.MelodicMajor,
-    name: "Мелодический мажор",
+    name: "scale.melodicMajor",
     type: ScaleQuality.Major,
     kind: ScaleKind.Melodic,
     steps: [
@@ -128,7 +128,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.MajorPentatonic,
-    name: "Мажорная пентатоника",
+    name: "scale.majorPentatonic",
     type: ScaleQuality.Major,
     kind: ScaleKind.Pentatonic,
     steps: [
@@ -143,7 +143,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.MinorPentatonic,
-    name: "Минорная пентатоника",
+    name: "scale.minorPentatonic",
     type: ScaleQuality.Minor,
     kind: ScaleKind.Pentatonic,
     steps: [
@@ -158,7 +158,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.Blues,
-    name: "Блюзовая гамма",
+    name: "scale.blues",
     type: ScaleQuality.Major,
     kind: ScaleKind.Blues,
     steps: [
@@ -172,7 +172,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.Egyptian,
-    name: "Египетская пентатоника",
+    name: "scale.egyptianPentatonic",
     type: ScaleQuality.None,
     kind: ScaleKind.Egyptian,
     steps: [
@@ -187,7 +187,7 @@ export const SCALE_STEPS: ScaleSteps[] = [
   },
   {
     id: Scale.Japanese,
-    name: "Японская пентатоника",
+    name: "scale.japanesePentatonic",
     type: ScaleQuality.None,
     kind: ScaleKind.Japanese,
     steps: [
@@ -203,20 +203,20 @@ export const SCALE_STEPS: ScaleSteps[] = [
 ];
 
 export const SCALE_QUALITY_OPTIONS: ComSelectOption<ScaleQuality>[] = [
-  { id: ScaleQuality.Major, name: "Мажор" },
-  { id: ScaleQuality.Minor, name: "Минор" },
-  { id: ScaleQuality.None,  name: "Без" },
+  { id: ScaleQuality.Major, name: "quality.major" },
+  { id: ScaleQuality.Minor, name: "quality.minor" },
+  { id: ScaleQuality.None,  name: "quality.none" },
 ];
 
 export const SCALE_KIND_OPTIONS: ComSelectOption<ScaleKind>[] = [
-  { id: ScaleKind.Natural,    name: "Натуральный" },
-  { id: ScaleKind.Harmonic,   name: "Гармонический" },
-  { id: ScaleKind.Melodic,    name: "Мелодический" },
-  { id: ScaleKind.Pentatonic, name: "Пентатоника" },
-  { id: ScaleKind.Blues,      name: "Блюзовый" },
-  { id: ScaleKind.Chromatic,  name: "Хроматический" },
-  { id: ScaleKind.Japanese,   name: "Японская пентатоника" },
-  { id: ScaleKind.Egyptian,   name: "Египетская пентатоника" },
+  { id: ScaleKind.Natural,    name: "kind.natural" },
+  { id: ScaleKind.Harmonic,   name: "kind.harmonic" },
+  { id: ScaleKind.Melodic,    name: "kind.melodic" },
+  { id: ScaleKind.Pentatonic, name: "kind.pentatonic" },
+  { id: ScaleKind.Blues,      name: "kind.blues" },
+  { id: ScaleKind.Chromatic,  name: "kind.chromatic" },
+  { id: ScaleKind.Japanese,   name: "kind.japanese" },
+  { id: ScaleKind.Egyptian,   name: "kind.egyptian" },
 ];
 
 // export const CHORDS_SCALE_STEPS  = [

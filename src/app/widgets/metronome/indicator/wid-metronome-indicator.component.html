@@ -13,7 +13,7 @@
     <button
       type="button"
       class="wid-metronome-indicator__btn"
-      [attr.aria-label]="isRunning() ? 'Стоп' : 'Запустить'"
+      [attr.aria-label]="(isRunning() ? 'metronomeIndicator.stop' : 'metronomeIndicator.start') | translate"
       (click)="toggle()"
     >
       @if (isRunning()) {
@@ -26,7 +26,7 @@
     <button
       type="button"
       class="wid-metronome-indicator__btn"
-      aria-label="Закрыть"
+      [attr.aria-label]="'metronomeIndicator.close' | translate"
       (click)="close()"
     >
       <svg width="18" height="18" comCloseIcon></svg>

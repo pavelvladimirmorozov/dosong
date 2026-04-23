@@ -1,5 +1,5 @@
 <div class="wid-gamma__container">
-  <com-select class="wid-gamma__select" [options]="scaleSteepsManager.qualityOptions"
+  <com-select class="wid-gamma__select" [options]="scaleSteepsManager.qualityOptions()"
     [selectedValue]="scaleSteepsManager.selectedQuality()"
     (selectedValueChange)="scaleSteepsManager.setQuality($event)" />
 
@@ -22,7 +22,7 @@
 
 <div class="wid-gamma__formula">
   <span class="wid-gamma__formula-label">
-    Формула:
+    {{ 'gamma.formula' | translate }}
   </span>
 
   <span class="wid-gamma__formula-steps">

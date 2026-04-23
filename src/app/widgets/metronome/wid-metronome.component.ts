@@ -4,6 +4,7 @@ import { ComButton } from '@components/button';
 import { ComSlider } from '@components/slider';
 
 import { Beat } from '@services/audio-processor/audio-processor.types';
+import { TranslatePipe } from '@services/i18n';
 import { BPM_MAX, BPM_MIN, MetronomeService } from '@services/metronome/metronome.service';
 
 import { WidAutoTempo } from './auto-tempo/wid-auto-tempo.component';
@@ -20,6 +21,7 @@ import { WidMetronomeBeatSelectComponent } from './metronome-beat/wid-metronome-
     WidBpmControl,
     WidBeatsCountControl,
     WidAutoTempo,
+    TranslatePipe,
   ],
   templateUrl: './wid-metronome.component.html',
   styleUrls: ['./wid-metronome.component.scss'],

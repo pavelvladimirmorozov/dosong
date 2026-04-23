@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 
 import { ComCloseIcon, ComPlayIcon, ComStopIcon } from '@components/icons';
 
+import { TranslatePipe } from '@services/i18n';
 import { MetronomeService } from '@services/metronome/metronome.service';
 
 @Component({
   selector: 'wid-metronome-indicator',
-  imports: [ComStopIcon, ComPlayIcon, ComCloseIcon],
+  imports: [ComStopIcon, ComPlayIcon, ComCloseIcon, TranslatePipe],
   templateUrl: './wid-metronome-indicator.component.html',
   styleUrl: './wid-metronome-indicator.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

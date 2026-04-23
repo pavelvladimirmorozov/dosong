@@ -5,10 +5,11 @@ import { ComButton } from '@components/button/com-button.component';
 import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
 
 import { CustomAudioProcessor } from '@services/audio-processor/custom-audio-processor';
+import { TranslatePipe } from '@services/i18n';
 
 @Component({
   selector: 'com-tuner',
-  imports: [DecimalPipe, ComNotePresenter, ComButton],
+  imports: [DecimalPipe, ComNotePresenter, ComButton, TranslatePipe],
   templateUrl: './com-tuner.component.html',
   styleUrl: './com-tuner.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

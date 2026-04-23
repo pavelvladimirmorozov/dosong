@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
 import { ComSelect, ComSelectContentSlot } from '@components/select';
 
+import { TranslatePipe } from '@services/i18n';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
 import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
@@ -14,6 +15,7 @@ import { NoteHelper } from '@utils/helpers';
     ComSelect,
     ComNotePresenter,
     ComSelectContentSlot,
+    TranslatePipe,
   ],
   templateUrl: './wid-gamma.component.html',
   styleUrl: './wid-gamma.component.scss',

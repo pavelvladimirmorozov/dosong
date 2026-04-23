@@ -1,39 +1,39 @@
 <div class="settings-page">
-  <h1 class="settings-page__title">Настройки</h1>
+  <h1 class="settings-page__title">{{ 'settings.title' | translate }}</h1>
 
   <div class="settings-page__group">
     <div class="settings-page__row">
-      <span class="settings-page__label">Тема</span>
+      <span class="settings-page__label">{{ 'settings.theme' | translate }}</span>
       <com-select
         class="settings-page__control"
-        [options]="themeOptions"
+        [options]="themeOptions()"
         [(selectedValue)]="settings.theme"
       />
     </div>
 
     <div class="settings-page__row">
-      <span class="settings-page__label">Именование нот</span>
+      <span class="settings-page__label">{{ 'settings.noteNaming' | translate }}</span>
       <com-select
         class="settings-page__control"
-        [options]="noteNamingOptions"
+        [options]="noteNamingOptions()"
         [(selectedValue)]="settings.dynamicNoteNaming"
       />
     </div>
 
     <div class="settings-page__row">
-      <span class="settings-page__label">Подсветка нот</span>
+      <span class="settings-page__label">{{ 'settings.highlight' | translate }}</span>
       <com-select
         class="settings-page__control"
-        [options]="highlightModeOptions"
+        [options]="highlightModeOptions()"
         [(selectedValue)]="settings.highlightMode"
       />
     </div>
 
     <div class="settings-page__row">
-      <span class="settings-page__label">Язык</span>
+      <span class="settings-page__label">{{ 'settings.language' | translate }}</span>
       <com-select
         class="settings-page__control"
-        [options]="languageOptions"
+        [options]="languageOptions()"
         [(selectedValue)]="settings.language"
       />
     </div>

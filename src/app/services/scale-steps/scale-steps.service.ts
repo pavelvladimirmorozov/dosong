@@ -1,5 +1,6 @@
-import { Injectable, signal, computed } from "@angular/core";
+import { Injectable, signal, computed, inject } from "@angular/core";
 
+import { I18nService } from "@services/i18n";
 import { NoteHelper } from "@utils/helpers/note-helpers";
 
 import {
@@ -12,9 +13,11 @@ import { Note, Scale, ScaleKind, ScaleQuality, ScaleSteepState } from "./scale-s
 
 @Injectable({ providedIn: 'root' })
 export class ScaleSteepsService {
+  private readonly i18n = inject(I18nService);
+
   public readonly tonicOptions = SHARP_NOTES;
   public readonly scaleStepsOptions = computed(() => SCALE_STEPS);
-  public readonly qualityOptions = SCALE_QUALITY_OPTIONS;
+  public readonly qualityOptions = computed(() => this.i18n.translateOptions(SCALE_QUALITY_OPTIONS));
 
   public selectedScale = signal<Scale>(Scale.Major);
 
@@ -32,7 +35,8 @@ export class ScaleSteepsService {
   public availableKindOptions = computed(() => {
     const quality = this.selectedQuality();
     const kindsForQuality = new Set(SCALE_STEPS.filter(s => s.type === quality).map(s => s.kind));
-    return SCALE_KIND_OPTIONS.filter(opt => opt.id != null && kindsForQuality.has(opt.id));
+    const filtered = SCALE_KIND_OPTIONS.filter(opt => opt.id != null && kindsForQuality.has(opt.id));
+    return this.i18n.translateOptions(filtered);
   });
 
   public selectedScaleState = computed<ScaleSteepState[]>(() => {
