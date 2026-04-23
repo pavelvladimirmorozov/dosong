@@ -1,5 +1,6 @@
-import { computed, inject, Injectable, signal } from "@angular/core";
+import { computed, inject, Injectable } from "@angular/core";
 
+import { SettingsRepository } from "@services/settings";
 import { DOUBLE_SHARP, FLAT, SHARP } from "@utils/constants";
 import { NoteHelper, NoteSpelling } from "@utils/helpers";
 
@@ -17,8 +18,9 @@ const DIATONIC_STEP_COUNT = 7;
 @Injectable({ providedIn: 'root' })
 export class NoteNamesManager {
   private readonly scaleSteepsManager = inject(ScaleSteepsService);
+  private readonly settings = inject(SettingsRepository);
 
-  public useGammaNotes = signal(true);
+  public readonly useGammaNotes = this.settings.dynamicNoteNaming;
 
   public noteNames = computed<NoteInfo[]>(() => {
     if (!this.useGammaNotes()) return SHARP_NOTES;

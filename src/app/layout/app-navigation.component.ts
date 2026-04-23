@@ -1,17 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import {
   ComGuitarIcon,
   ComMetronomeIcon,
-  ComMoonIcon,
-  ComSunIcon,
+  ComSettingsIcon,
 } from '@components/icons';
 import { ComTunerIcon } from '@components/icons/com-tuner-icon.component';
 
-import { ThemeService } from '@services/theme/theme.service';
 import { WidMetronomeIndicator } from '@widgets/metronome/indicator/wid-metronome-indicator.component';
 
-import { AppNavItemButtonComponent } from './app-nav-item-button.component';
 import { AppNavItemComponent } from './app-nav-item.component';
 
 @Component({
@@ -20,10 +17,8 @@ import { AppNavItemComponent } from './app-nav-item.component';
     ComTunerIcon,
     ComGuitarIcon,
     ComMetronomeIcon,
-    ComSunIcon,
-    ComMoonIcon,
+    ComSettingsIcon,
     AppNavItemComponent,
-    AppNavItemButtonComponent,
     WidMetronomeIndicator,
   ],
   template: `
@@ -42,15 +37,9 @@ import { AppNavItemComponent } from './app-nav-item.component';
         <svg width="20" height="20" comTunerIcon></svg>
       </app-nav-item>
 
-      @if (themeService.currentTheme() === 'dark') {
-        <app-nav-item-button label="Светлая" (clicked)="themeService.toggle()">
-          <svg width="20" height="20" comSunIcon></svg>
-        </app-nav-item-button>
-      } @else {
-        <app-nav-item-button label="Тёмная" (clicked)="themeService.toggle()">
-          <svg width="20" height="20" comMoonIcon></svg>
-        </app-nav-item-button>
-      }
+      <app-nav-item route="/settings" label="Настройки">
+        <svg width="20" height="20" comSettingsIcon></svg>
+      </app-nav-item>
     </nav>
 
     <div class="main-container">
@@ -60,6 +49,4 @@ import { AppNavItemComponent } from './app-nav-item.component';
   styleUrl: './app-navigation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppNavigationComponent {
-  protected readonly themeService = inject(ThemeService);
-}
+export class AppNavigationComponent {}

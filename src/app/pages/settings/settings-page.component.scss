@@ -1,0 +1,40 @@
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  max-width: 520px;
+  padding: 24px;
+  gap: 24px;
+}
+
+.settings-page__title {
+  margin: 0;
+  font-size: 20px;
+  color: var(--color-text);
+}
+
+.settings-page__group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-page__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.settings-page__label {
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.settings-page__control {
+  flex: 0 0 260px;
+  border: 1px solid var(--color-input-border);
+  background: var(--color-input-bg);
+  border-radius: 6px;
+  padding: 0 10px;
+  height: var(--control-height);
+}

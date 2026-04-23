@@ -1,30 +1,4 @@
 <div class="wid-gamma__container">
-  <!-- <com-select class="wid-gamma__select" [options]="colorsManager.colorModeOptions"
-    [(selectedValue)]="colorsManager.selectedMode" /> -->
-
-  <div class="button-toggle">
-    <label class="button-toggle__label">
-      <input type="radio" name="selectedColorModeRadio" [(ngModel)]="colorsManager.selectedMode" [value]="0"
-        class="button-toggle__input">
-      <span class="button-toggle__button"><svg comStaticSinglecolorIcon></svg></span>
-    </label>
-    <label class="button-toggle__label">
-      <input type="radio" name="selectedColorModeRadio" [(ngModel)]="colorsManager.selectedMode" [value]="2"
-        class="button-toggle__input">
-      <span class="button-toggle__button"><svg comDynamicSinglecolorIcon></svg></span>
-    </label>
-    <label class="button-toggle__label">
-      <input type="radio" name="selectedColorModeRadio" [(ngModel)]="colorsManager.selectedMode" [value]="1"
-        class="button-toggle__input">
-      <span class="button-toggle__button"><svg comDynamicMulticolorIcon></svg></span>
-    </label>
-    <label class="button-toggle__label">
-      <input type="radio" name="selectedColorModeRadio" [(ngModel)]="colorsManager.selectedMode" [value]="3"
-        class="button-toggle__input">
-      <span class="button-toggle__button"><svg comStaticMulticolorIcon></svg></span>
-    </label>
-  </div>
-
   <com-select class="wid-gamma__select" [options]="scaleSteepsManager.qualityOptions"
     [selectedValue]="scaleSteepsManager.selectedQuality()"
     (selectedValueChange)="scaleSteepsManager.setQuality($event)" />

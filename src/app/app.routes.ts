@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { FretboardPageComponent } from '@pages/fretboard/fretboard-page.component';
 import { KnowledgeBaseComponent } from '@pages/knowledge-base/knowledge-base.component';
 import { MetronomePageComponent } from '@pages/metronome/metronome-page.component';
+import { SettingsPageComponent } from '@pages/settings/settings-page.component';
 import { TunerPageComponent } from '@pages/tuner/tuner-page.component';
 
 export const routes: Routes = [
@@ -21,5 +22,9 @@ export const routes: Routes = [
   {
     path: 'metronome',
     component: MetronomePageComponent,
+  },
+  {
+    path: 'settings',
+    component: SettingsPageComponent,
   },
 ];

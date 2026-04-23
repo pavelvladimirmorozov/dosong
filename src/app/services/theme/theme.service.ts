@@ -1,18 +1,16 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { effect, inject, Injectable } from '@angular/core';
 
-import { Theme } from './theme.constants';
-
-const THEME_KEY = 'dosong-theme';
+import { SettingsRepository } from '@services/settings';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  readonly currentTheme = signal<Theme>(this.loadTheme());
+  private readonly settings = inject(SettingsRepository);
+
+  public readonly currentTheme = this.settings.theme.asReadonly();
 
   constructor() {
     effect(() => {
       const theme = this.currentTheme();
-      localStorage.setItem(THEME_KEY, theme);
-
       // Класс темы ставим на <html>, чтобы CSS-переменные достали
       // и до CDK-оверлеев (они монтируются в body, вне app-root).
       const root = document.documentElement;
@@ -21,12 +19,7 @@ export class ThemeService {
     });
   }
 
-  toggle(): void {
-    this.currentTheme.update(t => (t === 'dark' ? 'white' : 'dark'));
-  }
-
-  private loadTheme(): Theme {
-    const stored = localStorage.getItem(THEME_KEY);
-    return stored === 'white' ? 'white' : 'dark';
+  public toggle(): void {
+    this.settings.theme.update(t => (t === 'dark' ? 'white' : 'dark'));
   }
 }

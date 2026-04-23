@@ -1,12 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
-import { 
-  ComStaticMulticolorIcon, 
-  ComStaticSinglecolorIcon, 
-  ComDynamicMulticolorIcon, 
-  ComDynamicSinglecolorIcon 
-} from '@components/icons';
 import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
 import { ComSelect, ComSelectContentSlot } from '@components/select';
 
@@ -21,11 +14,7 @@ import { NoteHelper } from '@utils/helpers';
     ComSelect,
     ComNotePresenter,
     ComSelectContentSlot,
-    ComStaticMulticolorIcon,
-    ComStaticSinglecolorIcon,
-    ComDynamicMulticolorIcon,
-    ComDynamicSinglecolorIcon,
-    FormsModule],
+  ],
   templateUrl: './wid-gamma.component.html',
   styleUrl: './wid-gamma.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,7 +43,7 @@ export class WidGamma {
 
   protected getNoteColor(toniOffset: number | null) {
     if (toniOffset == null) return this.colorsManager.getTransparentNoteColor();
-    
+
     const note = this.getNote(toniOffset)!;
     const scaleStep = this.scaleSteepsManager.getScaleStep(note);
     return this.colorsManager.getNoteColor(note, scaleStep?.stepNumber);

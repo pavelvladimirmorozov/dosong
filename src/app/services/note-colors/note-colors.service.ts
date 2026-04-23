@@ -1,6 +1,7 @@
 import { computed, Injectable, inject, signal } from "@angular/core";
 
 import { Note } from "@services/scale-steps/scale-steps.types";
+import { SettingsRepository } from "@services/settings";
 import { THEME_COLORS } from "@services/theme/theme.constants";
 import { ThemeService } from "@services/theme/theme.service";
 
@@ -11,6 +12,7 @@ import { ColorHelper } from "./note-colors.utils";
 @Injectable({ providedIn: 'root' })
 export class NoteColorsService {
   private readonly themeService = inject(ThemeService);
+  private readonly settings = inject(SettingsRepository);
   private readonly noteColors = signal(NOTE_COLORS);
   private readonly staticNoteColor = signal(STATIC_NOTE_COLOR);
   public readonly themeBackground = computed(() => THEME_COLORS[this.themeService.currentTheme()].bg);
@@ -18,7 +20,7 @@ export class NoteColorsService {
   public readonly themeMutedColor = computed(() => THEME_COLORS[this.themeService.currentTheme()].muted);
 
   public readonly colorModeOptions = COLOR_MODES;
-  public selectedMode = signal<number>(2);
+  public readonly selectedMode = this.settings.highlightMode;
 
   public getNoteColor(currentNote: Note, scaleStep?: number): NoteColorsStyle {
     if (this.selectedMode() === 0) return this.getTransparentNoteColor();
