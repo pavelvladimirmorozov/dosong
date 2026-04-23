@@ -7,23 +7,17 @@ export const EN_TRANSLATIONS: Record<string, string> = {
 
   // Settings page
   'settings.title': 'Settings',
-  'settings.theme': 'Theme',
-  'settings.noteNaming': 'Note naming',
+  'settings.darkTheme': 'Dark theme',
+  'settings.dynamicNoteNaming': 'Dynamic note naming',
+  'settings.dynamicNoteNamingHint': 'Names adapt to the current tonality',
+  'settings.staticNoteNamingHint': 'Sharp names are always used',
   'settings.highlight': 'Note highlighting',
   'settings.octaveHighlight': 'Octave highlighting',
   'settings.language': 'Language',
 
-  // Theme options
-  'theme.dark': 'Dark',
-  'theme.light': 'Light',
-
   // Languages
   'language.ru': 'Русский',
   'language.en': 'English',
-
-  // Note naming
-  'noteNaming.dynamic': 'Dynamic',
-  'noteNaming.static': 'Static',
 
   // Highlight modes
   'highlight.off': 'No highlighting',

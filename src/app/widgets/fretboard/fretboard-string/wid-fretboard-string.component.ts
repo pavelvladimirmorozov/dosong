@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
 
+import { ComNoteColorPresenter } from "@components/note-color-presenter/com-note-color-presenter.component";
 import { ComNotePresenter } from '@components/note-presenter';
 import { ComSelect, ComSelectContentSlot } from '@components/select';
 
@@ -10,7 +11,6 @@ import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
 import { Note } from '@services/scale-steps/scale-steps.types';
 import { OCTAVES } from '@utils/constants';
 import { iterableRange, NoteHelper } from '@utils/helpers';
-import { ComNoteColorPresenter } from "@components/note-color-presenter/com-note-color-presenter.component";
 
 @Component({
   selector: 'wid-fretboard-string',
@@ -59,7 +59,7 @@ export class WidFretboardString {
     return this.colorsManager.getNoteColor(note, scaleStep, octaveNumber);
   }
 
-  protected getOctave(fret: number = 0) {
+  protected getOctave(fret = 0) {
     return `${this.getOctaveNumber(fret)}`;
   }
 

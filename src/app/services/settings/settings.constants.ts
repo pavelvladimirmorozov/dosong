@@ -13,16 +13,6 @@ export const LANGUAGE_OPTIONS: { id: Language; name: string }[] = [
   { id: 'en', name: 'language.en' },
 ];
 
-export const THEME_OPTIONS: { id: Theme; name: string }[] = [
-  { id: 'dark', name: 'theme.dark' },
-  { id: 'white', name: 'theme.light' },
-];
-
-export const NOTE_NAMING_OPTIONS: { id: boolean; name: string }[] = [
-  { id: true, name: 'noteNaming.dynamic' },
-  { id: false, name: 'noteNaming.static' },
-];
-
 export const HIGHLIGHT_MODE_OPTIONS: { id: number; name: string }[] = [
   { id: 0, name: 'highlight.off' },
   { id: 2, name: 'highlight.dynamicSingle' },

@@ -3,21 +3,26 @@
 
   <div class="settings-page__group">
     <div class="settings-page__row">
-      <span class="settings-page__label">{{ 'settings.theme' | translate }}</span>
-      <com-select
-        class="settings-page__control"
-        [options]="themeOptions()"
-        [(selectedValue)]="settings.theme"
+      <span class="settings-page__label">{{ 'settings.darkTheme' | translate }}</span>
+      <com-switch
+        [checked]="darkTheme()"
+        (checkedChange)="onDarkThemeChange($event)"
       />
     </div>
 
     <div class="settings-page__row">
-      <span class="settings-page__label">{{ 'settings.noteNaming' | translate }}</span>
-      <com-select
-        class="settings-page__control"
-        [options]="noteNamingOptions()"
-        [(selectedValue)]="settings.dynamicNoteNaming"
-      />
+      <span class="settings-page__label">{{ 'settings.octaveHighlight' | translate }}</span>
+      <com-switch [(checked)]="settings.octaveHighlight" />
+    </div>
+
+    <div class="settings-page__row settings-page__row--with-hint">
+      <div class="settings-page__row-main">
+        <span class="settings-page__label">{{ 'settings.dynamicNoteNaming' | translate }}</span>
+        <com-switch [(checked)]="settings.dynamicNoteNaming" />
+      </div>
+      <span class="settings-page__hint">
+        {{ (settings.dynamicNoteNaming() ? 'settings.dynamicNoteNamingHint' : 'settings.staticNoteNamingHint') | translate }}
+      </span>
     </div>
 
     <div class="settings-page__row">
@@ -27,11 +32,6 @@
         [options]="highlightModeOptions()"
         [(selectedValue)]="settings.highlightMode"
       />
-    </div>
-
-    <div class="settings-page__row">
-      <span class="settings-page__label">{{ 'settings.octaveHighlight' | translate }}</span>
-      <com-checkbox [(checked)]="settings.octaveHighlight" />
     </div>
 
     <div class="settings-page__row">

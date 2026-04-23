@@ -1,6 +1,7 @@
 
 
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+
 import { NoteColorsStyle } from '@services/note-colors/note-colors.types';
 
 

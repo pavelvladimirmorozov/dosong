@@ -7,23 +7,17 @@ export const RU_TRANSLATIONS: Record<string, string> = {
 
   // Settings page
   'settings.title': 'Настройки',
-  'settings.theme': 'Тема',
-  'settings.noteNaming': 'Именование нот',
+  'settings.darkTheme': 'Тёмная тема',
+  'settings.dynamicNoteNaming': 'Динамическое именование нот',
+  'settings.dynamicNoteNamingHint': 'Названия подстраиваются под тональность',
+  'settings.staticNoteNamingHint': 'Всегда используются названия с диезами',
   'settings.highlight': 'Подсветка нот',
   'settings.octaveHighlight': 'Подсветка октав',
   'settings.language': 'Язык',
 
-  // Theme options
-  'theme.dark': 'Тёмная',
-  'theme.light': 'Светлая',
-
   // Languages
   'language.ru': 'Русский',
   'language.en': 'English',
-
-  // Note naming
-  'noteNaming.dynamic': 'Динамическое',
-  'noteNaming.static': 'Статическое',
 
   // Highlight modes
   'highlight.off': 'Без подсветки',
