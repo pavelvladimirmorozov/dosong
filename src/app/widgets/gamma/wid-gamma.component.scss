@@ -8,7 +8,14 @@
 .wid-gamma__container {
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 8px;
+  overflow: auto;
+  width: 100%;
+  
+  @media (width <= 768px) {
+    justify-content: start;
+  }
 }
 
 .wid-gamma__formula {

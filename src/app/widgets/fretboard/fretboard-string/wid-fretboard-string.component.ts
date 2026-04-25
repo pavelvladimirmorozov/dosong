@@ -4,6 +4,7 @@ import { ComNoteColorPresenter } from "@components/note-color-presenter/com-note
 import { ComNotePresenter } from '@components/note-presenter';
 import { ComSelect, ComSelectContentSlot, ComSelectOption } from '@components/select';
 
+import { ChordsService } from '@services/chords';
 import { I18nService } from '@services/i18n';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
@@ -23,6 +24,7 @@ export class WidFretboardString {
   private readonly colorsManager = inject(NoteColorsService);
   private readonly scaleSteepsManager = inject(ScaleSteepsService);
   private readonly noteNamesManager = inject(NoteNamesManager);
+  private readonly chords = inject(ChordsService);
   private readonly i18n = inject(I18nService);
 
   protected readonly octaveOptions = computed(() => this.i18n.translateOptions(OCTAVES));
@@ -57,6 +59,10 @@ export class WidFretboardString {
     const scaleStep = this.scaleSteepsManager.getScaleStep(note)?.stepNumber;
     const octaveNumber = this.getOctaveNumber(fret);
     return this.colorsManager.getNoteColor(note, scaleStep, octaveNumber);
+  }
+
+  protected isChordNote(fret = 0) {
+    return this.chords.highlightedNotes().has(this.getNote(fret));
   }
 
   protected getOctave(fret = 0) {

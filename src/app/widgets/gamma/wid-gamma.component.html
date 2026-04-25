@@ -11,7 +11,7 @@
 </div>
 
 <div class="wid-gamma__container">
-  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(0)">
+  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(0)" [isHighlighted]="isChordNote(0)">
     <com-select class="wid-gamma__select" [options]="scaleSteepsManager.tonicOptions"
       [(selectedValue)]="scaleSteepsManager.selectedTonic">
       <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [scaleStep]="getScaleStep()" />
@@ -20,7 +20,7 @@
 
   @for(offset of selectedFormula(); track $index) {
 
-  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(offset.interval)">
+  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(offset.interval)" [isHighlighted]="isChordNote(offset.interval)">
     <com-note-presenter class="wid-gamma__note" [noteName]="getNoteName(offset.interval)"
       [scaleStep]="getScaleStep(offset.interval)" />
   </com-note-color-presenter>

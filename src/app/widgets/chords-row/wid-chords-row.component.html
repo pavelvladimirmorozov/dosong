@@ -1,0 +1,20 @@
+<div class="wid-chords-row__container">
+  @for (chord of chords.diatonicChords(); track trackChord($index, chord)) {
+    <com-note-color-presenter
+      class="wid-chords-row__cell"
+      [noteColor]="chord.color"
+      [isHighlighted]="chords.isSelected(chord)"
+      (click)="chords.toggle(chord)"
+    >
+      <com-note-presenter [noteName]="chord.name" [scaleStep]="chord.stepNumber" />
+    </com-note-color-presenter>
+  }
+</div>
+
+@if (chords.selectedChord(); as selected) {
+  <div class="wid-chords-row__details">
+    <span class="wid-chords-row__details-name">{{ selected.name }}</span>
+    <span class="wid-chords-row__details-numeral">{{ selected.numeral }}</span>
+    <span class="wid-chords-row__details-notes">{{ selectedChordNotes() }}</span>
+  </div>
+}

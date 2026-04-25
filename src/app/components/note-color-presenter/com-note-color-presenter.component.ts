@@ -1,9 +1,6 @@
-
-
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { NoteColorsStyle } from '@services/note-colors/note-colors.types';
-
 
 @Component({
   selector: 'com-note-color-presenter',
@@ -13,6 +10,7 @@ import { NoteColorsStyle } from '@services/note-colors/note-colors.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.note-presenter--has-octave-marker]': 'noteColor()?.octaveColor != null',
+    '[class.note-presenter--highlighted]': 'isHighlighted()',
     '[style.--octave-marker-color]': 'noteColor()?.octaveColor',
     '[style.--note-color]': 'noteColor()?.noteColor',
     '[style.--text-color]': 'noteColor()?.textColor',
@@ -20,4 +18,5 @@ import { NoteColorsStyle } from '@services/note-colors/note-colors.types';
 })
 export class ComNoteColorPresenter {
   public noteColor = input<NoteColorsStyle | null>(null);
+  public isHighlighted = input<boolean>(false);
 }

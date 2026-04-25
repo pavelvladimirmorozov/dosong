@@ -27,3 +27,8 @@
     font-size: 13px;
   }
 }
+
+:host(.cuart-circle-sector--highlighted) .cuart-circle-sector__path {
+  stroke: var(--color-chord-highlight);
+  stroke-width: 3;
+}

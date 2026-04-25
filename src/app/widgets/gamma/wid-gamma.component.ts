@@ -4,6 +4,7 @@ import { ComNoteColorPresenter } from "@components/note-color-presenter/com-note
 import { ComNotePresenter } from '@components/note-presenter/com-note-presenter.component';
 import { ComSelect, ComSelectContentSlot } from '@components/select';
 
+import { ChordsService } from '@services/chords';
 import { TranslatePipe } from '@services/i18n';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
@@ -27,6 +28,7 @@ export class WidGamma {
   protected readonly colorsManager = inject(NoteColorsService);
   protected readonly scaleSteepsManager = inject(ScaleSteepsService);
   protected readonly noteNamesManager = inject(NoteNamesManager);
+  private readonly chords = inject(ChordsService);
 
   protected selectedFormula = computed(() =>
     this.scaleSteepsManager.selectedScaleState().slice(1)
@@ -57,5 +59,10 @@ export class WidGamma {
     if (toniOffset == null) return -1;
     const note = NoteHelper.getNoteIndex(this.scaleSteepsManager.selectedTonic(), toniOffset);
     return this.scaleSteepsManager.getScaleStep(note)?.stepNumber;
+  }
+
+  protected isChordNote(toniOffset: number | null) {
+    if (toniOffset == null) return false;
+    return this.chords.highlightedNotes().has(this.getNote(toniOffset));
   }
 }

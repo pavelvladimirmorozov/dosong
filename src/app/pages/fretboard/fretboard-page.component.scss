@@ -1,10 +1,23 @@
 .fretboard-page__cuart-circle-wrap {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  gap: 16px;
   padding: 8px;
 
+  .fretboard-page__chords-row {
+    @media (width <=768px) {
+      justify-content: start;
+    }
+  }
+
   .fretboard-page__cuart-circle {
+    flex-shrink: 0;
     width: 400px;
+
+    @media (width <=400px) {
+      width: 375px;
+    }
   }
 }

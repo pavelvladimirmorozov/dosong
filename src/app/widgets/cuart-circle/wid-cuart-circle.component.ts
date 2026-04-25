@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 
+import { decorateChordName, qualitySuffix } from '@services/chords';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
 import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
@@ -92,26 +93,10 @@ export class WidCuartCircle {
     const colors = this.colorsManager.getNoteColor(chordId, step.stepNumber);
     return {
       ...base,
-      chord: { ...chord, name: this.decorateChordName(chord.name, step.type) },
+      chord: { ...chord, name: decorateChordName(baseName, isMinor, step.type) },
       fillColor: colors.noteColor,
       textColor: colors.textColor,
-      numeral: ROMAN_NUMERALS[step.stepNumber] + this.qualitySuffix(step.type),
+      numeral: ROMAN_NUMERALS[step.stepNumber] + qualitySuffix(step.type),
     };
-  }
-
-  private decorateChordName(name: string, quality: ScaleStepQuality): string {
-    if (quality === ScaleStepQuality.Diminished) {
-      return name.endsWith('m') ? name.slice(0, -1) + 'dim' : name + 'dim';
-    }
-    if (quality === ScaleStepQuality.Augmented) {
-      return name + 'aug';
-    }
-    return name;
-  }
-
-  private qualitySuffix(quality: ScaleStepQuality): string {
-    if (quality === ScaleStepQuality.Diminished) return '°';
-    if (quality === ScaleStepQuality.Augmented) return '+';
-    return '';
   }
 }

@@ -5,7 +5,7 @@
   </ng-container>
 </com-select>
 
-<com-note-color-presenter class="wid-fretboard__action" [noteColor]="getNoteColor()">
+<com-note-color-presenter class="wid-fretboard__action" [noteColor]="getNoteColor()" [isHighlighted]="isChordNote()">
   <com-select class="" [options]="notesOptions()" [(selectedValue)]="startNote">
     <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [octave]="getOctave(0)"
       [scaleStep]="getScaleStep(0)" />
@@ -13,7 +13,7 @@
 </com-note-color-presenter>
 
 @for (fret of frets(); track fret) {
-<com-note-color-presenter class="wid-fretboard__note" [style.width]="getFretWidth(fret) + 'px'" [noteColor]="getNoteColor(fret)">
+<com-note-color-presenter class="wid-fretboard__note" [style.width]="getFretWidth(fret) + 'px'" [noteColor]="getNoteColor(fret)" [isHighlighted]="isChordNote(fret)">
   <com-note-presenter class="" [noteName]="getNoteName(fret)" [scaleStep]="getScaleStep(fret)"
      [octave]="getOctave(fret)"></com-note-presenter>
 </com-note-color-presenter>
