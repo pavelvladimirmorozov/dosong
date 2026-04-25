@@ -1,5 +1,5 @@
 <com-select class="wid-fretboard__action" [style]="getOctaveSelectStyle()" [options]="octaveOptions()"
-  [(selectedValue)]="startOctave">
+  [optionStyle]="getOctaveOptionStyle" [(selectedValue)]="startOctave">
   <ng-container *comSelectContentSlot="let option">
     {{option.id}}
   </ng-container>

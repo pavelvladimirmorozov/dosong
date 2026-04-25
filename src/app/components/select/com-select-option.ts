@@ -3,3 +3,5 @@ export interface ComSelectOption<T> {
   name: string;
   class?: string | null;
 }
+
+export type ComSelectOptionStyle<T> = (option: ComSelectOption<T>) => Record<string, string> | null | undefined;

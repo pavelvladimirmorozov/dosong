@@ -7,7 +7,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { ComChevronDownIcon } from '@components/icons/com-chevron-down-icon.component';
 
-import { ComSelectOption } from './com-select-option';
+import { ComSelectOption, ComSelectOptionStyle } from './com-select-option';
 import { ComSelectContentSlot } from './com-select-slots';
 import { ComSelectDropdown } from './dropdown/com-select-dropdown.component';
 
@@ -36,12 +36,13 @@ import { ComSelectDropdown } from './dropdown/com-select-dropdown.component';
 export class ComSelect<T> implements ControlValueAccessor, AfterViewInit, OnDestroy {
   public placeholder = input<string>();
   public options = input<ComSelectOption<T>[]>([]);
+  public optionStyle = input<ComSelectOptionStyle<T> | null>(null);
 
   public disabled = model(false);
 
   public isOpen = signal(false);
   public isInited = signal(false);
-  
+
   public selectedValue = model<T | null>(null);
 
   protected selectedOption = computed(() => this.options().find(opt => opt.id === this.selectedValue()) ?? null);
@@ -121,6 +122,7 @@ export class ComSelect<T> implements ControlValueAccessor, AfterViewInit, OnDest
     dropdown.options = this.options;
     dropdown.selectedValue = this.selectedValue;
     dropdown.selectedOption = this.selectedOption;
+    dropdown.optionStyle = this.optionStyle;
   }
 
   // #region  ControlValueAccessor methods

@@ -37,23 +37,23 @@ export class NoteColorsService {
   }
 
   public getNoteColor(currentNote: Note, scaleStep?: number, octaveNumber?: number): NoteColorsStyle {
-    if (this.selectedMode() === 0) return this.getTransparentNoteColor();
+    const octaveColor = this.getOctaveColor(octaveNumber);
+    if (this.selectedMode() === 0) return this.getTransparentNoteColor(octaveColor);
     const opacity = this._getOpacity(scaleStep, this.selectedMode() === 3);
     const color = this.getColor(currentNote, this.selectedMode() === 2);
-    const octaveColor = this.getOctaveColor(octaveNumber);
     const noteColor = ColorHelper.mergeColorWithOpacity(color, opacity);
     const textColor = ColorHelper.colorIsDark(noteColor, this.themeBackground()) ? 'white' : 'black';
-    return { 
-      noteColor, 
-      textColor, 
-      octaveColor, 
+    return {
+      noteColor,
+      textColor,
+      octaveColor,
     };
   }
 
-  public getTransparentNoteColor(): NoteColorsStyle {
+  public getTransparentNoteColor(octaveColor: string | null = null): NoteColorsStyle {
     const backgroundColor = ColorHelper.mergeColorWithOpacity(TRANSPARENT_NOTE_COLOR, 0);
     const textColor = ColorHelper.colorIsDark(backgroundColor, this.themeBackground()) ? 'white' : 'black';
-    return { noteColor: backgroundColor, textColor: textColor, 'octaveColor': backgroundColor };
+    return { noteColor: backgroundColor, textColor, octaveColor };
   }
 
   public getStaticNoteColor() {

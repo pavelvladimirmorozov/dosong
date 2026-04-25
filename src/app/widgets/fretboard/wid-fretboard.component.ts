@@ -1,12 +1,12 @@
 import { Component, ElementRef, AfterViewInit, HostListener, computed, model, signal, inject, ChangeDetectionStrategy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
 import { ComPlusIcon } from '@components/icons/com-plus-icon.component';
 import { ComTrashIcon } from '@components/icons/com-trash-icon.component';
 import { ComSelect } from '@components/select/com-select.component';
+import { ComSwitch } from '@components/switch';
 
-import { NoteNamesManager } from '@services/note-names/note-names.service';
 import { Note } from '@services/scale-steps/scale-steps.types';
+import { SettingsRepository } from '@services/settings';
 import { iterableRange, NoteHelper } from '@utils/helpers';
 
 import { WidFretboardString } from './fretboard-string/wid-fretboard-string.component';
@@ -15,14 +15,14 @@ import { DEFAULT_TUNING } from './wid-fretboard.constants';
 @Component({
   selector: 'wid-fretboard',
   standalone: true,
-  imports: [FormsModule, ComSelect, ComPlusIcon, ComTrashIcon, WidFretboardString],
+  imports: [ComSelect, ComSwitch, ComPlusIcon, ComTrashIcon, WidFretboardString],
   templateUrl: './wid-fretboard.component.html',
   styleUrls: ['./wid-fretboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidFretboard implements AfterViewInit {
   private readonly MIN_WIDTH = 600;
-  protected readonly noteNamesManager = inject(NoteNamesManager);
+  protected readonly settings = inject(SettingsRepository);
   protected readonly countOptions = [{ id: 12, name: '12' }, { id: 24, name: '24' }];
   private readonly actionColumnWidth = 55;
   private readonly offsetWidth = (this.actionColumnWidth + 5) * 4;

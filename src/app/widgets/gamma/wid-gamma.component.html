@@ -1,4 +1,7 @@
 <div class="wid-gamma__container">
+  <com-select class="wid-gamma__select wid-gamma__component_wrapper" [options]="scaleSteepsManager.tonicOptions"
+    [(selectedValue)]="scaleSteepsManager.selectedTonic" />
+
   <com-select class="wid-gamma__select wid-gamma__component_wrapper" [options]="scaleSteepsManager.qualityOptions()"
     [selectedValue]="scaleSteepsManager.selectedQuality()"
     (selectedValueChange)="scaleSteepsManager.setQuality($event)" />

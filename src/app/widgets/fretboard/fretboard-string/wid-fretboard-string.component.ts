@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, model } fr
 
 import { ComNoteColorPresenter } from "@components/note-color-presenter/com-note-color-presenter.component";
 import { ComNotePresenter } from '@components/note-presenter';
-import { ComSelect, ComSelectContentSlot } from '@components/select';
+import { ComSelect, ComSelectContentSlot, ComSelectOption } from '@components/select';
 
 import { I18nService } from '@services/i18n';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
@@ -70,6 +70,10 @@ export class WidFretboardString {
   protected getOctaveSelectStyle() {
     return this.colorsManager.getOctaveStyle(this.startOctave());
   }
+
+  protected readonly getOctaveOptionStyle = (option: ComSelectOption<number>) => {
+    return option.id != null ? this.colorsManager.getOctaveStyle(option.id) : null;
+  };
 
   private getOctaveNumber(fret: number) {
     return Math.floor((this.startNote() + fret + 12 * this.startOctave()) / 12);

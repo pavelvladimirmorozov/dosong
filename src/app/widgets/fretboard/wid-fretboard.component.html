@@ -7,7 +7,7 @@
     </button>
 
     <div class="wid-fretboard__action">
-      <input type="checkbox" [(ngModel)]="noteNamesManager.useGammaNotes">
+      <com-switch [(checked)]="settings.octaveHighlight" />
     </div>
 
     <div class="wid-fretboard__action">0</div>

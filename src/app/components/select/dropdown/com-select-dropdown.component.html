@@ -2,6 +2,7 @@
   <div
     class="com-select-dropdown__option"
     [class.com-select-dropdown__option--selected]="isSelected(option)"
+    [style]="getOptionStyle(option)"
     role="option"
     tabindex="0"
     [attr.aria-selected]="isSelected(option)"
