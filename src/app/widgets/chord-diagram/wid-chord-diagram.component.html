@@ -1,0 +1,48 @@
+<svg class="wid-chord-diagram" [attr.width]="width()" [attr.height]="height()"
+  [attr.viewBox]="'0 0 ' + width() + ' ' + height()">
+  @for (x of fretLineXs(); track x) {
+    <line class="wid-chord-diagram__fret" [attr.x1]="x" [attr.x2]="x"
+      [attr.y1]="stringsTopY" [attr.y2]="stringsBottomY()" />
+  }
+
+  @if (showNut()) {
+    <line class="wid-chord-diagram__nut"
+      [attr.x1]="stringsLeftX" [attr.x2]="stringsLeftX"
+      [attr.y1]="stringsTopY" [attr.y2]="stringsBottomY()" />
+  }
+
+  @for (y of stringYs(); track $index) {
+    <line class="wid-chord-diagram__string"
+      [attr.x1]="stringsLeftX" [attr.x2]="stringsRightX()"
+      [attr.y1]="y" [attr.y2]="y" />
+  }
+
+  @if (!showNut()) {
+    <text class="wid-chord-diagram__base-fret"
+      [attr.x]="stringsLeftX + 2"
+      [attr.y]="stringsTopY - 4">{{ baseFretLabel() }}</text>
+  }
+
+  @for (m of markers(); track $index) {
+    <text class="wid-chord-diagram__marker" [attr.x]="m.x" [attr.y]="m.y">{{ m.symbol }}</text>
+  }
+
+  @for (barre of barreShapes(); track $index) {
+    <rect class="wid-chord-diagram__barre"
+      [attr.x]="barre.x" [attr.y]="barre.y"
+      [attr.width]="barre.width" [attr.height]="barre.height"
+      [attr.rx]="barre.width / 2" />
+    @if (barre.finger !== null) {
+      <text class="wid-chord-diagram__finger"
+        [attr.x]="barre.x + barre.width / 2"
+        [attr.y]="barre.y + barre.height / 2">{{ barre.finger }}</text>
+    }
+  }
+
+  @for (d of dots(); track $index) {
+    <circle class="wid-chord-diagram__dot" [attr.cx]="d.x" [attr.cy]="d.y" [attr.r]="7" />
+    @if (d.finger !== null) {
+      <text class="wid-chord-diagram__finger" [attr.x]="d.x" [attr.y]="d.y">{{ d.finger }}</text>
+    }
+  }
+</svg>

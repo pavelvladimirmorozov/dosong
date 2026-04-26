@@ -13,8 +13,46 @@
 
 @if (chords.selectedChord(); as selected) {
   <div class="wid-chords-row__details">
-    <span class="wid-chords-row__details-name">{{ selected.name }}</span>
-    <span class="wid-chords-row__details-numeral">{{ selected.numeral }}</span>
-    <span class="wid-chords-row__details-notes">{{ selectedChordNotes() }}</span>
+    <div class="wid-chords-row__details-row">
+      <span class="wid-chords-row__details-name">{{ selected.name }}</span>
+      <span class="wid-chords-row__details-numeral">{{ selected.numeral }}</span>
+      <span class="wid-chords-row__details-notes">{{ selectedChordNotes() }}</span>
+    </div>
+    @if (chords.availablePositions().length > 0) {
+      <div class="wid-chords-row__position-block">
+        <div class="wid-chords-row__position-title">{{ 'chords.position' | translate }}</div>
+        <div class="wid-chords-row__position-row">
+          <button
+            class="wid-chords-row__nav-btn wid-chords-row__nav-btn--prev"
+            type="button"
+            [disabled]="!canGoPrev()"
+            [attr.aria-label]="'chords.prevPosition' | translate"
+            (click)="goPrev()"
+          >
+            <svg width="14" height="14" comChevronDownIcon></svg>
+          </button>
+          <span class="wid-chords-row__position-label">{{ 'chords.frets' | translate }}</span>
+          <com-select
+            class="wid-chords-row__position-select"
+            [options]="positionOptions()"
+            [(selectedValue)]="chords.selectedPositionId"
+          />
+          <button
+            class="wid-chords-row__nav-btn wid-chords-row__nav-btn--next"
+            type="button"
+            [disabled]="!canGoNext()"
+            [attr.aria-label]="'chords.nextPosition' | translate"
+            (click)="goNext()"
+          >
+            <svg width="14" height="14" comChevronDownIcon></svg>
+          </button>
+        </div>
+        @if (chords.selectedPosition(); as pos) {
+          <div class="wid-chords-row__diagram">
+            <wid-chord-diagram [position]="pos" />
+          </div>
+        }
+      </div>
+    }
   </div>
 }

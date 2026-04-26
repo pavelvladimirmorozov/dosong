@@ -17,6 +17,6 @@
 }
 
 :host(.note-presenter--highlighted) {
-  outline: 2px solid var(--color-chord-highlight);
-  outline-offset: -2px;
+  outline: 4px solid var(--color-chord-highlight);
+  outline-offset: -4px;
 }

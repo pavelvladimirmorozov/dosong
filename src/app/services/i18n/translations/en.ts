@@ -28,6 +28,28 @@ export const EN_TRANSLATIONS: Record<string, string> = {
   // Gamma
   'gamma.formula': 'Formula:',
 
+  // Chords
+  'chords.position': 'Position',
+  'chords.allNotes': 'All notes',
+  'chords.frets': 'Frets',
+  'chords.openShort': 'Open',
+  'chords.prevPosition': 'Previous position',
+  'chords.nextPosition': 'Next position',
+
+  // Fretboard
+  'fretboard.instrument': 'Instrument',
+  'fretboard.customInstrument': 'Custom tuning',
+
+  // Instruments
+  'instrument.guitar': 'Guitar',
+  'instrument.bass': 'Bass guitar',
+  'instrument.guitar7': 'Russian guitar (7-string)',
+  'instrument.ukulele': 'Ukulele',
+  'instrument.domra': 'Domra',
+  'instrument.balalaika': 'Balalaika',
+  'instrument.mandolin': 'Mandolin',
+  'instrument.banjo': 'Banjo',
+
   // Metronome
   'metronome.volume': 'Volume',
   'metronome.beats': 'Beats',
@@ -82,13 +104,13 @@ export const EN_TRANSLATIONS: Record<string, string> = {
   'kind.egyptian': 'Egyptian pentatonic',
 
   // Octaves
-  'octave.0': '0 - Subcontra',
-  'octave.1': '1 - Contra',
-  'octave.2': '2 - Great',
-  'octave.3': '3 - Small',
-  'octave.4': '4 - One-line',
-  'octave.5': '5 - Two-line',
-  'octave.6': '6 - Three-line',
-  'octave.7': '7 - Four-line',
-  'octave.8': '8 - Five-line',
+  'octave.0': '0 - Subsubcontra',
+  'octave.1': '1 - Subcontra',
+  'octave.2': '2 - Contra',
+  'octave.3': '3 - Great',
+  'octave.4': '4 - Small',
+  'octave.5': '5 - One-line',
+  'octave.6': '6 - Two-line',
+  'octave.7': '7 - Three-line',
+  'octave.8': '8 - Four-line',
 };

@@ -62,7 +62,7 @@ export class WidFretboardString {
   }
 
   protected isChordNote(fret = 0) {
-    return this.chords.highlightedNotes().has(this.getNote(fret));
+    return this.chords.isChordFret(this.index(), fret);
   }
 
   protected getOctave(fret = 0) {

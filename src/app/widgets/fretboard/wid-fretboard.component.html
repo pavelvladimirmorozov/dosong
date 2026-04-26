@@ -1,8 +1,17 @@
 <div class="wid-fretboard">
+  <div class="wid-fretboard__instrument-row">
+    <span class="wid-fretboard__instrument-label">{{ 'fretboard.instrument' | translate }}</span>
+    <com-select class="wid-fretboard__instrument-select"
+      [options]="instrumentOptions()"
+      [placeholder]="'fretboard.customInstrument' | translate"
+      [selectedValue]="tuningService.selectedInstrument()"
+      (selectedValueChange)="onInstrumentChange($event)" />
+  </div>
+
   <div class="wid-fretboard__line">
     <com-select class="wid-fretboard__action" [options]="countOptions" [(selectedValue)]="fretsCount"></com-select>
 
-    <button class="wid-fretboard__action" (click)="insertString()">
+    <button class="wid-fretboard__action" (click)="insertString()" [disabled]="!canAddString()">
       <svg width="16" height="16" comPlusIcon></svg>
     </button>
 
@@ -11,33 +20,54 @@
     </div>
 
     <div class="wid-fretboard__action">0</div>
-    
+
     @for (fret of frets(); track $index) {
     <div class="wid-fretboard__fret" [style.flexBasis]="getFretWidth(fret) + 'px'">{{fret}}</div>
     }
   </div>
 
-  @for (tuningNote of tuning(); track $index;let stringNumber = $index) {
-  <div class="wid-fretboard__line">
-    <div class="wid-fretboard__action">
-      {{stringNumber + 1}}
+  <div class="wid-fretboard__strings">
+    @for (tuningNote of tuning(); track $index;let stringNumber = $index) {
+    <div class="wid-fretboard__line" [class.wid-fretboard__line--muted]="chords.isStringMuted(stringNumber)">
+      <div class="wid-fretboard__action">
+        {{stringNumber + 1}}
+      </div>
+
+      <button class="wid-fretboard__action" (click)="removeString(stringNumber)" [disabled]="!canRemoveString()">
+        <svg width="16" height="16" comTrashIcon></svg>
+      </button>
+
+      <wid-fretboard-string [index]="stringNumber" [startNote]="tuningNote.note" [startOctave]="tuningNote.octave"
+        [fretsCount]="fretsCount()" [noteWidth]="getFretWidth"
+        (startOctaveChange)="changeTuning(stringNumber, { note: tuningNote.note, octave: $event})"
+        (startNoteChange)="changeTuning(stringNumber, { note: $event, octave: tuningNote.octave })" />
     </div>
+    }
 
-    <button class="wid-fretboard__action" (click)="removeString(stringNumber)">
-      <svg width="16" height="16" comTrashIcon></svg>
-    </button>
-
-    <wid-fretboard-string [index]="stringNumber" [startNote]="tuningNote.note" [startOctave]="tuningNote.octave"
-      [fretsCount]="fretsCount()" [noteWidth]="getFretWidth"
-      (startOctaveChange)="changeTuning(stringNumber, { note: tuningNote.note, octave: $event})"
-      (startNoteChange)="changeTuning(stringNumber, { note: $event, octave: tuningNote.octave })" />
+    @if (barreOverlays().length > 0) {
+      <svg class="wid-fretboard__barre-overlay"
+        [attr.width]="fretboardTotalWidth()"
+        [attr.height]="stringsAreaHeight()"
+        [attr.viewBox]="'0 0 ' + fretboardTotalWidth() + ' ' + stringsAreaHeight()">
+        @for (barre of barreOverlays(); track $index) {
+          <rect
+            [attr.x]="barre.x + 25"
+            [attr.y]="barre.y"
+            [attr.width]="barre.width"
+            [attr.height]="barre.height"
+            rx="4"
+            ry="4"
+            class="wid-fretboard__barre-rect"
+          />
+        }
+      </svg>
+    }
   </div>
-  }
 
   <div class="wid-fretboard__line">
     <div class="wid-fretboard__action">#</div>
 
-    <button class="wid-fretboard__action" (click)="appendString()">
+    <button class="wid-fretboard__action" (click)="appendString()" [disabled]="!canAddString()">
       <svg width="16" height="16" comPlusIcon></svg>
     </button>
 

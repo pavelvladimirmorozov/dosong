@@ -1,4 +1,5 @@
 export * from './iterable-helpers';
 export * from './note-helpers';
 export * from './number-helpers';
+export * from './persisted-signal';
 

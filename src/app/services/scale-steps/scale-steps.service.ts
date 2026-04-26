@@ -1,7 +1,9 @@
-import { Injectable, signal, computed, inject } from "@angular/core";
+import { Injectable, computed, inject } from "@angular/core";
 
 import { I18nService } from "@services/i18n";
+import { LocalStorageService } from "@services/local-storage/local-storage.service";
 import { NoteHelper } from "@utils/helpers/note-helpers";
+import { persistedSignal } from "@utils/helpers/persisted-signal";
 
 import {
   SHARP_NOTES,
@@ -14,14 +16,14 @@ import { Note, Scale, ScaleKind, ScaleQuality, ScaleSteepState } from "./scale-s
 @Injectable({ providedIn: 'root' })
 export class ScaleSteepsService {
   private readonly i18n = inject(I18nService);
+  private readonly storage = inject(LocalStorageService);
 
   public readonly tonicOptions = SHARP_NOTES;
   public readonly scaleStepsOptions = computed(() => SCALE_STEPS);
   public readonly qualityOptions = computed(() => this.i18n.translateOptions(SCALE_QUALITY_OPTIONS));
 
-  public selectedScale = signal<Scale>(Scale.Major);
-
-  public selectedTonic = signal(Note.C);
+  public selectedScale = persistedSignal<Scale>(this.storage, 'selected-scale', Scale.Major);
+  public selectedTonic = persistedSignal<Note>(this.storage, 'selected-tonic', Note.C);
 
   public selectedScaleDef = computed(() =>
     this.scaleStepsOptions().find(x => x.id === this.selectedScale())!

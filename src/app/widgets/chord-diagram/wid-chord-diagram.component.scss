@@ -1,0 +1,50 @@
+:host {
+  display: inline-block;
+}
+
+.wid-chord-diagram {
+  display: block;
+}
+
+.wid-chord-diagram__fret,
+.wid-chord-diagram__string {
+  stroke: var(--color-text-dim);
+  stroke-width: 1;
+}
+
+.wid-chord-diagram__nut {
+  stroke: var(--color-text);
+  stroke-width: 3;
+}
+
+.wid-chord-diagram__marker {
+  fill: var(--color-text-muted);
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.wid-chord-diagram__base-fret {
+  fill: var(--color-text-muted);
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  dominant-baseline: middle;
+}
+
+.wid-chord-diagram__dot,
+.wid-chord-diagram__barre {
+  fill: var(--color-chord-highlight);
+}
+
+.wid-chord-diagram__finger {
+  fill: var(--color-text);
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}

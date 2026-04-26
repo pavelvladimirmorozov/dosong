@@ -28,6 +28,28 @@ export const RU_TRANSLATIONS: Record<string, string> = {
   // Gamma
   'gamma.formula': 'Формула:',
 
+  // Chords
+  'chords.position': 'Позиция',
+  'chords.allNotes': 'Все ноты',
+  'chords.frets': 'Лады',
+  'chords.openShort': 'Откр.',
+  'chords.prevPosition': 'Предыдущая позиция',
+  'chords.nextPosition': 'Следующая позиция',
+
+  // Fretboard
+  'fretboard.instrument': 'Инструмент',
+  'fretboard.customInstrument': 'Свой строй',
+
+  // Instruments
+  'instrument.guitar': 'Гитара',
+  'instrument.bass': 'Бас-гитара',
+  'instrument.guitar7': 'Русская гитара (7 струн)',
+  'instrument.ukulele': 'Укулеле',
+  'instrument.domra': 'Домра',
+  'instrument.balalaika': 'Балалайка',
+  'instrument.mandolin': 'Мандолина',
+  'instrument.banjo': 'Банджо',
+
   // Metronome
   'metronome.volume': 'Громкость',
   'metronome.beats': 'Доли',
@@ -82,13 +104,13 @@ export const RU_TRANSLATIONS: Record<string, string> = {
   'kind.egyptian': 'Египетская пентатоника',
 
   // Octaves
-  'octave.0': '0 - Субконтроктава',
-  'octave.1': '1 - Контроктава',
-  'octave.2': '2 - Большая октава',
-  'octave.3': '3 - Малая октава',
-  'octave.4': '4 - Первая октава',
-  'octave.5': '5 - Вторая октава',
-  'octave.6': '6 - Третья октава',
-  'octave.7': '7 - Четвертая октава',
-  'octave.8': '8 - Пятая октава',
+  'octave.0': '0 - Субсубконтроктава',
+  'octave.1': '1 - Субконтроктава',
+  'octave.2': '2 - Контроктава',
+  'octave.3': '3 - Большая октава',
+  'octave.4': '4 - Малая октава',
+  'octave.5': '5 - Первая октава',
+  'octave.6': '6 - Вторая октава',
+  'octave.7': '7 - Третья октава',
+  'octave.8': '8 - Четвёртая октава',
 };
