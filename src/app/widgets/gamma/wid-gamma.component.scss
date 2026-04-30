@@ -46,3 +46,8 @@
 .wid-gamma__formula-steps span:not(:last-child)::after {
   content: "-";
 }
+
+.wid-gamma__show-all-toggle {
+  margin-right: 8px;
+  flex-shrink: 0;
+}

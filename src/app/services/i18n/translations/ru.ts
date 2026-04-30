@@ -27,6 +27,7 @@ export const RU_TRANSLATIONS: Record<string, string> = {
 
   // Gamma
   'gamma.formula': 'Формула:',
+  'gamma.showAllNotes': 'Отображать все ноты',
 
   // Chords
   'chords.position': 'Позиция',

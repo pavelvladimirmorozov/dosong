@@ -6,21 +6,27 @@
     [selectedValue]="scaleSteepsManager.selectedQuality()"
     (selectedValueChange)="scaleSteepsManager.setQuality($event)" />
 
-  <com-select class="wid-gamma__select wid-gamma__component_wrapper" [options]="scaleSteepsManager.availableKindOptions()"
-    [selectedValue]="scaleSteepsManager.selectedKind()" (selectedValueChange)="scaleSteepsManager.setKind($event)" />
+  <com-select class="wid-gamma__select wid-gamma__component_wrapper"
+    [options]="scaleSteepsManager.availableKindOptions()" [selectedValue]="scaleSteepsManager.selectedKind()"
+    (selectedValueChange)="scaleSteepsManager.setKind($event)" />
 </div>
 
-<div class="wid-gamma__container">
-  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(0)" [isHighlighted]="isChordNote(0)">
+<com-switch class="wid-gamma__show-all-toggle" [(checked)]="showAllNotes">
+  {{ 'gamma.showAllNotes' | translate }}
+</com-switch>
+<div class="wid-gamma__container wid-gamma__container--notes">
+  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(0)"
+    [isHighlighted]="isChordNote(0)">
     <com-select class="wid-gamma__select" [options]="scaleSteepsManager.tonicOptions"
       [(selectedValue)]="scaleSteepsManager.selectedTonic">
       <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [scaleStep]="getScaleStep()" />
     </com-select>
   </com-note-color-presenter>
 
-  @for(offset of selectedFormula(); track $index) {
+  @for(offset of displayedSteps(); track $index) {
 
-  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(offset.interval)" [isHighlighted]="isChordNote(offset.interval)">
+  <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(offset.interval)"
+    [isHighlighted]="isChordNote(offset.interval)">
     <com-note-presenter class="wid-gamma__note" [noteName]="getNoteName(offset.interval)"
       [scaleStep]="getScaleStep(offset.interval)" />
   </com-note-color-presenter>
