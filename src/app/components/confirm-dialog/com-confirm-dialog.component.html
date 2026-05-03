@@ -1,0 +1,7 @@
+<div class="com-confirm-dialog__panel">
+  <p class="com-confirm-dialog__message">{{ data.message }}</p>
+  <div class="com-confirm-dialog__actions">
+    <com-button variant="secondary" (click)="cancel()">{{ data.cancelLabel }}</com-button>
+    <com-button variant="primary" (click)="confirm()">{{ data.confirmLabel }}</com-button>
+  </div>
+</div>

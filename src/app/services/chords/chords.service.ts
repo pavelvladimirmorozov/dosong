@@ -1,22 +1,30 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 
 import { I18nService } from '@services/i18n';
+import { LocalStorageService } from '@services/local-storage/local-storage.service';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { NoteColorsStyle } from '@services/note-colors/note-colors.types';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
 import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
-import { Note, ScaleStepQuality } from '@services/scale-steps/scale-steps.types';
+import { Note, ScaleKind, ScaleQuality, ScaleStepQuality } from '@services/scale-steps/scale-steps.types';
 import { TuningService } from '@services/tuning';
 import { ROMAN_NUMERALS } from '@utils/constants';
 import { NoteHelper } from '@utils/helpers';
+import { persistedSignal } from '@utils/helpers/persisted-signal';
 
+import { SCALE_STEPS } from '../scale-steps/scale-steps.constants';
 import { CHORD_INTERVALS } from './chords.constants';
-import { decorateChordName, qualitySuffix } from './chords.utils';
+import { ChordModifier, chordSpecFromStepType, getChordIntervals } from './chords.modifiers';
+import { decorateChordName, formatChordName, qualitySuffix } from './chords.utils';
+import { Progression, ProgressionContext, ProgressionSlot } from './progression.types';
 
 const POSITION_WINDOW = 4;
 const BARRE_MIN_STRINGS = 3;
 const MIN_USED_STRINGS = 3;
 const MAX_FINGERS = 4;
+const MIN_DISTINCT_CHORD_TONES = 3;
+
+const POOL_KINDS: readonly ScaleKind[] = [ScaleKind.Natural, ScaleKind.Harmonic, ScaleKind.Melodic];
 
 export interface DiatonicChord {
   root: Note;
@@ -27,6 +35,7 @@ export interface DiatonicChord {
   type: ScaleStepQuality;
   notes: ReadonlySet<Note>;
   color: NoteColorsStyle;
+  intervals: readonly number[];
 }
 
 export interface ChordPositionBarre {
@@ -55,6 +64,14 @@ interface VoicingCandidate {
   score: number;
 }
 
+interface ManualPickSpec {
+  root: Note;
+  /** Тип ступени из палитры — фиксирует, какая клетка палитры подсвечена, независимо от выбранного модификатора. */
+  originalType: ScaleStepQuality;
+  baseQuality: ScaleStepQuality.Major | ScaleStepQuality.Minor;
+  modifier: ChordModifier;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ChordsService {
   private readonly scaleSteeps = inject(ScaleSteepsService);
@@ -62,6 +79,7 @@ export class ChordsService {
   private readonly noteNames = inject(NoteNamesManager);
   private readonly tuning = inject(TuningService);
   private readonly i18n = inject(I18nService);
+  private readonly storage = inject(LocalStorageService);
 
   public readonly diatonicChords = computed<DiatonicChord[]>(() => {
     const noteNames = this.noteNames.noteNames();
@@ -73,7 +91,170 @@ export class ChordsService {
     return result;
   });
 
-  public readonly selectedChord = signal<DiatonicChord | null>(null);
+  /** Заимствованные аккорды из связанных гамм того же качества — плоский уникальный список без дубликатов с основной гаммой. */
+  public readonly chordPoolExtras = computed<DiatonicChord[]>(() => {
+    const quality = this.scaleSteeps.selectedQuality();
+    if (quality === ScaleQuality.None) return [];
+
+    const tonic = this.scaleSteeps.selectedTonic();
+    const mainKind = this.scaleSteeps.selectedKind();
+    const noteNames = this.noteNames.noteNames();
+    const seen = new Set(this.diatonicChords().map(c => `${c.root}:${c.type}`));
+
+    const result: DiatonicChord[] = [];
+    for (const kind of POOL_KINDS) {
+      if (kind === mainKind) continue;
+      const scale = SCALE_STEPS.find(s => s.type === quality && s.kind === kind);
+      if (!scale) continue;
+
+      scale.steps.forEach((step, index) => {
+        if (step.interval == null) return;
+        const midiNote = NoteHelper.getNoteIndex(tonic, step.interval);
+        const chord = this.buildChord(midiNote, step.interval, step.type, index, noteNames);
+        if (!chord) return;
+        const key = `${chord.root}:${chord.type}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        result.push(chord);
+      });
+    }
+    return result;
+  });
+
+  // #region Прогрессии песен
+  public readonly progressions = persistedSignal<Progression[]>(this.storage, 'chord-progressions', []);
+  public readonly activeProgressionId = persistedSignal<string | null>(this.storage, 'active-progression-id', null);
+
+  public readonly activeProgression = computed<Progression | null>(() => {
+    const id = this.activeProgressionId();
+    if (id == null) return null;
+    return this.progressions().find(p => p.id === id) ?? null;
+  });
+
+  public createProgression(name: string): string {
+    const id = this.generateId();
+    const progression: Progression = { id, name, slots: [] };
+    this.progressions.update(list => [...list, progression]);
+    this.activeProgressionId.set(id);
+    return id;
+  }
+
+  public renameProgression(id: string, name: string): void {
+    this.progressions.update(list => list.map(p => p.id === id ? { ...p, name } : p));
+  }
+
+  public deleteProgression(id: string): void {
+    this.progressions.update(list => list.filter(p => p.id !== id));
+    if (this.activeProgressionId() === id) {
+      this.activeProgressionId.set(null);
+    }
+  }
+
+  public setProgressionContext(id: string, context: ProgressionContext): void {
+    this.progressions.update(list => list.map(p => p.id === id ? { ...p, context } : p));
+  }
+
+  public addSlot(slot: Omit<ProgressionSlot, 'id'>): void {
+    const id = this.activeProgressionId();
+    if (id == null) return;
+    const newSlot: ProgressionSlot = { ...slot, id: this.generateId() };
+    this.progressions.update(list =>
+      list.map(p => p.id === id ? { ...p, slots: [...p.slots, newSlot] } : p),
+    );
+  }
+
+  public updateSlot(slotId: string, patch: Partial<Omit<ProgressionSlot, 'id'>>): void {
+    const id = this.activeProgressionId();
+    if (id == null) return;
+    this.progressions.update(list =>
+      list.map(p => p.id === id
+        ? { ...p, slots: p.slots.map(s => s.id === slotId ? { ...s, ...patch } : s) }
+        : p),
+    );
+  }
+
+  public removeSlot(slotId: string): void {
+    const id = this.activeProgressionId();
+    if (id == null) return;
+    this.progressions.update(list =>
+      list.map(p => p.id === id
+        ? { ...p, slots: p.slots.filter(s => s.id !== slotId) }
+        : p),
+    );
+  }
+
+  public moveSlot(slotId: string, direction: -1 | 1): void {
+    const id = this.activeProgressionId();
+    if (id == null) return;
+    this.progressions.update(list =>
+      list.map(p => {
+        if (p.id !== id) return p;
+        const idx = p.slots.findIndex(s => s.id === slotId);
+        if (idx < 0) return p;
+        const target = idx + direction;
+        if (target < 0 || target >= p.slots.length) return p;
+        const slots = [...p.slots];
+        [slots[idx], slots[target]] = [slots[target], slots[idx]];
+        return { ...p, slots };
+      }),
+    );
+  }
+
+  public buildChordFromSlot(slot: ProgressionSlot): DiatonicChord | null {
+    if (slot.root == null) return null;
+    const intervals = getChordIntervals(slot.baseQuality, slot.modifier);
+    const noteNames = this.noteNames.noteNames();
+    const baseName = noteNames[slot.root].name;
+    const isMinor = slot.baseQuality === ScaleStepQuality.Minor;
+    const name = formatChordName(baseName, isMinor, slot.modifier);
+    const scaleStepInfo = this.scaleSteeps.getScaleStep(slot.root);
+    const stepNumber = scaleStepInfo?.stepNumber ?? -1;
+    const type = this.resolveStepQuality(slot.baseQuality, slot.modifier);
+    const root = slot.root;
+    return {
+      root,
+      isMinor,
+      name,
+      numeral: stepNumber >= 0 ? ROMAN_NUMERALS[stepNumber] + qualitySuffix(type) : '',
+      stepNumber,
+      type,
+      notes: new Set(intervals.map(i => NoteHelper.getNoteIndex(root, i))),
+      color: this.colors.getNoteColor(root, scaleStepInfo?.stepNumber),
+      intervals,
+    };
+  }
+  // #endregion
+
+  // #region Выбор аккорда (manual + playback)
+  /** Спецификация выбранного из палитры аккорда: корень + базовое качество + модификатор. originalType хранится для подсветки клетки палитры независимо от выбранного модификатора. */
+  private readonly manualPick = signal<ManualPickSpec | null>(null);
+  /** Длительность в долях для следующего добавления в прогрессию. Сохраняется между добавлениями. */
+  public readonly manualPickBeats = signal<number>(4);
+
+  public readonly manualPickModifier = computed<ChordModifier>(() => this.manualPick()?.modifier ?? ChordModifier.None);
+  public readonly hasManualPick = computed<boolean>(() => this.manualPick() !== null);
+
+  public readonly manualPickChord = computed<DiatonicChord | null>(() => {
+    const spec = this.manualPick();
+    if (!spec) return null;
+    return this.buildChordFromSlot({
+      id: '__manual_pick__',
+      root: spec.root,
+      baseQuality: spec.baseQuality,
+      modifier: spec.modifier,
+      beats: 4,
+      positionId: null,
+    });
+  });
+
+  /** Управляется ProgressionPlaybackService. */
+  public readonly playbackActive = signal<boolean>(false);
+  /** Аккорд из текущего слота прогрессии — записывается ProgressionPlaybackService. */
+  public readonly playbackChord = signal<DiatonicChord | null>(null);
+
+  public readonly selectedChord = computed<DiatonicChord | null>(() =>
+    this.playbackActive() ? this.playbackChord() : this.manualPickChord(),
+  );
 
   public readonly highlightedNotes = computed<ReadonlySet<Note>>(
     () => this.selectedChord()?.notes ?? new Set<Note>(),
@@ -93,30 +274,54 @@ export class ChordsService {
     return this.availablePositions().find(p => p.id === id) ?? null;
   });
 
-  constructor() {
-    effect(() => {
-      this.scaleSteeps.selectedTonic();
-      this.scaleSteeps.selectedScale();
-      this.selectedChord.set(null);
-    });
-
-    effect(() => {
-      this.selectedChord();
-      this.tuning.tuning();
-      this.tuning.fretsCount();
-      this.selectedPositionId.set(null);
-    });
-  }
-
   public toggle(chord: DiatonicChord): void {
-    const current = this.selectedChord();
-    const same = current && current.root === chord.root && current.isMinor === chord.isMinor;
-    this.selectedChord.set(same ? null : chord);
+    const current = this.manualPick();
+    const same = current && current.root === chord.root && current.originalType === chord.type;
+    if (same) {
+      this.manualPick.set(null);
+      return;
+    }
+    const spec = chordSpecFromStepType(chord.type);
+    this.manualPick.set({
+      root: chord.root,
+      originalType: chord.type,
+      baseQuality: spec.baseQuality,
+      modifier: spec.modifier,
+    });
   }
 
   public isSelected(chord: DiatonicChord): boolean {
-    const current = this.selectedChord();
-    return current != null && current.root === chord.root && current.isMinor === chord.isMinor;
+    const current = this.manualPick();
+    return current != null && current.root === chord.root && current.originalType === chord.type;
+  }
+
+  public setManualModifier(modifier: ChordModifier): void {
+    const current = this.manualPick();
+    if (!current) return;
+    this.manualPick.set({ ...current, modifier });
+  }
+
+  public addSelectedToProgression(): void {
+    if (this.activeProgressionId() == null) return;
+    const spec = this.manualPick();
+    if (spec == null) {
+      // Пустой слот (пауза) — без аккорда, только длительность.
+      this.addSlot({
+        root: null,
+        baseQuality: ScaleStepQuality.Major,
+        modifier: ChordModifier.None,
+        beats: this.manualPickBeats(),
+        positionId: null,
+      });
+      return;
+    }
+    this.addSlot({
+      root: spec.root,
+      baseQuality: spec.baseQuality,
+      modifier: spec.modifier,
+      beats: this.manualPickBeats(),
+      positionId: this.selectedPositionId(),
+    });
   }
 
   public isChordFret(stringIndex: number, fret: number): boolean {
@@ -133,6 +338,22 @@ export class ChordsService {
     const position = this.selectedPosition();
     if (!position) return false;
     return position.fretsByString.get(stringIndex) == null;
+  }
+  // #endregion
+
+  constructor() {
+    effect(() => {
+      this.scaleSteeps.selectedTonic();
+      this.scaleSteeps.selectedScale();
+      this.manualPick.set(null);
+    });
+
+    effect(() => {
+      this.manualPick();
+      this.tuning.tuning();
+      this.tuning.fretsCount();
+      this.selectedPositionId.set(null);
+    });
   }
 
   private buildChord(
@@ -160,7 +381,19 @@ export class ChordsService {
       type,
       notes: new Set(intervals.map(i => NoteHelper.getNoteIndex(midiNote, i))),
       color: this.colors.getNoteColor(midiNote, stepNumber),
+      intervals,
     };
+  }
+
+  private resolveStepQuality(
+    baseQuality: ScaleStepQuality.Major | ScaleStepQuality.Minor,
+    modifier: ChordModifier,
+  ): ScaleStepQuality {
+    if (modifier === ChordModifier.Dim || modifier === ChordModifier.Dim7 || modifier === ChordModifier.M7b5) {
+      return ScaleStepQuality.Diminished;
+    }
+    if (modifier === ChordModifier.Aug) return ScaleStepQuality.Augmented;
+    return baseQuality;
   }
 
   private computePositions(chord: DiatonicChord): ChordPosition[] {
@@ -168,10 +401,10 @@ export class ChordsService {
     const fretsCount = this.tuning.fretsCount();
     const stringsCount = tuning.length;
     const minStrings = Math.min(MIN_USED_STRINGS, stringsCount);
-    const intervals = CHORD_INTERVALS[chord.type];
+    const intervals = chord.intervals;
     const root = chord.root;
-    const third = NoteHelper.getNoteIndex(chord.root, intervals[1]);
-    const fifth = NoteHelper.getNoteIndex(chord.root, intervals[2]);
+    const third = intervals.length > 1 ? NoteHelper.getNoteIndex(chord.root, intervals[1]) : root;
+    const fifth = intervals.length > 2 ? NoteHelper.getNoteIndex(chord.root, intervals[2]) : root;
 
     const positions: ChordPosition[] = [];
     const seen = new Set<string>();
@@ -260,21 +493,21 @@ export class ChordsService {
     third: Note,
     fifth: Note,
   ): VoicingCandidate | null {
-    let hasRoot = false, hasThird = false, hasFifth = false;
+    let hasRoot = false;
     let bassPitch = Infinity;
     let bassNote: Note | null = null;
     let minClosedFret = Infinity;
     let maxClosedFret = -Infinity;
     let usedStrings = 0;
+    const distinctNotes = new Set<Note>();
 
     for (let s = 0; s < picks.length; s++) {
       const f = picks[s];
       if (f == null) continue;
       usedStrings++;
       const note = this.tuning.noteAt(s, f);
+      distinctNotes.add(note);
       if (note === root) hasRoot = true;
-      if (note === third) hasThird = true;
-      if (note === fifth) hasFifth = true;
       const pitch = this.tuning.midiAt(s, f);
       if (pitch < bassPitch) {
         bassPitch = pitch;
@@ -286,7 +519,8 @@ export class ChordsService {
       }
     }
 
-    if (!hasRoot || !hasThird || !hasFifth) return null;
+    if (!hasRoot) return null;
+    if (distinctNotes.size < MIN_DISTINCT_CHORD_TONES) return null;
 
     const span = maxClosedFret === -Infinity ? 0 : maxClosedFret - minClosedFret;
     if (span >= POSITION_WINDOW) return null;
@@ -303,6 +537,7 @@ export class ChordsService {
     let score = 0;
     if (bassNote === root) score += 100;
     else if (bassNote === fifth) score += 30;
+    else if (bassNote === third) score += 10;
     else score -= 10;
     score += usedStrings * 5;
     score -= span * 3;
@@ -430,4 +665,12 @@ export class ChordsService {
     for (const [s, f] of fretsByString) parts.push(`${s}:${f ?? '-'}`);
     return parts.join('|');
   }
+
+  private generateId(): string {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+    return `id-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }
 }
+

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 
-import { decorateChordName, qualitySuffix } from '@services/chords';
+import { decorateChordName, qualitySuffix, SongContextService } from '@services/chords';
 import { NoteColorsService } from '@services/note-colors/note-colors.service';
 import { NoteNamesManager } from '@services/note-names/note-names.service';
 import { ScaleSteepsService } from '@services/scale-steps/scale-steps.service';
@@ -29,6 +29,7 @@ export class WidCuartCircle {
   private readonly colorsManager = inject(NoteColorsService);
   private readonly scaleStepsManager = inject(ScaleSteepsService);
   private readonly noteNamesManager = inject(NoteNamesManager);
+  private readonly songContext = inject(SongContextService);
 
   protected readonly viewBox = `0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`;
   private readonly geometry = computed(() => new CuartCircleGeometry(VIEWBOX_SIZE, this.angleOffset()));
@@ -44,12 +45,17 @@ export class WidCuartCircle {
     return result;
   });
 
-  protected onSectorClick(state: SectorRenderState): void {
-    this.scaleStepsManager.selectedTonic.set(state.chord.id);
+  protected async onSectorClick(state: SectorRenderState): Promise<void> {
     const targetQuality = state.isMinor ? ScaleQuality.Minor : ScaleQuality.Major;
-    if (this.scaleStepsManager.selectedQuality() !== targetQuality) {
-      this.scaleStepsManager.setQuality(targetQuality);
+    const tonicChanges = state.chord.id !== this.scaleStepsManager.selectedTonic();
+    const qualityChanges = this.scaleStepsManager.selectedQuality() !== targetQuality;
+    if (tonicChanges || qualityChanges) {
+      const ok = await this.songContext.confirmTonalityChange();
+      if (!ok) return;
     }
+
+    if (tonicChanges) this.scaleStepsManager.selectedTonic.set(state.chord.id);
+    if (qualityChanges) this.scaleStepsManager.setQuality(targetQuality);
     this.sectorSelected.emit(state.chord.id);
   }
 

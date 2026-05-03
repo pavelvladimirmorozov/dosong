@@ -10,12 +10,13 @@ export class NoteHelper {
     if (offset === 0) return 0;
     return 1 / Math.pow(2, (offset - 0.5) / 12);
   }
-  public static formatSteps(scaleSteps: ScaleStep[]) {
+  /** Возвращает разности между соседними ступенями гаммы в полутонах. */
+  public static stepIntervals(scaleSteps: ScaleStep[]): number[] {
     let prev = 0;
     return scaleSteps.filter((x) => x?.interval != null).map((current) => {
       const step = current.interval! - prev;
       prev = current.interval!;
-      return (step / 2) < 1 ? 'полутон' : (step / 2) > 1 ? `${step / 2} тона` : 'тон';
+      return step;
     });
   }
 }

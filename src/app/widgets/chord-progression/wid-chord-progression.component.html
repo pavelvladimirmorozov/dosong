@@ -1,0 +1,62 @@
+<com-spoiler [title]="'progression.title' | translate" [open]="true">
+  <div class="wid-chord-progression__header">
+    @if (!renaming()) {
+      <com-select
+        class="wid-chord-progression__progression-select"
+        [options]="progressionOptions()"
+        [selectedValue]="selectViewId()"
+        (selectedValueChange)="onProgressionChange($event)"
+      />
+      <com-button variant="secondary" (click)="createNew()">
+        {{ 'progression.new' | translate }}
+      </com-button>
+      @if (chords.activeProgression(); as active) {
+        <com-button variant="secondary" (click)="startRename()">
+          {{ 'progression.rename' | translate }}
+        </com-button>
+        <com-button variant="secondary" (click)="deleteCurrent()">
+          {{ 'progression.delete' | translate }}
+        </com-button>
+        <com-button
+          [variant]="playback.playbackActive() ? 'secondary' : 'primary'"
+          [disabled]="!canStartPlayback()"
+          (click)="togglePlayback()"
+        >
+          @if (playback.playbackActive()) {
+            {{ 'progression.stop' | translate }}
+          } @else {
+            {{ 'progression.start' | translate }}
+          }
+        </com-button>
+      }
+    } @else {
+      <com-input
+        class="wid-chord-progression__rename-input"
+        [(value)]="renameValue"
+      />
+      <com-button variant="primary" (click)="commitRename()">
+        {{ 'progression.save' | translate }}
+      </com-button>
+      <com-button variant="secondary" (click)="cancelRename()">
+        {{ 'progression.cancel' | translate }}
+      </com-button>
+    }
+  </div>
+
+  @if (chords.activeProgression(); as active) {
+    @if (active.slots.length > 0) {
+      <div class="wid-chord-progression__slots">
+        @for (slot of active.slots; track trackSlot($index, slot)) {
+          <wid-chord-progression-slot
+            [slot]="slot"
+            [isCurrent]="slot.id === currentSlotId()"
+          />
+        }
+      </div>
+    } @else {
+      <div class="wid-chord-progression__hint">{{ 'progression.addHint' | translate }}</div>
+    }
+  } @else {
+    <div class="wid-chord-progression__hint">{{ 'progression.empty' | translate }}</div>
+  }
+</com-spoiler>

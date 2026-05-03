@@ -1,4 +1,18 @@
 <div class="wid-metronome-indicator">
+  @if (playback.playbackActive()) {
+    <div class="wid-metronome-indicator__chord">
+      @if (previousChordName(); as name) {
+        <span class="wid-metronome-indicator__chord-side">{{ name }}</span>
+      }
+      <span class="wid-metronome-indicator__chord-current">
+        {{ currentChordName() ?? ('chords.emptySlot' | translate) }}
+      </span>
+      @if (nextChordName(); as name) {
+        <span class="wid-metronome-indicator__chord-side">{{ name }}</span>
+      }
+    </div>
+  }
+
   <div class="wid-metronome-indicator__beats">
     @for (i of beats(); track i) {
       <span

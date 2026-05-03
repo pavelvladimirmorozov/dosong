@@ -1,0 +1,87 @@
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid var(--color-text-dim);
+  border-radius: 6px;
+  background: var(--color-input-bg);
+  min-width: 96px;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+:host(.wid-chord-progression-slot--current) {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.wid-chord-progression-slot__chord {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-text-dim);
+  border-radius: 4px;
+}
+
+.wid-chord-progression-slot__chord--empty {
+  background: transparent;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.wid-chord-progression-slot__name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.wid-chord-progression-slot__select {
+  height: 28px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 4px;
+  background: var(--color-input-bg);
+  font-size: 12px;
+}
+
+.wid-chord-progression-slot__select--beats {
+  width: 64px;
+  align-self: center;
+}
+
+.wid-chord-progression-slot__controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.wid-chord-progression-slot__btn {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-input-border);
+  background: var(--color-input-bg);
+  color: var(--color-text);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    background: var(--color-surface-hover);
+  }
+
+  svg {
+    transition: transform 0.15s ease;
+  }
+}
+
+.wid-chord-progression-slot__btn--left svg {
+  transform: rotate(90deg);
+}
+
+.wid-chord-progression-slot__btn--right svg {
+  transform: rotate(-90deg);
+}

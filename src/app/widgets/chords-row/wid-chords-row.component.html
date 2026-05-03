@@ -11,48 +11,100 @@
   }
 </div>
 
-@if (chords.selectedChord(); as selected) {
-  <div class="wid-chords-row__details">
-    <div class="wid-chords-row__details-row">
+@if (chords.chordPoolExtras().length > 0) {
+  <com-spoiler class="wid-chords-row__borrowed" [title]="'chords.borrowed' | translate">
+    <div class="wid-chords-row__container">
+      @for (chord of chords.chordPoolExtras(); track trackChord($index, chord)) {
+        <com-note-color-presenter
+          class="wid-chords-row__cell"
+          [noteColor]="chord.color"
+          [isHighlighted]="chords.isSelected(chord)"
+          (click)="chords.toggle(chord)"
+        >
+          <com-note-presenter [noteName]="chord.name" [scaleStep]="chord.stepNumber" />
+        </com-note-color-presenter>
+      }
+    </div>
+  </com-spoiler>
+}
+
+<div class="wid-chords-row__details">
+  <div class="wid-chords-row__details-row">
+    @if (chords.selectedChord(); as selected) {
       <span class="wid-chords-row__details-name">{{ selected.name }}</span>
       <span class="wid-chords-row__details-numeral">{{ selected.numeral }}</span>
       <span class="wid-chords-row__details-notes">{{ selectedChordNotes() }}</span>
-    </div>
-    @if (chords.availablePositions().length > 0) {
-      <div class="wid-chords-row__position-block">
-        <div class="wid-chords-row__position-title">{{ 'chords.position' | translate }}</div>
-        <div class="wid-chords-row__position-row">
-          <button
-            class="wid-chords-row__nav-btn wid-chords-row__nav-btn--prev"
-            type="button"
-            [disabled]="!canGoPrev()"
-            [attr.aria-label]="'chords.prevPosition' | translate"
-            (click)="goPrev()"
-          >
-            <svg width="14" height="14" comChevronDownIcon></svg>
-          </button>
-          <span class="wid-chords-row__position-label">{{ 'chords.frets' | translate }}</span>
-          <com-select
-            class="wid-chords-row__position-select"
-            [options]="positionOptions()"
-            [(selectedValue)]="chords.selectedPositionId"
-          />
-          <button
-            class="wid-chords-row__nav-btn wid-chords-row__nav-btn--next"
-            type="button"
-            [disabled]="!canGoNext()"
-            [attr.aria-label]="'chords.nextPosition' | translate"
-            (click)="goNext()"
-          >
-            <svg width="14" height="14" comChevronDownIcon></svg>
-          </button>
-        </div>
-        @if (chords.selectedPosition(); as pos) {
-          <div class="wid-chords-row__diagram">
-            <wid-chord-diagram [position]="pos" />
-          </div>
-        }
-      </div>
+    } @else {
+      <span class="wid-chords-row__details-empty">{{ 'chords.notSelected' | translate }}</span>
     }
   </div>
-}
+
+  @if (!chords.playbackActive()) {
+    <div class="wid-chords-row__edit-row">
+      @if (chords.hasManualPick()) {
+        <div class="wid-chords-row__edit-field">
+          <span class="wid-chords-row__edit-label">{{ 'progression.modifier' | translate }}</span>
+          <com-select
+            class="wid-chords-row__edit-select"
+            [options]="modifierOptions()"
+            [selectedValue]="chords.manualPickModifier()"
+            (selectedValueChange)="onModifierChange($event)"
+          />
+        </div>
+      }
+      <div class="wid-chords-row__edit-field">
+        <span class="wid-chords-row__edit-label">{{ 'progression.beats' | translate }}</span>
+        <com-select
+          class="wid-chords-row__edit-select wid-chords-row__edit-select--beats"
+          [options]="beatsOptions"
+          [selectedValue]="chords.manualPickBeats()"
+          (selectedValueChange)="onBeatsChange($event)"
+        />
+      </div>
+      <com-button
+        variant="primary"
+        [disabled]="!hasActiveProgression()"
+        (click)="addToProgression()"
+      >
+        {{ 'chords.addToProgression' | translate }}
+      </com-button>
+    </div>
+  }
+
+  @if (chords.availablePositions().length > 0) {
+    <div class="wid-chords-row__position-block">
+      <div class="wid-chords-row__position-title">{{ 'chords.position' | translate }}</div>
+      <div class="wid-chords-row__position-row">
+        <button
+          class="wid-chords-row__nav-btn wid-chords-row__nav-btn--prev"
+          type="button"
+          [disabled]="!canGoPrev()"
+          [attr.aria-label]="'chords.prevPosition' | translate"
+          (click)="goPrev()"
+        >
+          <svg width="14" height="14" comChevronDownIcon></svg>
+        </button>
+        <span class="wid-chords-row__position-label">{{ 'chords.frets' | translate }}</span>
+        <com-select
+          class="wid-chords-row__position-select"
+          [options]="positionOptions()"
+          [(selectedValue)]="chords.selectedPositionId"
+        />
+        <button
+          class="wid-chords-row__nav-btn wid-chords-row__nav-btn--next"
+          type="button"
+          [disabled]="!canGoNext()"
+          [attr.aria-label]="'chords.nextPosition' | translate"
+          (click)="goNext()"
+        >
+          <svg width="14" height="14" comChevronDownIcon></svg>
+        </button>
+      </div>
+      @if (chords.selectedPosition(); as pos) {
+        <div class="wid-chords-row__diagram">
+          <wid-chord-diagram [position]="pos" />
+        </div>
+      }
+    </div>
+  }
+</div>

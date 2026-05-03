@@ -23,9 +23,12 @@ export class MetronomeService {
 
   private readonly beatSounds = signal<Beat[]>(new Array(4).fill(BEATS[1]));
   private readonly activeBeatIndexSignal = signal<number>(-1);
+  private readonly tickIndexSignal = signal<number>(-1);
   private measuresSincePlayed = 0;
 
   public readonly activeBeatIndex = this.activeBeatIndexSignal.asReadonly();
+  /** Сквозной счётчик долей с момента последнего start(). -1 пока не было ни одного удара. */
+  public readonly tickIndex = this.tickIndexSignal.asReadonly();
   public readonly beatElements = computed<BeatElement[]>(() =>
     this.beatSounds().map((sound, i) => ({
       number: i + 1,
@@ -80,6 +83,7 @@ export class MetronomeService {
     this.isRunning.set(true);
     this.currentBeat = 0;
     this.measuresSincePlayed = 0;
+    this.tickIndexSignal.set(-1);
     this.playBeat();
     this.scheduleNext();
   }
@@ -116,6 +120,7 @@ export class MetronomeService {
     const total = this.beatsPerMeasure();
     const idx = this.currentBeat % total;
     this.activeBeatIndexSignal.set(idx);
+    this.tickIndexSignal.update(v => v + 1);
     this.playSound(this.beatSounds()[idx]);
 
     const isLastBeatInMeasure = idx === total - 1;

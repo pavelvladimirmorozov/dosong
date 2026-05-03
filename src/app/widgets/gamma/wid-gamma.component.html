@@ -1,14 +1,15 @@
 <div class="wid-gamma__container">
   <com-select class="wid-gamma__select wid-gamma__component_wrapper" [options]="scaleSteepsManager.tonicOptions"
-    [(selectedValue)]="scaleSteepsManager.selectedTonic" />
+    [selectedValue]="tonicViewValue()"
+    (selectedValueChange)="onTonicChange($event)" />
 
   <com-select class="wid-gamma__select wid-gamma__component_wrapper" [options]="scaleSteepsManager.qualityOptions()"
-    [selectedValue]="scaleSteepsManager.selectedQuality()"
-    (selectedValueChange)="scaleSteepsManager.setQuality($event)" />
+    [selectedValue]="qualityViewValue()"
+    (selectedValueChange)="onQualityChange($event)" />
 
   <com-select class="wid-gamma__select wid-gamma__component_wrapper"
-    [options]="scaleSteepsManager.availableKindOptions()" [selectedValue]="scaleSteepsManager.selectedKind()"
-    (selectedValueChange)="scaleSteepsManager.setKind($event)" />
+    [options]="scaleSteepsManager.availableKindOptions()" [selectedValue]="kindViewValue()"
+    (selectedValueChange)="onKindChange($event)" />
 </div>
 
 <com-switch class="wid-gamma__show-all-toggle" [(checked)]="showAllNotes">
@@ -18,7 +19,8 @@
   <com-note-color-presenter class="wid-gamma__component_wrapper" [noteColor]="getNoteColor(0)"
     [isHighlighted]="isChordNote(0)">
     <com-select class="wid-gamma__select" [options]="scaleSteepsManager.tonicOptions"
-      [(selectedValue)]="scaleSteepsManager.selectedTonic">
+      [selectedValue]="tonicViewValue()"
+      (selectedValueChange)="onTonicChange($event)">
       <com-note-presenter *comSelectContentSlot="let option" [noteName]="option.name" [scaleStep]="getScaleStep()" />
     </com-select>
   </com-note-color-presenter>

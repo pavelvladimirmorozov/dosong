@@ -1,0 +1,46 @@
+@if (isEmpty()) {
+  <div class="wid-chord-progression-slot__chord wid-chord-progression-slot__chord--empty">
+    <span class="wid-chord-progression-slot__name">{{ 'chords.emptySlot' | translate }}</span>
+  </div>
+} @else {
+  <com-note-color-presenter class="wid-chord-progression-slot__chord" [noteColor]="chord()?.color ?? null">
+    <span class="wid-chord-progression-slot__name">{{ chord()?.name }}</span>
+  </com-note-color-presenter>
+}
+
+<com-select
+  class="wid-chord-progression-slot__select wid-chord-progression-slot__select--beats"
+  [options]="beatsOptions"
+  [selectedValue]="slot().beats"
+  (selectedValueChange)="onBeatsChange($event)"
+/>
+
+<div class="wid-chord-progression-slot__controls">
+  <button
+    class="wid-chord-progression-slot__btn wid-chord-progression-slot__btn--left"
+    type="button"
+    [attr.aria-label]="'progression.moveLeft' | translate"
+    [title]="'progression.moveLeft' | translate"
+    (click)="moveLeft()"
+  >
+    <svg width="12" height="12" comChevronDownIcon></svg>
+  </button>
+  <button
+    class="wid-chord-progression-slot__btn wid-chord-progression-slot__btn--right"
+    type="button"
+    [attr.aria-label]="'progression.moveRight' | translate"
+    [title]="'progression.moveRight' | translate"
+    (click)="moveRight()"
+  >
+    <svg width="12" height="12" comChevronDownIcon></svg>
+  </button>
+  <button
+    class="wid-chord-progression-slot__btn wid-chord-progression-slot__btn--remove"
+    type="button"
+    [attr.aria-label]="'progression.removeSlot' | translate"
+    [title]="'progression.removeSlot' | translate"
+    (click)="remove()"
+  >
+    <svg width="12" height="12" comCloseIcon></svg>
+  </button>
+</div>

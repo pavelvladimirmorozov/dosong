@@ -1,4 +1,8 @@
 export const EN_TRANSLATIONS: Record<string, string> = {
+  // Common
+  'common.ok': 'OK',
+  'common.cancel': 'Cancel',
+
   // Navigation
   'nav.fretboard': 'Fretboard',
   'nav.metronome': 'Metronome',
@@ -28,6 +32,12 @@ export const EN_TRANSLATIONS: Record<string, string> = {
   // Gamma
   'gamma.formula': 'Formula:',
   'gamma.showAllNotes': 'Show all notes',
+  'gamma.semitone.1': 'half tone',
+  'gamma.semitone.2': 'whole tone',
+  'gamma.semitone.3': '1½ tones',
+  'gamma.semitone.4': '2 tones',
+  'gamma.semitone.5': '2½ tones',
+  'gamma.semitone.6': '3 tones',
 
   // Chords
   'chords.position': 'Position',
@@ -36,6 +46,53 @@ export const EN_TRANSLATIONS: Record<string, string> = {
   'chords.openShort': 'Open',
   'chords.prevPosition': 'Previous position',
   'chords.nextPosition': 'Next position',
+  'chords.kind.natural': 'Natural',
+  'chords.kind.harmonic': 'Harmonic',
+  'chords.kind.melodic': 'Melodic',
+  'chords.kind.pentatonic': 'Pentatonic',
+  'chords.kind.blues': 'Blues',
+  'chords.kind.chromatic': 'Chromatic',
+  'chords.kind.japanese': 'Japanese',
+  'chords.kind.egyptian': 'Egyptian',
+  'chords.addToProgression': 'To progression',
+  'chords.borrowed': 'Borrowed',
+  'chords.notSelected': 'No chord selected',
+  'chords.emptySlot': 'Rest',
+
+  // Chord modifiers
+  'chordModifier.none': 'None',
+  'chordModifier.sus2': 'sus2',
+  'chordModifier.sus4': 'sus4',
+  'chordModifier.six': '6',
+  'chordModifier.seven': '7',
+  'chordModifier.maj7': 'maj7',
+  'chordModifier.add9': 'add9',
+  'chordModifier.nine': '9',
+  'chordModifier.dim': 'dim',
+  'chordModifier.dim7': 'dim7',
+  'chordModifier.m7b5': 'm7b5',
+  'chordModifier.aug': 'aug',
+
+  // Progression
+  'progression.title': 'Song progression',
+  'progression.empty': 'No saved progressions',
+  'progression.new': 'New',
+  'progression.rename': 'Rename',
+  'progression.delete': 'Delete',
+  'progression.start': 'Start',
+  'progression.stop': 'Stop',
+  'progression.modifier': 'Type',
+  'progression.beats': 'Beats',
+  'progression.namePlaceholder': 'Song',
+  'progression.moveLeft': 'Move left',
+  'progression.moveRight': 'Move right',
+  'progression.removeSlot': 'Remove chord',
+  'progression.addHint': 'Add chords from the palette',
+  'progression.save': 'Save',
+  'progression.cancel': 'Cancel',
+  'progression.notSelected': 'Not selected',
+  'progression.confirmApplyContext': 'Tuning and tonality will change. Continue?',
+  'progression.confirmFinishSong': 'Finish work with the current song? All changes will be saved.',
 
   // Fretboard
   'fretboard.instrument': 'Instrument',
