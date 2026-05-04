@@ -18,6 +18,16 @@ export const RU_TRANSLATIONS: Record<string, string> = {
   'settings.highlight': 'Подсветка нот',
   'settings.octaveHighlight': 'Подсветка октав',
   'settings.language': 'Язык',
+  'settings.widgets': 'Виджеты грифа',
+  'settings.widgetHide': 'Скрыть',
+  'settings.widgetShow': 'Показать',
+
+  // Widgets
+  'widget.gamma': 'Гамма',
+  'widget.fretboard': 'Гриф',
+  'widget.circle': 'Круг',
+  'widget.chords': 'Аккорды',
+  'widget.song': 'Песня',
 
   // Languages
   'language.ru': 'Русский',

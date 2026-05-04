@@ -1,11 +1,32 @@
-<wid-gamma></wid-gamma>
-
-<wid-fretboard></wid-fretboard>
-
-<div class="fretboard-page__cuart-circle-wrap">
-  <wid-cuart-circle class="fretboard-page__cuart-circle"></wid-cuart-circle>
-  <div class="fretboard-page__chords-wrap">
-    <wid-chords-row class="fretboard-page__chords-row"></wid-chords-row>
-    <wid-chord-progression class="fretboard-page__progression"></wid-chord-progression>
+<div class="fretboard-page">
+  <div class="fretboard-page__header">
+    <wid-tonality class="fretboard-page__tonality"></wid-tonality>
+    <wid-fretboard-widgets-settings class="fretboard-page__widgets-settings"></wid-fretboard-widgets-settings>
   </div>
+
+  @for (widget of visibleWidgets(); track trackWidget($index, widget)) {
+    @switch (widget.id) {
+      @case ('gamma') {
+        <wid-gamma class="fretboard-page__widget"></wid-gamma>
+      }
+      @case ('fretboard') {
+        <wid-fretboard class="fretboard-page__widget"></wid-fretboard>
+      }
+      @case ('circle') {
+        <div class="fretboard-page__widget fretboard-page__widget--circle">
+          <wid-cuart-circle class="fretboard-page__cuart-circle"></wid-cuart-circle>
+        </div>
+      }
+      @case ('chords') {
+        <div class="fretboard-page__widget fretboard-page__widget--centered">
+          <wid-chords-row class="fretboard-page__chords-row"></wid-chords-row>
+        </div>
+      }
+      @case ('song') {
+        <div class="fretboard-page__widget fretboard-page__widget--centered">
+          <wid-chord-progression class="fretboard-page__progression"></wid-chord-progression>
+        </div>
+      }
+    }
+  }
 </div>

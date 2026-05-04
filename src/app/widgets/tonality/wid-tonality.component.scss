@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.wid-tonality__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+  padding: 8px;
+  overflow: auto;
+
+  @media (width <= 768px) {
+    justify-content: start;
+  }
+}
+
+.wid-tonality__select {
+  height: var(--control-height);
+  min-width: 120px;
+  padding: 0 10px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 6px;
+  background: var(--color-input-bg);
+}

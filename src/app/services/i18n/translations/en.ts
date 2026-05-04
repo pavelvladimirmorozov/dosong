@@ -18,6 +18,16 @@ export const EN_TRANSLATIONS: Record<string, string> = {
   'settings.highlight': 'Note highlighting',
   'settings.octaveHighlight': 'Octave highlighting',
   'settings.language': 'Language',
+  'settings.widgets': 'Fretboard widgets',
+  'settings.widgetHide': 'Hide',
+  'settings.widgetShow': 'Show',
+
+  // Widgets
+  'widget.gamma': 'Gamma',
+  'widget.fretboard': 'Fretboard',
+  'widget.circle': 'Circle',
+  'widget.chords': 'Chords',
+  'widget.song': 'Song',
 
   // Languages
   'language.ru': 'Русский',

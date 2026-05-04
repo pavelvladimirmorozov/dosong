@@ -1,27 +1,42 @@
-.fretboard-page__cuart-circle-wrap {
+.fretboard-page {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+
+.fretboard-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+}
+
+.fretboard-page__widget {
+  width: 100%;
+}
+
+.fretboard-page__widget--centered,
+.fretboard-page__widget--circle {
+  display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 16px;
-  padding: 8px;
+  padding: 0 8px;
+}
 
-  .fretboard-page__chords-row {
-    @media (width <=768px) {
-      justify-content: start;
-    }
-  }
+.fretboard-page__widget--circle {
+  padding-top: 8px;
+}
 
-  .fretboard-page__cuart-circle {
-    flex-shrink: 0;
-    width: 400px;
+.fretboard-page__cuart-circle {
+  flex-shrink: 0;
+  width: min(400px, 100%);
+}
 
-    @media (width <=400px) {
-      width: 375px;
-    }
-  }
-
-  .fretboard-page__chords-wrap {
-    max-width: 100%;
-  }
+.fretboard-page__chords-row,
+.fretboard-page__progression {
+  max-width: 720px;
 }

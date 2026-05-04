@@ -1,0 +1,22 @@
+<div class="wid-tonality__container">
+  <com-select
+    class="wid-tonality__select"
+    [options]="scaleSteepsManager.tonicOptions"
+    [selectedValue]="tonicViewValue()"
+    (selectedValueChange)="onTonicChange($event)"
+  />
+
+  <com-select
+    class="wid-tonality__select"
+    [options]="scaleSteepsManager.qualityOptions()"
+    [selectedValue]="qualityViewValue()"
+    (selectedValueChange)="onQualityChange($event)"
+  />
+
+  <com-select
+    class="wid-tonality__select"
+    [options]="scaleSteepsManager.availableKindOptions()"
+    [selectedValue]="kindViewValue()"
+    (selectedValueChange)="onKindChange($event)"
+  />
+</div>

@@ -9,10 +9,16 @@ import {
   LANGUAGE_OPTIONS,
   SettingsRepository,
 } from '@services/settings';
+import { WidFretboardWidgetsSettings } from '@widgets/fretboard-widgets-settings/wid-fretboard-widgets-settings.component';
 
 @Component({
   selector: 'app-settings-page',
-  imports: [ComSelect, ComSwitch, TranslatePipe],
+  imports: [
+    ComSelect,
+    ComSwitch,
+    TranslatePipe,
+    WidFretboardWidgetsSettings,
+  ],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

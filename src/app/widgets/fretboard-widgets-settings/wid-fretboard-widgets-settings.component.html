@@ -1,0 +1,43 @@
+<div
+  class="wid-fretboard-widgets-settings__list"
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  [cdkDropListData]="widgets()"
+  [attr.aria-label]="'settings.widgets' | translate"
+  (cdkDropListDropped)="onWidgetDrop($event)"
+>
+  @for (widget of widgets(); track trackWidget($index, widget)) {
+    <button
+      type="button"
+      class="wid-fretboard-widgets-settings__button"
+      cdkDrag
+      cdkDragLockAxis="x"
+      [cdkDragData]="widget"
+      [class.wid-fretboard-widgets-settings__button--hidden]="!widget.visible"
+      [title]="widgetLabel(widget.id)"
+      [attr.aria-label]="widgetToggleLabel(widget)"
+      [attr.aria-pressed]="widget.visible"
+      (click)="toggleWidget(widget)"
+      (cdkDragStarted)="onWidgetDragStarted()"
+      (cdkDragEnded)="onWidgetDragEnded()"
+    >
+      @switch (widget.id) {
+        @case ('gamma') {
+          <svg width="20" height="20" comGammaIcon></svg>
+        }
+        @case ('fretboard') {
+          <svg width="20" height="20" comGuitarIcon></svg>
+        }
+        @case ('circle') {
+          <svg width="20" height="20" comCircleIcon></svg>
+        }
+        @case ('chords') {
+          <svg width="20" height="20" comChordsIcon></svg>
+        }
+        @case ('song') {
+          <svg width="20" height="20" comSongIcon></svg>
+        }
+      }
+    </button>
+  }
+</div>
